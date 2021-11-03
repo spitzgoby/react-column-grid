@@ -1,0 +1,19 @@
+{
+  "name": "swa-react-grid",
+  "version": "1.0.0",
+  "description": "A simple grid layout system using React",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spitzgoby/swa-react-grid.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spitzgoby/swa-react-grid/issues"
+  },
+  "homepage": "https://github.com/spitzgoby/swa-react-grid#readme"
+}
