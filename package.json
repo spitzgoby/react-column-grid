@@ -2,9 +2,11 @@
   "name": "swa-react-grid",
   "version": "1.0.0",
   "description": "A simple grid layout system using React",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
-    "test": "test"
+    "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.js",
+    "test": "test",
+    "webpack": "cross-env NODE_ENV=development webpack --config ./config/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,23 @@
   "bugs": {
     "url": "https://github.com/spitzgoby/swa-react-grid/issues"
   },
-  "homepage": "https://github.com/spitzgoby/swa-react-grid#readme"
+  "homepage": "https://github.com/spitzgoby/swa-react-grid#readme",
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-react": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.5.0",
+    "html-webpack-plugin": "^5.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "sass": "^1.43.4",
+    "sass-loader": "^12.3.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.61.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.4.0"
+  }
 }
