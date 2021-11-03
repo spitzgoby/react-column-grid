@@ -1,5 +1,8 @@
-.App {
-    h1 {
+.app {
+    &--title {
+        align-items: center;
+        display: flex;
+        justify-content: center;
         color: blue;
     }
 }

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Grid /> should create a grid container 1`] = `
+<div
+  className="swa-react-grid swa-react-grid--container"
+/>
+`;
+
+exports[`<Grid /> should create a grid item 1`] = `
+<div
+  className="swa-react-grid swa-react-grid--item"
+/>
+`;
+
+exports[`<Grid /> should create a grid item with an offset and width 1`] = `
+<div
+  className="swa-react-grid swa-react-grid--item swa-react-grid--item_xs_3_3"
+/>
+`;
+
+exports[`<Grid /> should create a grid item with multiple offsets and widths 1`] = `
+<div
+  className="swa-react-grid swa-react-grid--item swa-react-grid--item_xs_0_12 swa-react-grid--item_sm_1_10 swa-react-grid--item_md_2_8 swa-react-grid--item_lg_3_6 swa-react-grid--item_xl_4_4"
+/>
+`;
+

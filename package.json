@@ -4,9 +4,21 @@
   "description": "A simple grid layout system using React",
   "main": "build/index.js",
   "scripts": {
+    "clean": "rm -rf node_modules dist",
     "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.js",
-    "test": "test",
+    "test": "jest",
     "webpack": "cross-env NODE_ENV=development webpack --config ./config/webpack.config.js"
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupFiles": [
+      "./setupTests.js"
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(css|less|scss)$": "babel-jest"
+    }
   },
   "repository": {
     "type": "git",
@@ -23,10 +35,15 @@
     "@babel/node": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
+    "babel-jest": "^27.3.1",
     "babel-loader": "^8.2.3",
     "cross-env": "^7.0.3",
     "css-loader": "^6.5.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "enzyme-to-json": "^3.6.2",
     "html-webpack-plugin": "^5.5.0",
+    "jest": "^27.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "sass": "^1.43.4",
