@@ -24,3 +24,14 @@ exports[`<Grid /> should create a grid item with multiple offsets and widths 1`]
 />
 `;
 
+exports[`<Grid /> should not add a class for a non-numeric offset 1`] = `
+<div
+  className="swa-react-grid swa-react-grid--item"
+/>
+`;
+
+exports[`<Grid /> should not add a class for a non-numeric width 1`] = `
+<div
+  className="swa-react-grid swa-react-grid--item"
+/>
+`;
