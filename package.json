@@ -7,6 +7,7 @@
     "clean": "rm -rf node_modules dist",
     "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.js",
     "test": "jest",
+    "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
     "webpack": "cross-env NODE_ENV=development webpack --config ./config/webpack.config.js"
   },
   "jest": {
