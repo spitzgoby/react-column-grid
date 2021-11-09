@@ -10,15 +10,16 @@
     "webpack": "cross-env NODE_ENV=development webpack --config ./config/webpack.config.js"
   },
   "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(css|less|scss)$": "babel-jest"
+    },
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
     "setupFiles": [
       "./setupTests.js"
     ],
-    "moduleNameMapper": {
-      "^.+\\.(css|less|scss)$": "babel-jest"
-    }
+    "testEnvironment": "jsdom"
   },
   "repository": {
     "type": "git",
@@ -44,8 +45,10 @@
     "enzyme-to-json": "^3.6.2",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^27.3.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "jsdom": "^18.0.1",
+    "jsdom-global": "^3.0.2",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",
