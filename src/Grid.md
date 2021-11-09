@@ -112,3 +112,22 @@ __Default__: `false`
 __Description__: Determines whether the grid row should take up the full row. If 
 `true` then `<Grid>` component will be set on its own row. Any additional space is
 added behind the component, and the content width is not increased.
+
+__Usage__:
+```Javascript
+// Creates a horizontally centered column that is 50% width on all screens
+<Grid item fullRow offset={{ xs: 3 }} width={{xs: 6}}></Grid>
+```
+
+## gap
+__Type__: `PropTypes.oneOf([PropTypes.string, PropTypes.number])`  
+__Default__: `'1em'`
+__Description__: Determines the size of the grap between grid columns. The default
+unit is `em`, but a string can be provided with an arbitrary unit. This value is 
+ignored if the component is not a `container`.
+
+__Usage__:
+```Javascript
+// Sets the grid-gap to 20px for the container
+<Grid container gap="20px"></Grid>
+```
