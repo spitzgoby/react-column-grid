@@ -47,8 +47,53 @@ const Grid = ({
         );
     };
 
+    const renderChildren = () => {
+        let currentColumn = {
+            xs: 0,
+            sm: 0,
+            md: 0,
+            lg: 0,
+            xl: 0
+        };
+
+        return children?.map((child, index) => {
+            const {
+                item,
+                offset,
+                width
+            } = child.props;
+            let renderedChild = child;
+
+            if (child.type.name === 'Grid' && child.props.item) {
+                const renderedChildOffset = sizes.reduce((acc, size) => {
+                    const sizeOffset = offset?.[size] || 0;
+                    const sizeWidth = width?.[size];
+                    const adjustedOffset = currentColumn[size] + sizeOffset;
+
+                    if (!isNaN(adjustedOffset) && adjustedOffset + sizeWidth <= numCols) {
+                        acc[size] = adjustedOffset;
+                        currentColumn[size] = (adjustedOffset + sizeWidth) % numCols;
+                    } else {
+                        acc[size] = sizeOffset;
+                    }
+
+                    return acc;
+                }, {});
+                const renderedChildLayoutProps = {
+                    ...child.props,
+                    key: index,
+                    offset: renderedChildOffset
+                }
+                
+                renderedChild = <Grid { ...renderedChildLayoutProps } />;
+            }
+
+            return renderedChild;
+        });
+    };
+
     return (
-        <div className={getClass()}>{children}</div>
+        <div className={getClass()}>{container ? renderChildren() : children}</div>
     );
 };
 

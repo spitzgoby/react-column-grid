@@ -1,8 +1,29 @@
 .app {
-    &--title {
+    &--header {
         align-items: center;
+        background-color: #eee;
         display: flex;
         justify-content: center;
-        color: blue;
+    }
+
+    &--content {
+        border: 1px solid #eee;
+        border-radius: 0.5em;
+        padding: 1em;
+
+        &-image {
+            max-width: 100%;
+        }
+    }
+
+    &--sidebar {
+        border: 1px solid #eee;
+        border-radius: 0.5em;
+        padding: 1em;
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
     }
 }
