@@ -123,8 +123,9 @@ __Usage__:
 __Type__: `PropTypes.oneOf([PropTypes.string, PropTypes.number])`  
 __Default__: `'1em'`
 __Description__: Determines the size of the grap between grid columns. The default
-unit is `em`, but a string can be provided with an arbitrary unit. This value is 
-ignored if the component is not a `container`.
+unit is `em`, but a string can be provided with an arbitrary unit. The component 
+does not validate the string and will happily apply any arbitrary value as the gap.
+This value is ignored if the component is not a `container`. 
 
 __Usage__:
 ```Javascript

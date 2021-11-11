@@ -57,7 +57,9 @@ const Grid = ({
         let style = {};
 
         if (container && (gap || gap === 0)) {
-            style.gridGap = !isNaN(gap) ? gap + 'em' : gap;;
+            style.gap = (!isNaN(gap) && !isNaN(parseFloat(gap)))
+                ? gap + 'em' 
+                : gap;
         }
 
         return style;

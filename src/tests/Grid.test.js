@@ -60,6 +60,32 @@ describe('<Grid />', () => {
         });
     });
 
+    describe('when applying grid gap', () => {
+        it('should apply the gap as em if it is a numeric value', () => {
+            const grid = shallow(<Grid container gap={1.5} />);
+
+            expect(grid.props().style.gap).toEqual('1.5em');
+        });
+
+        it('should apply the gap provided', () => {
+            const grid = shallow(<Grid container gap='24px' />);
+
+            expect(grid.props().style.gap).toEqual('24px');
+        });
+
+        it('should leave the gap empty if none was specified', () => {
+            const grid = shallow(<Grid container />);
+
+            expect(grid.props().style.gap).toBeUndefined;
+        });
+
+        it('should ignore the gap value if the grid component is not a container', () => {
+            const grid = shallow(<Grid item />);
+
+            expect(grid.props().style.gap).toBeUndefined;
+        });
+    });
+
     describe('when the grid is an item', () => {
         it('should create a grid item', () => {
             const grid = shallow(<Grid item />);
@@ -100,6 +126,4 @@ describe('<Grid />', () => {
             expect(grid).toMatchSnapshot();
         });
     });
-
-
 });
