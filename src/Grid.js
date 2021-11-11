@@ -12,6 +12,7 @@ const Grid = ({
     children,
     className,
     container,
+    fullRow = false,
     item,
     offset = {},
     width = { xs: 12 }
@@ -64,13 +65,13 @@ const Grid = ({
             } = child.props;
             let renderedChild = child;
 
-            if (child.type.name === 'Grid' && child.props.item) {
+            if (child.type.name === 'Grid' && item) {
                 const renderedChildOffset = sizes.reduce((acc, size) => {
                     const sizeOffset = offset?.[size] || 0;
                     const sizeWidth = width?.[size];
                     const adjustedOffset = currentColumn[size] + sizeOffset;
 
-                    if (!isNaN(adjustedOffset) && adjustedOffset + sizeWidth <= numCols) {
+                    if (areValidColumns(adjustedOffset, sizeWidth)) {
                         acc[size] = adjustedOffset;
                         currentColumn[size] = (adjustedOffset + sizeWidth) % numCols;
                     } else {
@@ -79,13 +80,13 @@ const Grid = ({
 
                     return acc;
                 }, {});
-                const renderedChildLayoutProps = {
+                const renderedChildProps = {
                     ...child.props,
                     key: index,
                     offset: renderedChildOffset
                 }
                 
-                renderedChild = <Grid { ...renderedChildLayoutProps } />;
+                renderedChild = <Grid { ...renderedChildProps } />;
             }
 
             return renderedChild;
@@ -99,7 +100,22 @@ const Grid = ({
 
 Grid.propTypes = {
     container: PropTypes.bool,
-    item: PropTypes.bool
+    fullRow: PropTypes.bool,
+    item: PropTypes.bool,
+    offset: PropTypes.shape({
+        xs: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        sm: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        md: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        lg: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        xl: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    }),
+    width: PropTypes.shape({
+        xs: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        sm: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        md: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        lg: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        xl: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    })
 };
 
 export default Grid;
