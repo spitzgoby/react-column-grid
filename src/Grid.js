@@ -48,35 +48,43 @@ const Grid = ({
         );
     };
 
-    const renderChildren = () => {
-        let currentColumn = {
-            xs: 0,
-            sm: 0,
-            md: 0,
-            lg: 0,
-            xl: 0
+    const getAdjustedLayoutProps = (size, child, columns) => {
+        let adjustedColumn;
+        let adjustedOffset;
+        const { width, offset } = child.props;
+        const sizeOffset = offset?.[size] || 0;
+        const sizeWidth = width?.[size];
+        const suggestedOffset = columns[size] + sizeOffset;
+
+        if (areValidColumns(suggestedOffset, sizeWidth)) {
+            adjustedOffset = suggestedOffset;
+            adjustedColumn = (suggestedOffset + sizeWidth) % numCols;
+        } else {
+            adjustedOffset = sizeOffset;
+            adjustedColumn = columns[size];
+        }
+
+        return {
+            adjustedOffset,
+            adjustedColumn
         };
+    };
+
+    const renderChildren = () => {
+        let currentColumns = { xs: 0, sm: 0, md: 0, lg: 0, xl: 0 };
 
         return children?.map((child, index) => {
-            const {
-                item,
-                offset,
-                width
-            } = child.props;
             let renderedChild = child;
 
-            if (child.type.name === 'Grid' && item) {
+            if (child.type.name === 'Grid' && child.props.item) {
                 const renderedChildOffset = sizes.reduce((acc, size) => {
-                    const sizeOffset = offset?.[size] || 0;
-                    const sizeWidth = width?.[size];
-                    const adjustedOffset = currentColumn[size] + sizeOffset;
+                    const { 
+                        adjustedColumn, 
+                        adjustedOffset 
+                    } = getAdjustedLayoutProps(size, child, currentColumns); 
 
-                    if (areValidColumns(adjustedOffset, sizeWidth)) {
-                        acc[size] = adjustedOffset;
-                        currentColumn[size] = (adjustedOffset + sizeWidth) % numCols;
-                    } else {
-                        acc[size] = sizeOffset;
-                    }
+                    currentColumns[size] = adjustedColumn;
+                    acc[size] = adjustedOffset;
 
                     return acc;
                 }, {});
@@ -84,7 +92,7 @@ const Grid = ({
                     ...child.props,
                     key: index,
                     offset: renderedChildOffset
-                }
+                };
                 
                 renderedChild = <Grid { ...renderedChildProps } />;
             }
