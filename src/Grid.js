@@ -13,6 +13,7 @@ const Grid = ({
     className,
     container,
     fullRow = false,
+    gap = null,
     item,
     offset = {},
     width = { xs: 12 }
@@ -48,6 +49,20 @@ const Grid = ({
         );
     };
 
+    const calculateGap = () => {
+        return 
+    }
+
+    const getStyle = () => {
+        let style = {};
+
+        if (container && (gap || gap === 0)) {
+            style.gridGap = !isNaN(gap) ? gap + 'em' : gap;;
+        }
+
+        return style;
+    }
+
     const getAdjustedLayoutProps = (size, child, columns) => {
         let adjustedColumn;
         let adjustedOffset;
@@ -56,7 +71,7 @@ const Grid = ({
         const sizeWidth = width?.[size];
         const suggestedOffset = columns[size] + sizeOffset;
 
-        if (areValidColumns(suggestedOffset, sizeWidth)) {
+        if (areValidColumns(sizeWidth, suggestedOffset)) {
             adjustedOffset = suggestedOffset;
             adjustedColumn = (suggestedOffset + sizeWidth) % numCols;
         } else {
@@ -102,13 +117,13 @@ const Grid = ({
     };
 
     return (
-        <div className={getClass()}>{container ? renderChildren() : children}</div>
+        <div className={getClass()} style={getStyle()} >{container ? renderChildren() : children}</div>
     );
 };
 
 Grid.propTypes = {
     container: PropTypes.bool,
-    fullRow: PropTypes.bool,
+    gap: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     item: PropTypes.bool,
     offset: PropTypes.shape({
         xs: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

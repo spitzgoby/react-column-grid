@@ -5,7 +5,7 @@ import React from 'react';
 export default props => {
     return (
         <div className="app">
-            <Grid container>
+            <Grid container gap="2">
                 <Grid className="app--header" item width={{ xs: 12 }}>
                     <h1>Header</h1>
                 </Grid>
