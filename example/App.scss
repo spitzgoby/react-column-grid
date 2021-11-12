@@ -2,8 +2,24 @@
     &--header {
         align-items: center;
         background-color: #eee;
-        display: flex;
         justify-content: center;
+        padding: 1em;
+
+        &-title {
+            justify-self: flex-start;
+        }
+
+        &-nav {
+            justify-self: flex-end;
+
+            ul {
+                list-style-type: none;
+
+                li {
+                    display: inline-block;
+                }
+            }
+        }
     }
 
     &--content {

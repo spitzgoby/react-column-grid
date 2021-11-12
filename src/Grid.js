@@ -39,13 +39,13 @@ const Grid = ({
 
     const getClass = () => {
         return classNames(
-            className, 
             {
                 'swa-react-grid': true,
                 'swa-react-grid--container': container,
                 'swa-react-grid--item': item,
             }, 
-            calculateColSizes()
+            calculateColSizes(),
+            className
         );
     };
 
@@ -89,11 +89,12 @@ const Grid = ({
 
     const renderChildren = () => {
         let currentColumns = { xs: 0, sm: 0, md: 0, lg: 0, xl: 0 };
+        const childrenToRender = Array.isArray(children) ? children : [children];
 
-        return children?.map((child, index) => {
+        return childrenToRender.map((child, index) => {
             let renderedChild = child;
 
-            if (child.type.name === 'Grid' && child.props.item) {
+            if (child?.type?.name === 'Grid' && child?.props?.item) {
                 const renderedChildOffset = sizes.reduce((acc, size) => {
                     const { 
                         adjustedColumn, 

@@ -12,6 +12,14 @@ describe('<Grid />', () => {
             expect(grid).toMatchSnapshot();
         });
 
+        it('should be able to render a single child component', () => {
+            const renderGrid = () => {
+                shallow(<Grid container item><div></div></Grid>);
+            }
+
+            expect(renderGrid).not.toThrow();
+        });
+
         it('should increase the offset of child grid items in each size class', () => {
             const grid = shallow((
                 <Grid container>
