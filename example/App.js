@@ -7,7 +7,7 @@ export default props => {
         <div className="app">
             <Grid container gap="2">
                 <Grid className="app--header" container item width={{ xs: 12 }}>
-                    <Grid className="app--header-title" item width={{ xs: 6 }}>
+                    <Grid className="app--header-title" item hidden={{ xs: true, lg: false }} width={{ sm: 6 }}>
                         <h1>Header</h1>
                     </Grid>
                     <Grid className="app--header-nav" item width={{ xs: 6 }}>

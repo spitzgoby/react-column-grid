@@ -106,18 +106,43 @@ __Usage__:
 
 --- 
 
-## fullRow
-__Type__: `PropTypes.bool`  
-__Default__: `false`  
-__Description__: Determines whether the grid row should take up the full row. If 
-`true` then `<Grid>` component will be set on its own row. Any additional space is
-added behind the component, and the content width is not increased.
+## hidden
+__Type__:
+```Javascript
+PropTypes.shape({
+    xs: PropTypes.bool,
+    sm: PropTypes.bool,
+    md: PropTypes.bool,
+    lg: PropTypes.bool,
+    xl: PropTypes.bool
+})
+```
+__Default__:
+```Javascript
+{
+    xs: false,
+    sm: false,
+    md: false,
+    lg: false,
+    xl: false
+}
+```
+__Description__: Allows grid items or containers to be hidden at specific breakpoints.
+If a value is provided at a given breakpoint then it will be applied to all breakpoints
+that size or larger until a `false` value is explicitly declared. This item will be 
+given the `display: none` attribute.
 
 __Usage__:
 ```Javascript
-// Creates a horizontally centered column that is 50% width on all screens
-<Grid item fullRow offset={{ xs: 3 }} width={{xs: 6}}></Grid>
+// Creates an item that only appears at the md break point.
+<Grid item hidden={{ xs: true, md: false, lg: true }}></Grid>
+
+// Creates an item that is only displayed on xs or md screens
+<Grid item hidden={{ md: true }}></Grid>
 ```
+
+
+---
 
 ## gap
 __Type__: `PropTypes.oneOf([PropTypes.string, PropTypes.number])`  

@@ -1,12 +1,15 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { createUseStyles } from 'react-jss';
+import styles from './styles';
 
 import './Grid.scss';
 
-const numCols = 12;
 const defaultWidths = { xs: 12 };
+const numCols = 12;
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
+
 
 const Grid = ({
     children,
@@ -14,10 +17,26 @@ const Grid = ({
     container,
     fullRow = false,
     gap = null,
+    hidden = {},
     item,
     offset = {},
     width = { xs: 12 }
 }) => {
+    const adjustedHidden = sizes.reduce((acc, size, index) => {
+        if (!hidden.hasOwnProperty(size)) {
+            if (index > 0) {
+                acc[size] = acc[sizes[index - 1]];
+            } else {
+                acc[size] = false;
+            }
+        } else {
+            acc[size] = hidden[size];
+        }
+
+       return acc;
+    }, {});
+    const useStyles = createUseStyles(styles);
+    const { grid: gridClass } = useStyles({ container, hidden: adjustedHidden });
     const widths = { ...defaultWidths, ...width };
     
     const areValidColumns = (colWidth, colOffset) =>
@@ -35,7 +54,6 @@ const Grid = ({
                 ? acc.concat([`swa-react-grid--item_${size}_${colOffset}_${colWidth}`]) 
                 : acc;
         }, []);
-    
 
     const getClass = () => {
         return classNames(
@@ -45,7 +63,8 @@ const Grid = ({
                 'swa-react-grid--item': item,
             }, 
             calculateColSizes(),
-            className
+            className,
+            gridClass
         );
     };
 
@@ -66,19 +85,17 @@ const Grid = ({
     }
 
     const getAdjustedLayoutProps = (size, child, columns) => {
-        let adjustedColumn;
-        let adjustedOffset;
-        const { width, offset } = child.props;
+        const { hidden, offset, width } = child.props;
+        const sizeHidden = hidden?.[size];
         const sizeOffset = offset?.[size] || 0;
         const sizeWidth = width?.[size];
         const suggestedOffset = columns[size] + sizeOffset;
+        let adjustedColumn = columns[size];
+        let adjustedOffset = sizeHidden ? 0 : sizeOffset;
 
-        if (areValidColumns(sizeWidth, suggestedOffset)) {
+        if (areValidColumns(sizeWidth, suggestedOffset) && !sizeHidden) {
             adjustedOffset = suggestedOffset;
             adjustedColumn = (suggestedOffset + sizeWidth) % numCols;
-        } else {
-            adjustedOffset = sizeOffset;
-            adjustedColumn = columns[size];
         }
 
         return {
@@ -127,6 +144,13 @@ const Grid = ({
 Grid.propTypes = {
     container: PropTypes.bool,
     gap: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    hidden: PropTypes.shape({
+        xs: PropTypes.bool,
+        sm: PropTypes.bool,
+        md: PropTypes.bool,
+        lg: PropTypes.bool,
+        xl: PropTypes.bool
+    }),
     item: PropTypes.bool,
     offset: PropTypes.shape({
         xs: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

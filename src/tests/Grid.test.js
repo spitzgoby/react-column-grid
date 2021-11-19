@@ -1,10 +1,47 @@
-import { exportAllDeclaration } from '@babel/types';
-import { mount, shallow } from 'enzyme';
+const mockUseStyles = jest.fn();
+jest.mock('react-jss', () => ({ createUseStyles: () => mockUseStyles }));
+
+import { shallow } from 'enzyme';
 import Grid from '../Grid';
 import React from 'react';
-import { logValidationWarning } from 'jest-validate';
 
 describe('<Grid />', () => {
+    beforeEach(() => {
+        mockUseStyles.mockImplementation(() => ({}));
+    });
+
+    afterEach(() => {
+        mockUseStyles.mockReset();
+    });
+
+    describe('when styling component', () => {
+        it('should supply props when creating styles', () => {
+            const hiddenProp = { xs: false, sm: false, md: false, lg: false, xl: false };
+
+            shallow(<Grid container hidden={hiddenProp} />);
+
+            expect(mockUseStyles).toHaveBeenCalledWith({ container: true, hidden: hiddenProp });
+        });
+
+        it('should use supplied styles', () => {
+            mockUseStyles.mockImplementation(() => ({ grid: 'test-grid-class' }));
+
+            const grid = shallow(<Grid item hidden={{ xs: true }}></Grid>);
+
+            expect(grid.hasClass('test-grid-class')).toBe(true);
+        });
+
+        it('should calculate all hidden sizes for styling', () => {
+            const hiddenProp = { xs: true, lg: false };
+
+            shallow(<Grid hidden={hiddenProp} />);
+
+            expect(mockUseStyles).toHaveBeenCalledWith({
+                hidden: { xs: true, sm: true, md: true, lg: false, xl: false }
+            })
+        })
+    });
+
     describe('when the grid is a container', () => {
         it('should create a grid container', () => {
             const grid = shallow(<Grid container />);
@@ -119,7 +156,7 @@ describe('<Grid />', () => {
         it('should not add a class for an offset and width that are too large', () => {
             const grid = shallow(<Grid item width={{ xs: 12 }} offset={{ xs: 2 }} />);
 
-            expect(grid.hasClass('swa-react-grid--item_xs_2_12')).toBeFalse;
+            expect(grid.hasClass('swa-react-grid--item_xs_2_12')).toBe(false);
         });
 
         it('should not add a class for a non-numeric width', () => {
