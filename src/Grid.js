@@ -6,7 +6,9 @@ import styles from './styles';
 
 import './Grid.scss';
 
-const defaultWidths = { xs: 12 };
+const defaultHidden = false;
+const defaultOffset = 0;
+const defaultWidth = 12;
 const numCols = 12;
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
 
@@ -22,22 +24,36 @@ const Grid = ({
     offset = {},
     width = { xs: 12 }
 }) => {
-    const adjustedHidden = sizes.reduce((acc, size, index) => {
-        if (!hidden.hasOwnProperty(size)) {
+    const addMissingSizesForProp = (prop = {}, defaultValue) => 
+        sizes.reduce((acc, size, index) => {
+        if (!prop.hasOwnProperty(size)) {
             if (index > 0) {
                 acc[size] = acc[sizes[index - 1]];
             } else {
-                acc[size] = false;
+                acc[size] = defaultValue;
             }
         } else {
-            acc[size] = hidden[size];
+            acc[size] = prop[size];
         }
 
-       return acc;
-    }, {});
+        return acc;
+        }, {});
+
+    const adjustedHidden = addMissingSizesForProp(hidden, defaultHidden);
+    const adjustedOffset = addMissingSizesForProp(offset, defaultOffset);
+    const adjustedWidth = addMissingSizesForProp(width, defaultWidth);
     const useStyles = createUseStyles(styles);
-    const { grid: gridClass } = useStyles({ container, hidden: adjustedHidden });
-    const widths = { ...defaultWidths, ...width };
+    const { 
+        container: containerClass,
+        grid: gridClass,
+        item: itemClass
+    } = useStyles({ 
+        container, 
+        gap,
+        hidden: adjustedHidden,
+        offset: adjustedOffset,
+        width: adjustedWidth
+    });
     
     const areValidColumns = (colWidth, colOffset) =>
         !isNaN(parseInt(colWidth, 10)) &&
@@ -45,47 +61,20 @@ const Grid = ({
         colWidth > 0 && 
         colOffset + colWidth <= numCols;
    
-    const calculateColSizes = () => 
-        sizes.reduce((acc, size) => {
-            const colWidth = widths[size];
-            const colOffset = offset[size];
-            
-            return (areValidColumns(colWidth, colOffset)) 
-                ? acc.concat([`swa-react-grid--item_${size}_${colOffset}_${colWidth}`]) 
-                : acc;
-        }, []);
-
     const getClass = () => {
         return classNames(
             {
                 'swa-react-grid': true,
                 'swa-react-grid--container': container,
-                'swa-react-grid--item': item,
+                [containerClass]: container,
+                [itemClass]: item
             }, 
-            calculateColSizes(),
-            className,
-            gridClass
+            gridClass,
+            className
         );
     };
 
-    const calculateGap = () => {
-        return 
-    }
-
-    const getStyle = () => {
-        let style = {};
-
-        if (container && (gap || gap === 0)) {
-            style.gap = (!isNaN(gap) && !isNaN(parseFloat(gap)))
-                ? gap + 'em' 
-                : gap;
-        }
-
-        return style;
-    }
-
-    const getAdjustedLayoutProps = (size, child, columns) => {
-        const { hidden, offset, width } = child.props;
+    const getAdjustedLayoutProps = (size, offset, width, hidden, columns) => {
         const sizeHidden = hidden?.[size];
         const sizeOffset = offset?.[size] || 0;
         const sizeWidth = width?.[size];
@@ -113,10 +102,19 @@ const Grid = ({
 
             if (child?.type?.name === 'Grid' && child?.props?.item) {
                 const renderedChildOffset = sizes.reduce((acc, size) => {
+                    const completedHidden = addMissingSizesForProp(child.props.hidden, defaultHidden);
+                    const completedOffset = addMissingSizesForProp(child.props.offset, defaultOffset);
+                    const completedWidth = addMissingSizesForProp(child.props.width, defaultWidth);
                     const { 
                         adjustedColumn, 
                         adjustedOffset 
-                    } = getAdjustedLayoutProps(size, child, currentColumns); 
+                    } = getAdjustedLayoutProps(
+                        size, 
+                        completedOffset, 
+                        completedWidth,
+                        completedHidden, 
+                        currentColumns
+                    ); 
 
                     currentColumns[size] = adjustedColumn;
                     acc[size] = adjustedOffset;
@@ -137,7 +135,7 @@ const Grid = ({
     };
 
     return (
-        <div className={getClass()} style={getStyle()} >{container ? renderChildren() : children}</div>
+        <div className={getClass()}>{container ? renderChildren() : children}</div>
     );
 };
 

@@ -17,29 +17,60 @@ export const breakpoints = [{
     size: 'xl',
     minWidth: '1536px'
 }];
+const DEFAULT_GAP = '1em';
+const DEFAULT_NUM_COLS = 12;
+
+const getGap = ({ gap }) =>
+    (gap || gap === 0)
+        ? (!isNaN(gap) && !isNaN(parseFloat(gap)))
+            ? gap + 'em' : gap
+        : DEFAULT_GAP;
 
 const getDisplay = (props, size) =>
     props.hidden?.[size]
         ? 'none'
         : props.container ? 'grid': 'block';
 
-const createScreenMediaQuery = (breakpoint, attr) => 
+const areValidColumns = (colWidth, colOffset) => {
+    const parsedWidth = parseInt(colWidth, 10);
+    const parsedOffset = parseInt(colOffset, 10);
+
+    return !isNaN(parsedWidth) &&
+    !isNaN(parsedOffset) &&
+    parsedWidth > 0 && 
+    parsedWidth + parsedOffset <= DEFAULT_NUM_COLS;
+}
+
+const getGridColumn = ({ width, offset }, size) => areValidColumns(width[size], offset[size]) 
+    ? `${parseInt(offset[size], 10) + 1} / span ${parseInt(width[size], 10)}`
+    : undefined
+
+const createScreenMediaQuery = (breakpoint) => 
     '@media screen' +
         `${breakpoint.minWidth ? ` and (min-width: ${breakpoint.minWidth})` : ''}` +
         `${breakpoint.maxWidth ? ` and (max-width: ${breakpoint.maxWidth})` : ''}`
 
-const createHiddenStyles = () =>
-    breakpoints.reduce((hiddenStyles, breakpoint) => {
-        hiddenStyles[createScreenMediaQuery(breakpoint, 'max-width')] = {
-            grid: { display: props => getDisplay(props, breakpoint.size) }
+export default breakpoints.reduce((styles, breakpoint) => ({
+    ...styles,
+    [createScreenMediaQuery(breakpoint)]: {
+        container: {
+            gap: props => getGap(props)
+        },
+        grid: { 
+            display: props => getDisplay(props, breakpoint.size)
+        },
+        item: {
+            gridColumn: props => getGridColumn(props, breakpoint.size)
         }
-        
-        return hiddenStyles;
-    }, {});
-
-export default {
+    }
+}), {
+    container: {
+        gap: props => getGap(props)
+    },
     grid: {
         display: props => getDisplay(props, 'xl')
     },
-    ...createHiddenStyles()
-};
+    item: {
+        gridColumn: props => getGridColumn(props, 'xs')
+    }
+});

@@ -15,15 +15,29 @@ describe('<Grid />', () => {
     });
 
     describe('when styling component', () => {
-        it('should supply props when creating styles', () => {
-            const hiddenProp = { xs: false, sm: false, md: false, lg: false, xl: false };
+        it('should calculate props for all sizes when creating styles', () => {
+            const hiddenProp = { xs: true, md: false };
+            const offsetProp = { xs: '0', md: '2', lg: '3' };
+            const widthProp = { xs: '6', md: '4', lg: '3' };
 
-            shallow(<Grid container hidden={hiddenProp} />);
+            shallow(<Grid 
+                container 
+                gap='2em'
+                hidden={hiddenProp} 
+                offset={offsetProp}
+                width={widthProp}
+            />);
 
-            expect(mockUseStyles).toHaveBeenCalledWith({ container: true, hidden: hiddenProp });
+            expect(mockUseStyles).toHaveBeenCalledWith({ 
+                container: true, 
+                gap: '2em',
+                hidden: { xs: true, sm: true, md: false, lg: false, xl: false},
+                offset: { xs: '0', sm: '0', md: '2', lg: '3', xl: '3' },
+                width: { xs: '6', sm: '6', md: '4', lg: '3', xl: '3' }
+            });
         });
 
-        it('should use supplied styles', () => {
+        it('should use supplied .grid class', () => {
             mockUseStyles.mockImplementation(() => ({ grid: 'test-grid-class' }));
 
             const grid = shallow(<Grid item hidden={{ xs: true }}></Grid>);
@@ -31,15 +45,21 @@ describe('<Grid />', () => {
             expect(grid.hasClass('test-grid-class')).toBe(true);
         });
 
-        it('should calculate all hidden sizes for styling', () => {
-            const hiddenProp = { xs: true, lg: false };
+        it('should use supplied .container class if it is a container', () => {
+            mockUseStyles.mockImplementation(() => ({ container: 'test-container-class' }));
 
-            shallow(<Grid hidden={hiddenProp} />);
+            const grid = shallow(<Grid container hidden={{ xs: true }}></Grid>);
 
-            expect(mockUseStyles).toHaveBeenCalledWith({
-                hidden: { xs: true, sm: true, md: true, lg: false, xl: false }
-            })
-        })
+            expect(grid.hasClass('test-container-class')).toBe(true);
+        });
+
+        it('should use supplied .item class if it is an item', () => {
+            mockUseStyles.mockImplementation(() => ({ item: 'test-item-class' }));
+
+            const grid = shallow(<Grid item hidden={{ xs: true }}></Grid>);
+
+            expect(grid.hasClass('test-item-class')).toBe(true);
+        });
     });
 
     describe('when the grid is a container', () => {
@@ -65,9 +85,9 @@ describe('<Grid />', () => {
                 </Grid>
             ));
             const expectedOffsets = [{
-                xs: 0, sm: 0, md: 3, lg: 0, xl: 0
+                xs: 0, sm: 0, md: 3, lg: 3, xl: 3
             }, {
-                xs: 0, sm: 0, md: 9, lg: 0, xl: 0
+                xs: 0, sm: 0, md: 9, lg: 9, xl: 9
             }];
 
             expect(grid.children().forEach((item, index) => {
@@ -88,11 +108,11 @@ describe('<Grid />', () => {
                 </Grid>
             ));
             const expectedOffsets = [{
-                xs: 0, sm: 0, md: 3, lg: 0, xl: 0
+                xs: 0, sm: 0, md: 3, lg: 3, xl: 3
             }, {
-                xs: 2, sm: 0, md: 9, lg: 0, xl: 0
+                xs: 2, sm: 2, md: 9, lg: 9, xl: 9
             }, {
-                xs: 0, sm: 0, md: 3, lg: 0, xl: 0
+                xs: 0, sm: 0, md: 3, lg: 3, xl: 3
             }];
 
             expect(grid.children().forEach((item, index) => {
@@ -102,73 +122,6 @@ describe('<Grid />', () => {
                     expect(element.props.offset[size]).toEqual(expectedOffsets[index][size]);
                 });
             }));
-        });
-    });
-
-    describe('when applying grid gap', () => {
-        it('should apply the gap as em if it is a numeric value', () => {
-            const grid = shallow(<Grid container gap={1.5} />);
-
-            expect(grid.props().style.gap).toEqual('1.5em');
-        });
-
-        it('should apply the gap provided', () => {
-            const grid = shallow(<Grid container gap='24px' />);
-
-            expect(grid.props().style.gap).toEqual('24px');
-        });
-
-        it('should leave the gap empty if none was specified', () => {
-            const grid = shallow(<Grid container />);
-
-            expect(grid.props().style.gap).toBeUndefined;
-        });
-
-        it('should ignore the gap value if the grid component is not a container', () => {
-            const grid = shallow(<Grid item />);
-
-            expect(grid.props().style.gap).toBeUndefined;
-        });
-    });
-
-    describe('when the grid is an item', () => {
-        it('should create a grid item', () => {
-            const grid = shallow(<Grid item />);
-
-            expect(grid).toMatchSnapshot();
-        });
-
-        it('should create a grid item with an offset and width', () => {
-            const grid = shallow(<Grid item width={{ xs: 3 }} offset={{ xs: 3 }} />);
-
-            expect(grid).toMatchSnapshot();
-        });
-
-        it('should create a grid item with multiple offsets and widths', () => {
-            const grid = shallow(<Grid item 
-                width={{ xs: 12, sm: 10, md: 8, lg: 6, xl: 4 }}
-                offset={{ xs: 0, sm: 1, md: 2, lg: 3, xl: 4 }} 
-            />);
-
-            expect(grid).toMatchSnapshot();
-        });
-
-        it('should not add a class for an offset and width that are too large', () => {
-            const grid = shallow(<Grid item width={{ xs: 12 }} offset={{ xs: 2 }} />);
-
-            expect(grid.hasClass('swa-react-grid--item_xs_2_12')).toBe(false);
-        });
-
-        it('should not add a class for a non-numeric width', () => {
-            const grid = shallow(<Grid item width={{ xs: 'twelve' }} />);
-
-            expect(grid).toMatchSnapshot();
-        });
-
-        it('should not add a class for a non-numeric offset', () => {
-            const grid = shallow(<Grid item width={{ xs: '10' }} offset={{ xs: 'two' }} />);
-
-            expect(grid).toMatchSnapshot();
         });
     });
 });

@@ -1,24 +1,5 @@
-@import './breakpoints.scss';
-@import './mixins';
-
 .swa-react-grid {
     &--container {
-        display: grid;
-        grid-gap: 1em;
         grid-template-columns: repeat(12, 1fr);
-    }
-
-    @include create-grid-cols('xs');
-    @media screen and (min-width: $sm) {
-        @include create-grid-cols('sm');
-    }
-    @media screen and (min-width: $md) {
-        @include create-grid-cols('md');
-    }
-    @media screen and (min-width: $lg) {
-        @include create-grid-cols('lg');
-    }
-    @media screen and (min-width: $xl) {
-        @include create-grid-cols('xl');
     }
 }
