@@ -123,5 +123,30 @@ describe('<Grid />', () => {
                 });
             }));
         });
+
+        it('should recalculate rows when an item spills over into a new row', () => {
+            const grid = shallow((
+                <Grid container>
+                    <Grid item width={{xs: 6 }} offset={{xs: 3 }} />
+                    <Grid item width={{xs: 8 }} />
+                    <Grid item width={{xs: 4 }} />
+                </Grid>
+            ));
+            const expectedOffsets = [{
+                xs: 3, sm: 3, md: 3, lg: 3, xl: 3
+            }, {
+                xs: 0, sm: 0, md: 0, lg: 0, xl: 0
+            }, {
+                xs: 8, sm: 8, md: 8, lg: 8, xl: 8
+            }];
+
+            expect(grid.children().forEach((item, index) => {
+                const element = item.getElement();
+
+                Object.keys(element.props.offset).forEach(size => {
+                    expect(element.props.offset[size]).toEqual(expectedOffsets[index][size]);
+                });
+            }));
+        });
     });
 });

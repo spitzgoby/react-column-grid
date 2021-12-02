@@ -22,8 +22,10 @@ export default props => {
                         <button>Menu</button>
                     </Grid>
                 </Grid>
+                <Grid className="app--content-title" item width={{ xs: 12, md: 6 }} offset={{ md: 3 }}>
+                    <h2>Content Title</h2>
+                </Grid>
                 <Grid className="app--content" item width={{ xs: 12, md: 8, lg: 6 }} offset={{ lg: 2 }}>
-                    <h2>Content</h2>
                     <p>
                         Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. 
                         De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo 

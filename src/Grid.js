@@ -84,7 +84,10 @@ const Grid = ({
 
         if (areValidColumns(sizeWidth, suggestedOffset) && !sizeHidden) {
             adjustedOffset = suggestedOffset;
-            adjustedColumn = (suggestedOffset + sizeWidth) % numCols;
+            adjustedColumn = suggestedOffset + sizeWidth;
+        } else if (areValidColumns(sizeWidth, sizeOffset) && !sizeHidden) {
+            adjustedOffset = sizeOffset;
+            adjustedColumn =  sizeOffset + sizeWidth;
         }
 
         return {
