@@ -148,5 +148,30 @@ describe('<Grid />', () => {
                 });
             }));
         });
+
+        it('should clear move an item onto the nest row if the child clears the row', () => {
+            const grid = shallow((
+                <Grid container>
+                    <Grid item width={{xs: 1 }} clear={{ xs: true, md: false }} />
+                    <Grid item width={{xs: 1 }} />
+                    <Grid item width={{xs: 1 }} />
+                </Grid>
+            ));
+            const expectedOffsets = [{
+                xs: 0, sm: 0, md: 0, lg: 0, xl: 0
+            }, {
+                xs: 0, sm: 0, md: 1, lg: 1, xl: 1
+            }, {
+                xs: 1, sm: 1, md: 2, lg: 2, xl: 2
+            }];
+
+            expect(grid.children().forEach((item, index) => {
+                const element = item.getElement();
+
+                Object.keys(element.props.offset).forEach(size => {
+                    expect(element.props.offset[size]).toEqual(expectedOffsets[index][size]);
+                });
+            }));
+        });
     });
 });

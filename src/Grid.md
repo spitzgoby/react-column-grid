@@ -9,7 +9,7 @@ should have a container element at the root. The container element will have its
 
 __Usage__
 ```Javascript
-<Grid container></Grid>
+<Grid container />
 ```
 
 --- 
@@ -35,7 +35,7 @@ PropTypes.shape({
     sm: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
     md: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
     lg: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
-    xl: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
+    xl: PropTypes.oneOf([PropTypes.number, PropTypes.string])
 })
 ```
 __Default__: 
@@ -66,7 +66,7 @@ __Usage__:
 
 // No value is set for sm or xl. The sm width will inherit a width of 12 from
 // the xs value, and lg will inherit 8 from the md value.
-<Grid item width={{ xs: 12, md: 8, xl: 6 }}></Grid>
+<Grid item width={{ xs: 12, md: 8, xl: 6 }} />
 ```
 
 --- 
@@ -79,7 +79,7 @@ PropTypes.shape({
     sm: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
     md: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
     lg: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
-    xl: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
+    xl: PropTypes.oneOf([PropTypes.number, PropTypes.string])
 })
 ```
 __Default__: 
@@ -101,7 +101,54 @@ __Usage__:
 ```Javascript
 // Creates an item that is full width on xs and sm screens, 66% width and centered 
 // on md screens, and 50% and centered on lg or xl screens.
-<Grid item  offset={{ md: 4, lg: 3 }} width={{ xs: 12, md: 8, lg: 6 }}>
+<Grid item  offset={{ md: 4, lg: 3 }} width={{ xs: 12, md: 8, lg: 6 }} />
+```
+
+---
+
+## clear
+__Type__: 
+```Javascript
+PropTypes.shape({
+    xs: PropTypes.bool,
+    sm: PropTypes.bool,
+    md: PropTypes.bool,
+    lg: PropTypes.bool,
+    xl: PropTypes.bool
+})
+```
+
+__Default__:
+```Javascript
+{
+    xs: false,
+    sm: false,
+    md: false,
+    lg: false,
+    xl: false
+}
+```
+
+__Description__: Determines whether a given item should take up the remaining space 
+of he row that it occupies even if its width and offset would not normally span an 
+entire row. If no value is set at a given breakpoint the value from the next 
+smallest breakpoint will be used. This value is ignored if the `item` prop is 
+`false`.
+
+__Usage__:
+```Javascript
+// Creates a grid that has 2 rows on xs and sm screens, but only a single row on md 
+// and larger screens.
+<Grid container>
+    <Grid item 
+        clear={{ xs: true, md: false }} 
+        width={{ xs: 6, md: 3 }} 
+        offset={{ xs: 3 }} />
+    <Grid item 
+        clear={{ xs: true, md: false }} 
+        width={{ xs: 6, md: 3 }} 
+        offset={{ xs: 3 }} />
+</Grid>
 ```
 
 --- 

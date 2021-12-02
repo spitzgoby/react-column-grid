@@ -6,6 +6,7 @@ import styles from './styles';
 
 import './Grid.scss';
 
+const defaultClear = false;
 const defaultHidden = false;
 const defaultOffset = 0;
 const defaultWidth = 12;
@@ -17,7 +18,6 @@ const Grid = ({
     children,
     className,
     container,
-    fullRow = false,
     gap = null,
     hidden = {},
     item,
@@ -74,7 +74,7 @@ const Grid = ({
         );
     };
 
-    const getAdjustedLayoutProps = (size, offset, width, hidden, columns) => {
+    const getAdjustedLayoutProps = (size, offset, width, hidden, clear, columns) => {
         const sizeHidden = hidden?.[size];
         const sizeOffset = offset?.[size] || 0;
         const sizeWidth = width?.[size];
@@ -84,10 +84,14 @@ const Grid = ({
 
         if (areValidColumns(sizeWidth, suggestedOffset) && !sizeHidden) {
             adjustedOffset = suggestedOffset;
-            adjustedColumn = suggestedOffset + sizeWidth;
+            adjustedColumn = !clear[size] 
+                ? suggestedOffset + sizeWidth
+                : 0;
         } else if (areValidColumns(sizeWidth, sizeOffset) && !sizeHidden) {
             adjustedOffset = sizeOffset;
-            adjustedColumn =  sizeOffset + sizeWidth;
+            adjustedColumn =  !clear[size]
+                ? sizeOffset + sizeWidth
+                : 0;
         }
 
         return {
@@ -105,6 +109,7 @@ const Grid = ({
 
             if (child?.type?.name === 'Grid' && child?.props?.item) {
                 const renderedChildOffset = sizes.reduce((acc, size) => {
+                    const completedClear = addMissingSizesForProp(child.props.clear, defaultClear);
                     const completedHidden = addMissingSizesForProp(child.props.hidden, defaultHidden);
                     const completedOffset = addMissingSizesForProp(child.props.offset, defaultOffset);
                     const completedWidth = addMissingSizesForProp(child.props.width, defaultWidth);
@@ -116,7 +121,8 @@ const Grid = ({
                         completedOffset, 
                         completedWidth,
                         completedHidden, 
-                        currentColumns
+                        completedClear,
+                        currentColumns,
                     ); 
 
                     currentColumns[size] = adjustedColumn;

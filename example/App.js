@@ -22,8 +22,11 @@ export default props => {
                         <button>Menu</button>
                     </Grid>
                 </Grid>
-                <Grid className="app--content-title" item width={{ xs: 12, md: 6 }} offset={{ md: 3 }}>
+                <Grid className="app--content-title" item width={{ xs: 12, md: 3 }} offset={{ md: 3 }} clear={{ xs: true }}>
                     <h2>Content Title</h2>
+                </Grid>
+                <Grid className="app--content-subtitle" item width={{ xs: 12, md: 3 }} offset={{ md: 3 }} clear={{ xs: true }}>
+                    <h3>Content Subtitle</h3>
                 </Grid>
                 <Grid className="app--content" item width={{ xs: 12, md: 8, lg: 6 }} offset={{ lg: 2 }}>
                     <p>
