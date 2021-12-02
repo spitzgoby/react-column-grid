@@ -69,6 +69,18 @@ describe('Grid styles', () => {
 
                 expect(styles.container.gap(mockProps)).toEqual('5%');
             });
+
+            it('should set the grid template columns based on the columns provided', () => {
+                const mockProps = { columns: 6 };
+
+                expect(styles.container.gridTemplateColumns(mockProps)).toEqual('repeat(6, 1fr)');
+            });
+
+            it('should set the grid template columns with defaults if no prop is provided', () => {
+                const mockProps = {};
+
+                expect(styles.container.gridTemplateColumns(mockProps)).toEqual('repeat(12, 1fr)');
+            });
         });
     });
 
@@ -82,36 +94,6 @@ describe('Grid styles', () => {
                 const mockProps = { offset: { xs: '3' }, width: { xs: '6' } };
 
                 expect(styles.item.gridColumn(mockProps)).toEqual('4 / span 6');
-            });
-
-            it('should not produce [gridColumn] values with no width', () => {
-                const mockProps = { offset: {}, width: { xs: '0' }};
-
-                expect(styles.item.gridColumn(mockProps)).toEqual(undefined);
-            });
-
-            it('should not produce [gridColumn] values that are too wide', () => {
-                const mockProps = { offset: {}, width: { xs: '13' }};
-
-                expect(styles.item.gridColumn(mockProps)).toEqual(undefined);
-            })
-
-            it('should not produce [gridColumn] values with too great an offset', () => {
-                const mockProps = { offset: { xs: 9 }, width: { xs: 4 } }; // 9 + 4 > 12
-
-                expect(styles.item.gridColumn(mockProps)).toEqual(undefined);
-            });
-
-            it('should not produce [gridColumn] values with an invalid width', () => {
-                const mockProps = { offset: { xs: 6 }, width: { xs: 'invalid' } }; // 9 + 4 > 12
-
-                expect(styles.item.gridColumn(mockProps)).toEqual(undefined);
-            });
-
-            it('should not produce [gridColumn] values with an invalid offset', () => {
-                const mockProps = { offset: { xs: 'invalid' }, width: { xs: '6' } }; // 9 + 4 > 12
-
-                expect(styles.item.gridColumn(mockProps)).toEqual(undefined);
             });
         });
     });

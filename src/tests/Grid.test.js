@@ -21,6 +21,7 @@ describe('<Grid />', () => {
             const widthProp = { xs: '6', md: '4', lg: '3' };
 
             shallow(<Grid 
+                columns={12}
                 container 
                 gap='2em'
                 hidden={hiddenProp} 
@@ -29,6 +30,7 @@ describe('<Grid />', () => {
             />);
 
             expect(mockUseStyles).toHaveBeenCalledWith({ 
+                columns: 12,
                 container: true, 
                 gap: '2em',
                 hidden: { xs: true, sm: true, md: false, lg: false, xl: false},

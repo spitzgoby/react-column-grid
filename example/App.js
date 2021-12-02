@@ -81,6 +81,11 @@ export default props => {
                     </ul>
                 </Grid>
             </Grid>
+            <Grid className="app--footer" container columns={4}>
+                <Grid className="app--footer-title" item offset={{ xs: 0,  md: 1 }} width={{ xs: 4, md: 2 }}>
+                    <h2>Footer</h2>
+                </Grid>
+            </Grid>
         </div>
     );
 };

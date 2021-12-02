@@ -14,6 +14,22 @@ __Usage__
 
 --- 
 
+## columns
+__Type__: `PropTypes.number`
+__Default__: `12`
+__Description__: Sets the number of columns to use when laying out the grid items.
+This value is ignored if the `container` prop is `false`. 
+__Usage__
+```Javascript
+<Grid container columns={6}>
+    <Grid item width={{ xs: 3 }} />
+    <Grid item width={{ xs: 3 }} />
+    <Grid item width={{ xs: 3 }} /> {/* this item will be moved onto a new row */}
+</Grid>
+```
+
+---
+
 ## item
 __Type__: `PropTypes.bool`  
 __Default__: `true`  

@@ -16,6 +16,7 @@ const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 const Grid = ({
     children,
+    columns,
     className,
     container,
     gap = null,
@@ -48,6 +49,7 @@ const Grid = ({
         grid: gridClass,
         item: itemClass
     } = useStyles({ 
+        columns,
         container, 
         gap,
         hidden: adjustedHidden,
