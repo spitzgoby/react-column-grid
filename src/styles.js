@@ -32,10 +32,16 @@ const getGridTemplateColumns = ({ columns }) =>
 const getDisplay = (props, size) =>
     props.hidden?.[size]
         ? 'none'
-        : props.container ? 'grid': 'block';
+        : props.container ? 'grid': null;
 
-const getGridColumn = ({ width, offset }, size) => 
-    `${parseInt(offset[size], 10) + 1} / span ${parseInt(width[size], 10)}`;
+const getGridColumn = ({ width, offset }, size) => {
+    const parsedOffset = parseInt(offset[size], 10) + 1;
+    const parsedWidth = parseInt(width[size], 10);
+
+    return (parsedOffset && parsedWidth)
+        ? `${parsedOffset} / span ${parsedWidth}`
+        : null;
+}
 
 const createScreenMediaQuery = (breakpoint) => 
     '@media screen' +

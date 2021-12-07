@@ -31,7 +31,7 @@ describe('Grid styles', () => {
                     hidden: { xl: false }
                 }
 
-                expect(styles.grid.display(mockProps)).toEqual('block');
+                expect(styles.grid.display(mockProps)).toEqual(null);
             });
         });
     });
@@ -95,6 +95,18 @@ describe('Grid styles', () => {
 
                 expect(styles.item.gridColumn(mockProps)).toEqual('4 / span 6');
             });
+
+            it('should not produce a [gridColumn] value with a non-numeric offset', () => {
+                const mockProps = { offset: { xs: '' }, width: { xs: '6' } };
+
+                expect(styles.item.gridColumn(mockProps)).toEqual(null);
+            });
+
+            it('should not produce a [gridColumn] value with a non-numeric width', () => {
+                const mockProps = { offset: { xs: '3' }, width: { xs: '' } };
+
+                expect(styles.item.gridColumn(mockProps)).toEqual(null);
+            });
         });
     });
 
@@ -123,7 +135,7 @@ describe('Grid styles', () => {
 
             expect(styles['@media screen and (max-width: 599px)'].grid.display(mockProps, breakpoints[0])).toEqual('none');
             expect(styles['@media screen and (min-width: 600px) and (max-width: 899px)']
-                .grid.display(mockProps, breakpoints[0])).toEqual('block');
+                .grid.display(mockProps, breakpoints[0])).toEqual(null);
         });
     });
 });
