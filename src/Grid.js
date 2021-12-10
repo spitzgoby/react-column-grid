@@ -151,6 +151,14 @@ const Grid = ({
 };
 
 Grid.propTypes = {
+    clear: PropTypes.shape({
+        xs: PropTypes.bool,
+        sm: PropTypes.bool,
+        md: PropTypes.bool,
+        lg: PropTypes.bool,
+        xl: PropTypes.bool
+    }),
+    columns: PropTypes.number,
     container: PropTypes.bool,
     gap: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     hidden: PropTypes.shape({

@@ -70,15 +70,27 @@ export default props => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid className="app--sidebar" item width={{ xs: 12, md: 4, lg: 2 }} >
-                    <h2>Sidebar</h2>
-                    <ul>
-                        <li>Article 1</li>
-                        <li>Article 2</li>
-                        <li>Article 3</li>
-                        <li>Article 4</li>
-                        <li>Article 5</li>
-                    </ul>
+                <Grid className="app--sidebar" container item width={{ xs: 12, md: 4, lg: 2 }} offset={{ xs: 1 }}>
+                    <Grid item width={{ xs: 12 }}>
+                        <h2>Sidebar</h2>
+                        <ul>
+                            <li>Article 1</li>
+                            <li>Article 2</li>
+                            <li>Article 3</li>
+                            <li>Article 4</li>
+                            <li>Article 5</li>
+                        </ul>
+                    </Grid>
+                    <Grid item width={{ xs: 12 }}>
+                        <h2>Sidebar 2</h2>
+                        <ul>
+                            <li>Article 1</li>
+                            <li>Article 2</li>
+                            <li>Article 3</li>
+                            <li>Article 4</li>
+                            <li>Article 5</li>
+                        </ul>
+                    </Grid>
                 </Grid>
             </Grid>
             <Grid className="app--footer" container columns={4}>
