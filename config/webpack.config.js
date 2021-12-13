@@ -20,6 +20,10 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
+                test: /\.png$/i,
+                type: 'asset/resource'
+            },
+            {
                 test: /\.(js|jsx)$/i,
                 exclude: /node_modules/,
                 use: ['babel-loader']
