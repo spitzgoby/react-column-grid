@@ -6,11 +6,11 @@ export default props => {
     return (
         <div className="app">
             <Grid container gap="2">
-                <Grid className="app--header" container gap="1" item width={{ xs: 12 }}>
-                    <Grid className="app--header-title" item width={{ xs: 6 }}>
+                <Grid className="app--header" container gap="1" item width="12">
+                    <Grid className="app--header-title" item width="6">
                         <h1>Header</h1>
                     </Grid>
-                    <Grid className="app--header-nav" hidden={{ xs: true, sm: false }} item width={{ sm: 6 }}>
+                    <Grid className="app--header-nav" hidden={{ xs: true, sm: false }} item width={6}>
                         <ul>
                             <li><button>Nav1</button></li>
                             <li><button>Nav2</button></li>
@@ -70,8 +70,8 @@ export default props => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid className="app--sidebar" container item width={{ xs: 12, md: 4, lg: 2 }} offset={{ xs: 1 }}>
-                    <Grid item width={{ xs: 12 }}>
+                <Grid className="app--sidebar" container item width={{ xs: 12, md: 4, lg: 2 }}>
+                    <Grid item width={12}>
                         <h2>Sidebar</h2>
                         <ul>
                             <li>Article 1</li>

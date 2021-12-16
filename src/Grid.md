@@ -15,7 +15,7 @@ __Usage__
 --- 
 
 ## columns
-__Type__: `PropTypes.number`
+__Type__: `PropTypes.oneOfType([PropTypes.number, PropTypes.string])`
 __Default__: `12`
 __Description__: Sets the number of columns to use when laying out the grid items.
 This value is ignored if the `container` prop is `false`. 
@@ -67,7 +67,8 @@ __Default__:
 __Description__: Sets the number of columns a grid item spans for a given breakpoint.
 If the value is not defined at a given break point then the value for the next 
 smallest breakpoint will be assigned. This prop is ignored if the `item` prop is 
-`false`.  
+`false`. In order to apply the same width at all breakpoints simply provide a single
+numeric value.
 
 __Usage__:
 ```Javascript
@@ -83,6 +84,9 @@ __Usage__:
 // No value is set for sm or xl. The sm width will inherit a width of 12 from
 // the xs value, and lg will inherit 8 from the md value.
 <Grid item width={{ xs: 12, md: 8, xl: 6 }} />
+
+// Creates an item of width 12 at all breakpoints.
+<Grid item width='12' />
 ```
 
 --- 
@@ -111,13 +115,17 @@ __Default__:
 __Description__: Sets the number of columns that the given item should be spaced from
 the start of the grid at a given breakpoint. If no value is set at a given breakpoint
 then the value from the next smallest breakpoint will be used. This prop is ignored 
-if the `item` prop is `false`.
+if the `item` prop is `false`. In order to apply the same offset at all breakpoints
+simply provide a single numeric value.
 
 __Usage__:
 ```Javascript
 // Creates an item that is full width on xs and sm screens, 66% width and centered 
 // on md screens, and 50% and centered on lg or xl screens.
 <Grid item  offset={{ md: 4, lg: 3 }} width={{ xs: 12, md: 8, lg: 6 }} />
+
+// Creates an item with an offset of 4 across all breakpoints
+<Grid item offset={4} width={8} />
 ```
 
 ---
@@ -149,7 +157,7 @@ __Description__: Determines whether a given item should take up the remaining sp
 of he row that it occupies even if its width and offset would not normally span an 
 entire row. If no value is set at a given breakpoint the value from the next 
 smallest breakpoint will be used. This value is ignored if the `item` prop is 
-`false`.
+`false`. 
 
 __Usage__:
 ```Javascript

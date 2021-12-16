@@ -39,6 +39,35 @@ describe('<Grid />', () => {
             });
         });
 
+        it('should use shorthand syntax for width and offset', () => {
+            const offsetProp = '1';
+            const widthProp = '10';
+
+            shallow(<Grid 
+                columns={12}
+                container 
+                gap='2em'
+                hidden={{}} 
+                offset={offsetProp}
+                width={widthProp}
+            />);
+
+            expect(mockUseStyles).toHaveBeenCalledWith({ 
+                columns: 12,
+                container: true, 
+                gap: '2em',
+                hidden: { xs: false, sm: false, md: false, lg: false, xl: false},
+                offset: { xs: '1', sm: '1', md: '1', lg: '1', xl: '1' },
+                width: { xs: '10', sm: '10', md: '10', lg: '10', xl: '10' }
+            });
+        });
+
+        it('should translate string column values into integers', () => {
+            shallow(<Grid container columns='12' />);
+            
+            expect(mockUseStyles.mock.calls[0][0].columns).toEqual(12);
+        });
+
         it('should use supplied .grid class', () => {
             mockUseStyles.mockImplementation(() => ({ grid: 'test-grid-class' }));
 
