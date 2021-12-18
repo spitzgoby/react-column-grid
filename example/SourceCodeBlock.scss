@@ -1,0 +1,23 @@
+.source-code-block {
+    background-color: #eee;
+    border-radius: 1rem;
+    padding: 1rem;
+
+    &--show-button {
+        border: none;
+        color: #4EABBF;
+        cursor: pointer;
+        font: 1em Arial, sans-serif;
+        padding: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &--code {
+        background-color: transparent;
+        display: block;
+        font-family: 'Courier New', Courier, monospace;
+    }
+}

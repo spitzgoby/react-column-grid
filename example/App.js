@@ -1,70 +1,37 @@
 import './App.scss';
+import examples from './examples';
 import { Grid, Hidden } from '../src';
 import Home from './home.png';
 import List from './list.png';
 import React from 'react';
-import ReactSyntaxHighlighter from 'react-syntax-highlighter';
+import SourceCodeBlock from './SourceCodeBlock';
 
 export default props => {
-    const getSyntaxHighlighterProps = () => ({
-        codeTagProps: { 
-            className: 'app--code-block'
-        },
-        customStyle: {
-            margin: 0,
-            padding: 0
-        },
-        language: 'jsx'
-    })
-
     return (
         <div className="app">
-            <h1>Final Name of Package</h1>
+            <h1><a href="https://github.com/spitzgoby/react-column-grid">react-column-grid</a></h1>
             <div className="app--example">
-                <h2>Example 1</h2>
-                <p>
-                    Three evenly spaced columns across all screen sizes. It is only 
-                    necessary to define the extra small width because it will be
-                    inherited by the larger sizes.
-                </p>
+                <h2>{examples[0].title}</h2>
+                <p>{examples[0].description}</p>
                 <Grid container>
-                    <Grid item width={{ xs: 12 }}>
-                        <ReactSyntaxHighlighter {...getSyntaxHighlighterProps()}>{
-                            "<Grid container>\n" +
-                            "    <Grid item width={{ xs: 4 }}>Box 1</Grid>\n" +
-                            "    <Grid item width={{ xs: 4 }}>Box 2</Grid>\n" +
-                            "    <Grid item width={{ xs: 4 }}>Box 3</Grid>\n" +
-                            "</Grid>"
-                        }</ReactSyntaxHighlighter>
+                    <Grid item width={12}>
+                        <SourceCodeBlock sourceCode={examples[0].sourceCode} />
                     </Grid>
-                    <Grid container item width={{ xs: 12 }}>
-                        <Grid className="app--box" item width={{ xs: 4 }}>Box 1</Grid>
-                        <Grid className="app--box" item width={{ xs: 4 }}>Box 2</Grid>
-                        <Grid className="app--box" item width={{ xs: 4 }}>Box 3</Grid>
+                    <Grid container item width={12}>
+                        <Grid className="app--box" item width={4}>Box 1</Grid>
+                        <Grid className="app--box" item width={4}>Box 2</Grid>
+                        <Grid className="app--box" item width={4}>Box 3</Grid>
                     </Grid>
                 </Grid>
             </div>
             <div className="app--example">
-                <h2>Example 2</h2>
-                <p>
-                    6 cells in progressively fewer columns as the screen size narrows.
-                    This ensures that there is ample space to interact with the component 
-                    on smaller devices.
-                </p>
+                <h2>{examples[1].title}</h2>
+                <p>{examples[1].description}</p>
                 <Grid container>
-                    <Grid item width={{ xs: 12 }}>
-                        <ReactSyntaxHighlighter {...getSyntaxHighlighterProps()}>{
-                            "<Grid container>\n" +
-                            "    <Grid item width={{ xs: 12, sm: 6, lg: 4 }}>Box 1</Grid>\n" +
-                            "    <Grid item width={{ xs: 12, sm: 6, lg: 4 }}>Box 2</Grid>\n" +
-                            "    <Grid item width={{ xs: 12, sm: 6, lg: 4 }}>Box 3</Grid>\n" +
-                            "    <Grid item width={{ xs: 12, sm: 6, lg: 4 }}>Box 4</Grid>\n" +
-                            "    <Grid item width={{ xs: 12, sm: 6, lg: 4 }}>Box 5</Grid>\n" +
-                            "    <Grid item width={{ xs: 12, sm: 6, lg: 4 }}>Box 6</Grid>\n" +
-                            "</Grid>"
-                        }</ReactSyntaxHighlighter>
+                    <Grid item width={12}>
+                        <SourceCodeBlock sourceCode={examples[1].sourceCode} />
                     </Grid>
-                    <Grid container item width={{ xs: 12 }}>
+                    <Grid container item width={12}>
                         <Grid className="app--box" item width={{ xs: 12, sm: 6, lg: 4 }}>Box 1</Grid>
                         <Grid className="app--box" item width={{ xs: 12, sm: 6, lg: 4 }}>Box 2</Grid>
                         <Grid className="app--box" item width={{ xs: 12, sm: 6, lg: 4 }}>Box 3</Grid>
@@ -75,25 +42,13 @@ export default props => {
                 </Grid>
             </div>
             <div className="app--example">
-                <h2>Example 3</h2>
-                <p>
-                    A centered item with progressively less surrounding whitespace as
-                    the screen narrows. It's uneccesary to define the extra small 
-                    or extra large offsets as the default to 0 and the large value, 
-                    respectively.
-                </p>
+                <h2>{examples[2].title}</h2>
+                <p>{examples[2].description}</p>
                 <Grid container>
-                    <Grid item width={{ xs: 12 }}>
-                        <ReactSyntaxHighlighter {...getSyntaxHighlighterProps()}>{
-                            "<Grid container>\n" +
-                            "    <Grid item \n" +
-                            "        width={{ xs: 12, sm: 10, md: 8, lg: 6 }}\n" +
-                            "        offset={{ sm: 1, md: 2, lg: 3 }}>Centered Box\n" +
-                            "    </Grid>\n" +
-                            "</Grid>"
-                        }</ReactSyntaxHighlighter>
+                    <Grid item width={12}>
+                        <SourceCodeBlock sourceCode={examples[2].sourceCode} />
                     </Grid>
-                    <Grid container item width={{ xs: 12 }}>
+                    <Grid container item width={12}>
                         <Grid className="app--box" item 
                             width={{ xs: 12, sm: 10, md: 8, lg: 6 }}
                             offset={{ sm: 1, md: 2, lg: 3 }}>Centered Box</Grid>
@@ -101,40 +56,15 @@ export default props => {
                 </Grid>
             </div>
             <div className="app--example">
-                <h2>Example 4</h2>
-                <p>
-                    A responsive header that shows and hides items at various screen sizes. 
-                </p>
+                <h2>{examples[3].title}</h2>
+                <p>{examples[3].description}</p>
                 <Grid container>
-                    <Grid item width={{ xs: 12 }}>
-                        <ReactSyntaxHighlighter {...getSyntaxHighlighterProps()}>{
-                            "<Grid container item width={{xs: 12}}>\n" +
-                            "   <Grid item width={{ xs: 6 }}>\n" +
-                            "       <Hidden hide={{ xs: false, sm: true }}>\n" +
-                            "           <img />\n" +
-                            "       </Hidden>\n" +
-                            "       <Hidden hide={{ xs: true, sm: false }}>\n" +
-                            "            <a>Home</a>\n" +
-                            "       </Hidden>\n" +
-                            "   </Grid>\n" +
-                            "   <Grid item width={{ xs: 6 }}>\n" +
-                            "       <Hidden hide={{ xs: false, md: true }}>\n" +
-                            "           <img />\n" +
-                            "       </Hidden>\n" +
-                            "       <Hidden hide={{ xs: true, md: false }}>\n" +
-                            "           <ul>\n" +
-                            "               <li>User</li>\n" +
-                            "               <li>Settings</li>\n" +
-                            "               <li>Log Out</li>\n" +
-                            "           </ul>\n" +
-                            "       </Hidden>\n" +
-                            "   </Grid>\n" +
-                            "</Grid>\n"
-                        }</ReactSyntaxHighlighter>
+                    <Grid item width={12}>
+                        <SourceCodeBlock sourceCode={examples[3].sourceCode} />
                     </Grid>
-                    <Grid container item width={{ xs: 12 }}>
-                        <Grid container item className="app--box" width={{xs: 12}}>
-                            <Grid item className="app--home-nav" width={{ xs: 6 }}>
+                    <Grid container item width={12}>
+                        <Grid container item className="app--box" width={12}>
+                            <Grid item className="app--home-nav" width={6}>
                                 <Hidden hide={{ xs: false, sm: true }}>
                                     <img className="app--nav-button_logo" src={Home} />
                                 </Hidden>
@@ -142,7 +72,7 @@ export default props => {
                                     <a className="app--nav-button_text" href="#">Home</a>
                                 </Hidden>
                             </Grid>
-                            <Grid item className="app--articles-nav" width={{ xs: 6 }}>
+                            <Grid item className="app--articles-nav" width={6}>
                                 <Hidden hide={{ xs: false, md: true }}>
                                     <img className="app--nav-button_logo" src={List} />
                                 </Hidden>
@@ -153,6 +83,29 @@ export default props => {
                                         <li>Log Out</li>
                                     </ul>
                                 </Hidden>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </div>
+            <div className="app--example">
+                <h2>{examples[4].title}</h2>
+                <p>{examples[4].description}</p>
+                <Grid container>
+                    <Grid item width={12}>
+                        <SourceCodeBlock sourceCode={examples[4].sourceCode} />
+                    </Grid>
+                    <Grid container item width={12}>
+                        <Grid container item width={12}>
+                            <Grid container item width={6}>
+                                <Grid item className="app--box" width={12}>Rows 1 and 2</Grid>
+                            </Grid>
+                            <Grid container item width={6}>
+                                <Grid container item width={12}>
+                                    <Grid item className="app--box" width={6}>Row 1 Left</Grid>
+                                    <Grid item className="app--box" width={6}>Row 1 Right</Grid>
+                                </Grid>
+                                <Grid item className="app--box" width={12}>Row 2</Grid>
                             </Grid>
                         </Grid>
                     </Grid>
