@@ -1,19 +1,18 @@
+import { addMissingSizes, sizes } from './breakpoints';
 import classNames from 'classnames';
+import styles from './Grid.styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import styles from './styles';
 
 import './Grid.scss';
 
 const defaultClear = false;
 const defaultColumns = 12;
-const defaultHidden = false;
+const defaultHide = false;
 const defaultOffset = 0;
 const defaultWidth = 12;
 const shortHandProps = ['offset', 'width'];
-const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
-
 
 const Grid = ({
     children,
@@ -21,37 +20,21 @@ const Grid = ({
     className,
     container,
     gap = null,
-    hidden = {},
+    hide = {},
     item,
     offset = {},
     width = { xs: 12 }
 }) => {
     const isInteger = value => !isNaN(parseInt(value, 10));
 
-    const shouldUseShorthandSyntax = (propName, prop) => 
+    const useShorthandSyntax = (propName, prop) => 
         shortHandProps.includes(propName) && isInteger(prop);
 
-    const addMissingSizesForProp = (propName, prop = {}, defaultValue) => 
-        sizes.reduce((acc, size, index) => {
-            if (!prop.hasOwnProperty(size)) {
-                if (index > 0) {
-                    acc[size] = acc[sizes[index - 1]];
-                } else if (shouldUseShorthandSyntax(propName, prop)) {
-                    acc[size] = prop;
-                } else {
-                    acc[size] = defaultValue;
-                }
-            } else {
-                acc[size] = prop[size];
-            }
-
-            return acc;
-        }, {});
 
     const adjustedColumns = isInteger(columns) ? parseInt(columns, 10) : defaultColumns;
-    const adjustedHidden = addMissingSizesForProp('hidden', hidden, defaultHidden);
-    const adjustedOffset = addMissingSizesForProp('offset', offset, defaultOffset);
-    const adjustedWidth = addMissingSizesForProp('width', width, defaultWidth);
+    const adjustedHide = addMissingSizes('hide', hide, defaultHide, useShorthandSyntax);
+    const adjustedOffset = addMissingSizes('offset', offset, defaultOffset, useShorthandSyntax);
+    const adjustedWidth = addMissingSizes('width', width, defaultWidth, useShorthandSyntax);
     const useStyles = createUseStyles(styles);
     const { 
         container: containerClass,
@@ -61,7 +44,7 @@ const Grid = ({
         columns: adjustedColumns,
         container, 
         gap,
-        hidden: adjustedHidden,
+        hide: adjustedHide,
         offset: adjustedOffset,
         width: adjustedWidth
     });
@@ -85,20 +68,20 @@ const Grid = ({
         );
     };
 
-    const getAdjustedLayoutProps = (size, offset, width, hidden, clear, columns) => {
-        const sizeHidden = hidden?.[size];
+    const getAdjustedLayoutProps = (size, offset, width, hide, clear, columns) => {
+        const sizeHide = hide?.[size];
         const sizeOffset = parseInt(offset?.[size], 10) || 0;
         const sizeWidth = parseInt(width?.[size], 10);
         const suggestedOffset = columns[size] + sizeOffset;
         let adjustedColumn = columns[size];
-        let adjustedOffset = sizeHidden ? 0 : sizeOffset;
+        let adjustedOffset = sizeHide ? 0 : sizeOffset;
 
-        if (areValidColumns(sizeWidth, suggestedOffset) && !sizeHidden) {
+        if (areValidColumns(sizeWidth, suggestedOffset) && !sizeHide) {
             adjustedOffset = suggestedOffset;
             adjustedColumn = !clear[size] 
                 ? suggestedOffset + sizeWidth
                 : 0;
-        } else if (areValidColumns(sizeWidth, sizeOffset) && !sizeHidden) {
+        } else if (areValidColumns(sizeWidth, sizeOffset) && !sizeHide) {
             adjustedOffset = sizeOffset;
             adjustedColumn =  !clear[size]
                 ? sizeOffset + sizeWidth
@@ -120,10 +103,10 @@ const Grid = ({
 
             if (child?.type?.name === 'Grid' && child?.props?.item) {
                 const renderedChildOffset = sizes.reduce((acc, size) => {
-                    const completedClear = addMissingSizesForProp('clear', child.props.clear, defaultClear);
-                    const completedHidden = addMissingSizesForProp('hidden', child.props.hidden, defaultHidden);
-                    const completedOffset = addMissingSizesForProp('offset', child.props.offset, defaultOffset);
-                    const completedWidth = addMissingSizesForProp('width', child.props.width, defaultWidth);
+                    const completedClear = addMissingSizes('clear', child.props.clear, defaultClear, useShorthandSyntax);
+                    const completedHide = addMissingSizes('hide', child.props.hide, defaultHide, useShorthandSyntax);
+                    const completedOffset = addMissingSizes('offset', child.props.offset, defaultOffset, useShorthandSyntax);
+                    const completedWidth = addMissingSizes('width', child.props.width, defaultWidth, useShorthandSyntax);
                     const { 
                         adjustedColumn, 
                         adjustedOffset 
@@ -131,7 +114,7 @@ const Grid = ({
                         size, 
                         completedOffset, 
                         completedWidth,
-                        completedHidden, 
+                        completedHide, 
                         completedClear,
                         currentColumns,
                     ); 
@@ -170,7 +153,7 @@ Grid.propTypes = {
     columns: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     container: PropTypes.bool,
     gap: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    hidden: PropTypes.shape({
+    hide: PropTypes.shape({
         xs: PropTypes.bool,
         sm: PropTypes.bool,
         md: PropTypes.bool,

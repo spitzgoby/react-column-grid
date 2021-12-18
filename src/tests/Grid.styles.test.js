@@ -1,46 +1,32 @@
-import styles, { breakpoints} from '../styles';
+import { breakpoints, createScreenMediaQuery } from '../breakpoints';
+import styles from '../Grid.styles';
+
+const xsMediaQuery = createScreenMediaQuery(breakpoints[0]);
 
 describe('Grid styles', () => {
     describe('.grid', () => {
-        it('should produce a default .grid class', () => {
-            expect(styles.grid.display).toEqual(expect.any(Function));
-        })
-
         describe('[display]', () => {
-            it('should create a default .grid class with xl hidden display attribute', () => {
-                const mockProps = {
-                    container: true,
-                    hidden: { xl: true }
-                }
+            it('should provide a [display] value of none if the item is hidden', () => {
+                const mockProps = { hide: { xs: true } };
 
-                expect(styles.grid.display(mockProps)).toEqual('none');
+                expect(styles[xsMediaQuery].grid.display(mockProps)).toEqual('none');
             });
 
-            it('should create a default .grid class with xl container display attribute', () => {
-                const mockProps = {
-                    container: true,
-                    hidden: { xl: false }
-                }
+            it('should provide a [display] value of grid if the item is a container', () => {
+                const mockProps = { container: true };
 
-                expect(styles.grid.display(mockProps)).toEqual('grid');
+                expect(styles[xsMediaQuery].grid.display(mockProps)).toEqual('grid');
             });
 
-            it('should create a default .grid class with xl default display attribute', () => {
-                const mockProps = {
-                    container: false,
-                    hidden: { xl: false }
-                }
+            it('should not provide a [display] value if the item is not a container nor hidden', () => {
+                const mockProps = {};
 
-                expect(styles.grid.display(mockProps)).toEqual(null);
+                expect(styles[xsMediaQuery].grid.display(mockProps)).toEqual(null);
             });
         });
     });
 
     describe('.container', () => {
-        it('should produce a default .container class', () => {
-            expect(styles.container.gap).toEqual(expect.any(Function));
-        })
-
         describe('[gap]', () => {
             it('should use default gap size if no gap is provided in props', () => {
                 expect(styles.container.gap({})).toEqual('1em');
@@ -69,7 +55,9 @@ describe('Grid styles', () => {
 
                 expect(styles.container.gap(mockProps)).toEqual('5%');
             });
+        });
 
+        describe('[gridTemplateColumns]', () => {
             it('should set the grid template columns based on the columns provided', () => {
                 const mockProps = { columns: 6 };
 
@@ -85,27 +73,23 @@ describe('Grid styles', () => {
     });
 
     describe('.item', () => {
-        it('should produce a default .item class', () => {
-            expect(styles.item.gridColumn).toEqual(expect.any(Function));
-        });
-
         describe('[gridColumn]', () => {
             it('should produce a [gridColumn] value with the correct starting column and span', () => {
                 const mockProps = { offset: { xs: '3' }, width: { xs: '6' } };
 
-                expect(styles.item.gridColumn(mockProps)).toEqual('4 / span 6');
+                expect(styles[xsMediaQuery].item.gridColumn(mockProps)).toEqual('4 / span 6');
             });
 
             it('should not produce a [gridColumn] value with a non-numeric offset', () => {
                 const mockProps = { offset: { xs: '' }, width: { xs: '6' } };
 
-                expect(styles.item.gridColumn(mockProps)).toEqual(null);
+                expect(styles[xsMediaQuery].item.gridColumn(mockProps)).toEqual(null);
             });
 
             it('should not produce a [gridColumn] value with a non-numeric width', () => {
                 const mockProps = { offset: { xs: '3' }, width: { xs: '' } };
 
-                expect(styles.item.gridColumn(mockProps)).toEqual(null);
+                expect(styles[xsMediaQuery].item.gridColumn(mockProps)).toEqual(null);
             });
         });
     });
@@ -123,14 +107,14 @@ describe('Grid styles', () => {
                 '@media screen and (min-width: 600px) and (max-width: 899px)': expectGrid,
                 '@media screen and (min-width: 900px) and (max-width: 1199px)': expectGrid,
                 '@media screen and (min-width: 1200px) and (max-width: 1535px)': expectGrid,
-                '@media screen and (min-width: 1536px)': expectGrid,
+                '@media screen and (min-width: 1536px)': expectGrid
             }));
         });
 
-        it('should only set hidden properties when the size is set in the hidden prop', () => {
+        it('should only set hide properties when the size is set in the hide prop', () => {
             const mockProps = {
                 container: false,
-                hidden: { xs: true, sm: false }
+                hide: { xs: true, sm: false }
             }
 
             expect(styles['@media screen and (max-width: 599px)'].grid.display(mockProps, breakpoints[0])).toEqual('none');

@@ -1,22 +1,8 @@
-export const breakpoints = [{
-    size: 'xs',
-    maxWidth: '599px',
-}, {
-    size: 'sm',
-    maxWidth: '899px',
-    minWidth: '600px'
-}, {
-    size: 'md',
-    maxWidth: '1199px',
-    minWidth: '900px'
-}, {
-    size: 'lg',
-    maxWidth: '1535px',
-    minWidth: '1200px'
-}, {
-    size: 'xl',
-    minWidth: '1536px'
-}];
+import { 
+    breakpoints,
+    createScreenMediaQuery
+} from './breakpoints';
+
 const DEFAULT_GAP = '1em';
 const DEFAULT_NUM_COLS = 12;
 
@@ -30,7 +16,7 @@ const getGridTemplateColumns = ({ columns }) =>
     `repeat(${columns ? columns : DEFAULT_NUM_COLS}, 1fr)`;
 
 const getDisplay = (props, size) =>
-    props.hidden?.[size]
+    props.hide?.[size]
         ? 'none'
         : props.container ? 'grid': null;
 
@@ -42,11 +28,6 @@ const getGridColumn = ({ width, offset }, size) => {
         ? `${parsedOffset} / span ${parsedWidth}`
         : null;
 }
-
-const createScreenMediaQuery = (breakpoint) => 
-    '@media screen' +
-        `${breakpoint.minWidth ? ` and (min-width: ${breakpoint.minWidth})` : ''}` +
-        `${breakpoint.maxWidth ? ` and (max-width: ${breakpoint.maxWidth})` : ''}`
 
 export default breakpoints.reduce((styles, breakpoint) => ({
     ...styles,
@@ -66,10 +47,6 @@ export default breakpoints.reduce((styles, breakpoint) => ({
         gap: getGap,
         gridTemplateColumns: getGridTemplateColumns
     },
-    grid: {
-        display: props => getDisplay(props, 'xl')
-    },
-    item: {
-        gridColumn: props => getGridColumn(props, 'xs')
-    }
+    grid: {},
+    item: {}
 });

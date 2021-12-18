@@ -177,7 +177,7 @@ __Usage__:
 
 --- 
 
-## hidden
+## hide
 __Type__:
 ```Javascript
 PropTypes.shape({
@@ -206,10 +206,10 @@ given the `display: none` attribute.
 __Usage__:
 ```Javascript
 // Creates an item that only appears at the md break point.
-<Grid item hidden={{ xs: true, md: false, lg: true }}></Grid>
+<Grid item hide={{ xs: true, md: false, lg: true }}></Grid>
 
 // Creates an item that is only displayed on xs or md screens
-<Grid item hidden={{ md: true }}></Grid>
+<Grid item hide={{ md: true }}></Grid>
 ```
 
 

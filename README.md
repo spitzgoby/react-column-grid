@@ -128,8 +128,8 @@ horizontally on a row and to shove `item`s to the edge of their `container`
 </Grid>
 ```
 
-## Clear and Hidden
-The `clear` and `hidden` properties are similar to `width` and 
+## Clear and Hide
+The `clear` and `hide` properties are similar to `width` and 
 `offset` in the sense that they both use [breakpoints](#breakpoints), 
 but use boolean values instead of numeric ones. 
 
@@ -154,16 +154,16 @@ a grid of `item`s that don't add up to the length of the row.
 </Grid>
 ```
 
-The `hidden` prop defines whether an `item` should be shown at a particular
+The `hide` prop defines whether an `item` should be shown at a particular
 screen size. This is most useful for elements like a "Hamburger Menu" that
 should only show up when the user is on a smaller device. 
 
 ```Javascript
 <Grid container>
-    <Grid item width={{ sm: 12 }} hidden={{ xs: true, sm: false }}>
+    <Grid item width={{ sm: 12 }} hide={{ xs: true, sm: false }}>
         I show up on small screens and larger
     </Grid>
-    <Grid item width={{ xs: 12 }} hidden={{ sm: true }}>
+    <Grid item width={{ xs: 12 }} hide={{ sm: true }}>
         I only show up on extra small screens
     </Grid>
 </Grid>
