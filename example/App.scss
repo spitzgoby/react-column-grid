@@ -1,23 +1,25 @@
+@import './fonts.scss';
+
 .app {
     h1, h2, h3, h4, h5, h6 {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: $title-font-family;
     }
 
     &--example {
         border: 1px dashed #999;
         border-radius: 0.5em;
         margin-bottom: 2rem;
-        padding: 1rem;
+        padding: 1em;
 
         h2 {
-            font-size: 2em;
+            font-size: clamp(1.5em, calc(0.5em + 2vw), 2em);
             margin-top: 0;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         p {
-            font-family: Georgia, serif;
-            font-size: 1.5rem;
+            font-family: $body-font-family;
+            font-size: clamp(1em, calc(0.5em + 1vw), 1.5em);
             margin-bottom: 1rem;
             margin-top: 0;
         }
@@ -30,7 +32,8 @@
         box-shadow: 1px 1px 3px #999; 
         color: white;
         display: flex;
-        font: 1.5em Arial, Helvetica, sans-serif;
+        font-family: $title-font-family;
+        font-size: clamp(1em, calc(0.5em + 1vw), 1.5em);
         justify-content: center;
         padding: 1rem;
     }

@@ -1,3 +1,5 @@
+@import './fonts.scss';
+
 .source-code-block {
     background-color: #eee;
     border-radius: 1rem;
@@ -7,8 +9,9 @@
         border: none;
         color: #4EABBF;
         cursor: pointer;
-        font: 1em Arial, sans-serif;
-        padding: none;
+        font-family: $title-font-family;
+        font-size: clamp(0.85em, calc(0.5em + 1vw), 1em);
+        padding: 0;
 
         &:hover {
             text-decoration: underline;
