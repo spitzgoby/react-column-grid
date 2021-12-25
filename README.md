@@ -149,18 +149,18 @@ a grid of `item`s that don't add up to the length of the row.
 
 ```Javascript
 <Grid container>
-    <Grid item width={{ xs: 2 }}>                       (0,0)</Grid>
-    <Grid item width={{ xs: 2 }}>                       (0,1)</Grid>
-    <Grid item width={{ xs: 2 }} clear={{ xs: true }}>  (0,2)</Grid>
+    <Grid item width={2}>                       (0,0)</Grid>
+    <Grid item width={2}>                       (0,1)</Grid>
+    <Grid item width={2} clear={{ xs: true }}>  (0,2)</Grid>
     // since the previous item is cleared, the next item will begin 
     // on a new row even though the total widths of the previous 3
     // items does not take up the full span of a row
-    <Grid item width={{ xs: 2 }}>                       (1,0)</Grid>
-    <Grid item width={{ xs: 2 }}>                       (1,1)</Grid>
-    <Grid item width={{ xs: 2 }} clear={{ xs: true }}>  (1,2)</Grid>
-    <Grid item width={{ xs: 2 }}>                       (2,0)</Grid>
-    <Grid item width={{ xs: 2 }}>                       (2,1)</Grid>
-    <Grid item width={{ xs: 2 }} clear={{ xs: true }}>  (2,2)</Grid>
+    <Grid item width={2}>                       (1,0)</Grid>
+    <Grid item width={2}>                       (1,1)</Grid>
+    <Grid item width={2} clear={{ xs: true }}>  (1,2)</Grid>
+    <Grid item width={2}>                       (2,0)</Grid>
+    <Grid item width={2}>                       (2,1)</Grid>
+    <Grid item width={2} clear={{ xs: true }}>  (2,2)</Grid>
 </Grid>
 ```
 
