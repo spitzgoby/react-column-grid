@@ -6,38 +6,39 @@ The library relies on the
 [CSS Grid Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout)
 system. 
 
-It does not currently support [templates](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template)
+It does not currently support 
+[css grid templates](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template)
 (which are awesome) but support for this may be added in the future.
 
 ---
 
 ## Installation
 ### npm
-```bash
-npm install -s react-css-grid
+```
+npm install -s react-column-grid
 ```
 
 ### yarn
-```bash
-yarn add react-css-grid
+```
+yarn add react-column-grid
 ```
 
 The `<Grid />` component can be imported using either
 ```Javascript
-const { Grid } = require('react-css-grid');
+const { Grid } = require('react-column-grid');
 ```
 OR
 ```Javascript
-const Grid = require('react-css-grid');
+const Grid = require('react-column-grid');
 ```
 
 ---
 
 ## Getting Started
 If you're familiar with either 
-[Bootstrap](https://getbootstrap.com/docs/4.0/layout/grid/) or 
-[Material UI's](https://mui.com/components/grid/)'s grid layout systems then 
-the syntax should be somewhat familiar.
+[Bootstrap's layout grid](https://getbootstrap.com/docs/4.0/layout/grid/) or 
+[Material UI's <Grid> components](https://mui.com/components/grid/)'s 
+then the syntax should be familiar.
 
 This example will generate a grid with three evenly spaced columns if the user 
 is on a medium screen (e.g. tablet) but generates three full-width rows when 
@@ -94,8 +95,8 @@ of `md` for both `lg` and `xl` since it is the closest smaller size defined.
 </Grid>
 ```
 
-See the Grid [documentation](./src/Grid.md) for a complete list of props that 
-use breakpoints.
+See the [Grid component documentation](./src/Grid.md) for a complete list of 
+props that use breakpoints.
 
 ## Width and Offset
 The `width` property is an object that defines the number of columns an item
@@ -125,6 +126,15 @@ horizontally on a row and to shove `item`s to the edge of their `container`
 <Grid container>
     <Grid item width={{ xs: 2 }}>Start</Grid>
     <Grid item width={{ xs: 2 }} offset={{ xs: 8 }}>End</Grid>
+</Grid>
+```
+
+For elements that have the same `width` and/or `offset` across all screen
+sizes you can use the shorthand syntax.
+```Javascript
+// Shorthand syntax for width and offset
+<Grid container>
+    <Grid item width={6} offset="6">Strings or integers can be used for shorthand</Grid>
 </Grid>
 ```
 
@@ -163,10 +173,23 @@ should only show up when the user is on a smaller device.
     <Grid item width={{ sm: 12 }} hide={{ xs: true, sm: false }}>
         I show up on small screens and larger
     </Grid>
-    <Grid item width={{ xs: 12 }} hide={{ sm: true }}>
+    <Grid item width={12} hide={{ sm: true }}>
         I only show up on extra small screens
     </Grid>
 </Grid>
+```
+
+## `<Hidden />`
+When you want to show/hide an item without creating new layout items
+you can use the `<Hidden />` component. It has a single prop `hide`
+which behaves the same as on the `<Grid />` component.
+
+```Javascript
+    <Grid container>
+        <Grid item width={12}>
+            <Hidden hide={{ xs: true, sm: false }}>Hide me on small screens</Hidden>
+        </Grid>
+    </Grid>
 ```
 
 ## Grid Customization
@@ -177,7 +200,7 @@ will change the number of columns used to layout `item`s.
 
 ```Javascript
 <Grid container columns={6}>
-    <Grid offset={{ xs: 1 }} width={{ xs: 4 }}>
+    <Grid offset={1} width={4}>
         I am horizontally centered and take up 2/3 of the screen
     </Grid>
 </Grid>
@@ -189,13 +212,13 @@ width or a number in which case the unit will be `em`.
 
 ```Javascript
 <Grid container gap={2}>
-    <Grid item width={{ xs: 6 }}>There are 2em between me and my sibling</Grid>
-    <Grid item width={{ xs: 6 }}>There are 2em between me and my sibling</Grid>
+    <Grid item width={6}>There are 2em between me and my sibling</Grid>
+    <Grid item width={6}>There are 2em between me and my sibling</Grid>
 </Grid>
 
 <Grid container gap={"30px"}>
-    <Grid item width={{ xs: 6 }}>There are 30px between me and my sibling</Grid>
-    <Grid item width={{ xs: 6 }}>There are 30px between me and my sibling</Grid>
+    <Grid item width={6}>There are 30px between me and my sibling</Grid>
+    <Grid item width={6}>There are 30px between me and my sibling</Grid>
 </Grid>
 ```
 

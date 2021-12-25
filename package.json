@@ -1,7 +1,8 @@
 {
-  "name": "swa-react-grid",
+  "name": "react-column-grid",
   "version": "1.0.0",
-  "description": "A simple grid layout system using React",
+  "description": "A simple grid layout system for React using CSS Grid Layout.",
+  "keywords": ["react", "css", "grid", "layout", "column"],
   "main": "build/index.js",
   "scripts": {
     "clean": "rm -rf node_modules dist",
@@ -23,14 +24,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/spitzgoby/swa-react-grid.git"
+    "url": "git+https://github.com/spitzgoby/css-column-grid.git"
   },
-  "author": "",
+  "author": "Tom Leu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/spitzgoby/swa-react-grid/issues"
+    "url": "https://github.com/spitzgoby/css-column-grid/issues"
   },
-  "homepage": "https://github.com/spitzgoby/swa-react-grid#readme",
+  "homepage": "https://github.com/spitzgoby/css-column-grid#readme",
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/node": "^7.16.0",
