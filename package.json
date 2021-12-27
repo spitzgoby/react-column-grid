@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "A simple grid layout system for React using CSS Grid Layout.",
   "keywords": ["react", "css", "grid", "layout", "column"],
-  "main": "build/index.js",
+  "main": "dist/index.js",
+  "sideEffects": ["*.s[ac]ss"],
   "scripts": {
-    "clean": "rm -rf node_modules dist",
-    "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.js",
+    "build": "webpack --config ./config/webpack.config.prod.js",
+    "clean": "rm -rf node_modules lib",
+    "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.dev.js",
     "test": "jest",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch"
   },
@@ -64,8 +66,8 @@
   "peerDependencies": {
     "classnames": "^2.3.1",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.8.6 || ^17.0.0",
+    "react-dom": "^16.8.6 || ^17.0.0",
     "react-jss": "^10.8.2"
   }
 }

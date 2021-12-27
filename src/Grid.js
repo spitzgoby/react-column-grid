@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 
-import './Grid.scss';
-
 const defaultClear = false;
 const defaultColumns = 12;
 const defaultHide = false;

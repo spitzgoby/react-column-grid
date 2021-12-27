@@ -9,7 +9,7 @@ module.exports = {
     },
     devtool: 'source-map',
     entry: {
-        main: path.resolve('src/index.js'), 
+        index: path.resolve('src/index.js'), 
         example: path.resolve('example/index.js')
     },
     mode: process.env.NODE_ENV || 'development',
