@@ -1,5 +1,5 @@
-import GridComponent from './Grid';
-import HiddenComponent from './Hidden';
+import GridComponent from "./Grid";
+import HiddenComponent from "./Hidden";
 
 export const Grid = GridComponent;
 export const Hidden = HiddenComponent;

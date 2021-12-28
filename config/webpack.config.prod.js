@@ -1,33 +1,33 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-    entry: { index: path.resolve('src/index.js') },
+    entry: { index: path.resolve("src/index.js") },
     externals: {
-        react: 'react',
-        'react-dom': 'react-dom'
+        react: "react",
+        "react-dom": "react-dom",
     },
-    mode: 'production',
+    mode: "production",
     module: {
         rules: [
             {
                 test: /\.s[ac]ss$/i,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                use: ["style-loader", "css-loader", "sass-loader"],
             },
             {
                 test: /\.(js|jsx)$/i,
                 exclude: /node_modules/,
-                use: ['babel-loader']
-            }
-        ]
+                use: ["babel-loader"],
+            },
+        ],
     },
-    resolve: { modules: [path.resolve(__dirname, 'src'), 'node_modules'] },
+    resolve: { modules: [path.resolve(__dirname, "src"), "node_modules"] },
     output: {
         clean: true,
-        filename: '[name].js',
+        filename: "[name].js",
         library: {
-            name: 'reactColumnGrid',
-            type: 'umd'
+            name: "reactColumnGrid",
+            type: "umd",
         },
-        path: path.resolve('dist')
-    }
+        path: path.resolve("dist"),
+    },
 };

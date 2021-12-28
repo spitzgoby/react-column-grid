@@ -1,25 +1,29 @@
 # Grid
 
 ## container
-__Type__: `PropTypes.bool`  
-__Default__: `false`  
-__Description__: Determines whether the grid component is a container. All grids 
+
+**Type**: `PropTypes.bool`  
+**Default**: `false`  
+**Description**: Determines whether the grid component is a container. All grids
 should have a container element at the root. The container element will have its
 `display` attribute set to `grid`.
 
-__Usage__
+**Usage**
+
 ```Javascript
 <Grid container />
 ```
 
---- 
+---
 
 ## columns
-__Type__: `PropTypes.oneOfType([PropTypes.number, PropTypes.string])`
-__Default__: `12`
-__Description__: Sets the number of columns to use when laying out the grid items.
-This value is ignored if the `container` prop is `false`. 
-__Usage__
+
+**Type**: `PropTypes.oneOfType([PropTypes.number, PropTypes.string])`
+**Default**: `12`
+**Description**: Sets the number of columns to use when laying out the grid items.
+This value is ignored if the `container` prop is `false`.
+**Usage**
+
 ```Javascript
 <Grid container columns={6}>
     <Grid item width={{ xs: 3 }} />
@@ -31,20 +35,24 @@ __Usage__
 ---
 
 ## item
-__Type__: `PropTypes.bool`  
-__Default__: `true`  
-__Description__: Determines whether the grid component is an item within a container.
+
+**Type**: `PropTypes.bool`  
+**Default**: `true`  
+**Description**: Determines whether the grid component is an item within a container.
 An item will have `grid-column` properties assigned based on the width and offset
-prop values.   
-__Usage__
+prop values.  
+**Usage**
+
 ```Javascript
 <Grid item />
 ```
 
---- 
+---
 
 ## width
-__Type__: 
+
+**Type**:
+
 ```Javascript
 PropTypes.shape({
     xs: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
@@ -54,7 +62,9 @@ PropTypes.shape({
     xl: PropTypes.oneOf([PropTypes.number, PropTypes.string])
 })
 ```
-__Default__: 
+
+**Default**:
+
 ```Javascript
 {
     xs: 12,
@@ -64,13 +74,15 @@ __Default__:
     xl: 0
 }
 ```
-__Description__: Sets the number of columns a grid item spans for a given breakpoint.
-If the value is not defined at a given break point then the value for the next 
-smallest breakpoint will be assigned. This prop is ignored if the `item` prop is 
+
+**Description**: Sets the number of columns a grid item spans for a given breakpoint.
+If the value is not defined at a given break point then the value for the next
+smallest breakpoint will be assigned. This prop is ignored if the `item` prop is
 `false`. In order to apply the same width at all breakpoints simply provide a single
 numeric value.
 
-__Usage__:
+**Usage**:
+
 ```Javascript
 // Creates a grid with a predefined width at every breakpoint
 <Grid item width={{
@@ -89,10 +101,12 @@ __Usage__:
 <Grid item width='12' />
 ```
 
---- 
+---
 
 ## offset
-__Type__:
+
+**Type**:
+
 ```Javascript
 PropTypes.shape({
     xs: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
@@ -102,7 +116,9 @@ PropTypes.shape({
     xl: PropTypes.oneOf([PropTypes.number, PropTypes.string])
 })
 ```
-__Default__: 
+
+**Default**:
+
 ```Javascript
 {
     xs: 0,
@@ -112,15 +128,17 @@ __Default__:
     xl: 0
 }
 ```
-__Description__: Sets the number of columns that the given item should be spaced from
+
+**Description**: Sets the number of columns that the given item should be spaced from
 the start of the grid at a given breakpoint. If no value is set at a given breakpoint
-then the value from the next smallest breakpoint will be used. This prop is ignored 
+then the value from the next smallest breakpoint will be used. This prop is ignored
 if the `item` prop is `false`. In order to apply the same offset at all breakpoints
 simply provide a single numeric value.
 
-__Usage__:
+**Usage**:
+
 ```Javascript
-// Creates an item that is full width on xs and sm screens, 66% width and centered 
+// Creates an item that is full width on xs and sm screens, 66% width and centered
 // on md screens, and 50% and centered on lg or xl screens.
 <Grid item  offset={{ md: 4, lg: 3 }} width={{ xs: 12, md: 8, lg: 6 }} />
 
@@ -131,7 +149,9 @@ __Usage__:
 ---
 
 ## clear
-__Type__: 
+
+**Type**:
+
 ```Javascript
 PropTypes.shape({
     xs: PropTypes.bool,
@@ -142,7 +162,8 @@ PropTypes.shape({
 })
 ```
 
-__Default__:
+**Default**:
+
 ```Javascript
 {
     xs: false,
@@ -153,32 +174,35 @@ __Default__:
 }
 ```
 
-__Description__: Determines whether a given item should take up the remaining space 
-of he row that it occupies even if its width and offset would not normally span an 
-entire row. If no value is set at a given breakpoint the value from the next 
-smallest breakpoint will be used. This value is ignored if the `item` prop is 
-`false`. 
+**Description**: Determines whether a given item should take up the remaining space
+of he row that it occupies even if its width and offset would not normally span an
+entire row. If no value is set at a given breakpoint the value from the next
+smallest breakpoint will be used. This value is ignored if the `item` prop is
+`false`.
 
-__Usage__:
+**Usage**:
+
 ```Javascript
-// Creates a grid that has 2 rows on xs and sm screens, but only a single row on md 
+// Creates a grid that has 2 rows on xs and sm screens, but only a single row on md
 // and larger screens.
 <Grid container>
-    <Grid item 
-        clear={{ xs: true, md: false }} 
-        width={{ xs: 6, md: 3 }} 
+    <Grid item
+        clear={{ xs: true, md: false }}
+        width={{ xs: 6, md: 3 }}
         offset={{ xs: 3 }} />
-    <Grid item 
-        clear={{ xs: true, md: false }} 
-        width={{ xs: 6, md: 3 }} 
+    <Grid item
+        clear={{ xs: true, md: false }}
+        width={{ xs: 6, md: 3 }}
         offset={{ xs: 3 }} />
 </Grid>
 ```
 
---- 
+---
 
 ## hide
-__Type__:
+
+**Type**:
+
 ```Javascript
 PropTypes.shape({
     xs: PropTypes.bool,
@@ -188,7 +212,9 @@ PropTypes.shape({
     xl: PropTypes.bool
 })
 ```
-__Default__:
+
+**Default**:
+
 ```Javascript
 {
     xs: false,
@@ -198,12 +224,14 @@ __Default__:
     xl: false
 }
 ```
-__Description__: Allows grid items or containers to be hidden at specific breakpoints.
+
+**Description**: Allows grid items or containers to be hidden at specific breakpoints.
 If a value is provided at a given breakpoint then it will be applied to all breakpoints
-that size or larger until a `false` value is explicitly declared. This item will be 
+that size or larger until a `false` value is explicitly declared. This item will be
 given the `display: none` attribute.
 
-__Usage__:
+**Usage**:
+
 ```Javascript
 // Creates an item that only appears at the md break point.
 <Grid item hide={{ xs: true, md: false, lg: true }}></Grid>
@@ -212,18 +240,19 @@ __Usage__:
 <Grid item hide={{ md: true }}></Grid>
 ```
 
-
 ---
 
 ## gap
-__Type__: `PropTypes.oneOf([PropTypes.string, PropTypes.number])`  
-__Default__: `'1em'`
-__Description__: Determines the size of the grap between grid columns. The default
-unit is `em`, but a string can be provided with an arbitrary unit. The component 
-does not validate the string and will happily apply any arbitrary value as the gap.
-This value is ignored if the component is not a `container`. 
 
-__Usage__:
+**Type**: `PropTypes.oneOf([PropTypes.string, PropTypes.number])`  
+**Default**: `'1em'`
+**Description**: Determines the size of the grap between grid columns. The default
+unit is `em`, but a string can be provided with an arbitrary unit. The component
+does not validate the string and will happily apply any arbitrary value as the gap.
+This value is ignored if the component is not a `container`.
+
+**Usage**:
+
 ```Javascript
 // Sets the grid-gap to 20px for the container
 <Grid container gap="20px"></Grid>

@@ -1,4 +1,4 @@
-@import './fonts.scss';
+@import "./fonts.scss";
 
 .source-code-block {
     background-color: #eee;
@@ -7,7 +7,7 @@
 
     &--show-button {
         border: none;
-        color: #4EABBF;
+        color: #4eabbf;
         cursor: pointer;
         font-family: $title-font-family;
         font-size: clamp(0.85em, calc(0.5em + 1vw), 1em);
@@ -21,6 +21,6 @@
     &--code {
         background-color: transparent;
         display: block;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
     }
 }

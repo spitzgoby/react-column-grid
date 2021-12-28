@@ -1,7 +1,9 @@
 # Hidden
 
 ## hide
-__Type__: 
+
+**Type**:
+
 ```Javascript
 PropTypes.shape({
     xs: PropTypes.bool,
@@ -11,7 +13,9 @@ PropTypes.shape({
     xl: PropTypes.bool
 })
 ```
-__Default__:
+
+**Default**:
+
 ```Javascript
 {
     xs: false,
@@ -21,11 +25,13 @@ __Default__:
     xl: false
 }
 ```
-__Description__: Determines whether the children will be hidden at a given 
-breakpoint. If no value is set for a breakpoint then the value from the 
-next smallest breakpoint will be used. 
 
-__Usage__:
+**Description**: Determines whether the children will be hidden at a given
+breakpoint. If no value is set for a breakpoint then the value from the
+next smallest breakpoint will be used.
+
+**Usage**:
+
 ```Javascript
 // Hides the text when the user's device is xs and shows it for all
 // other breakpoints.

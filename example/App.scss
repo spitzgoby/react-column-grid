@@ -1,7 +1,12 @@
-@import './fonts.scss';
+@import "./fonts.scss";
 
 .app {
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         font-family: $title-font-family;
     }
 
@@ -27,9 +32,9 @@
 
     &--box {
         align-items: center;
-        background-color: #4EABBF;
+        background-color: #4eabbf;
         border-radius: 0.5em;
-        box-shadow: 1px 1px 3px #999; 
+        box-shadow: 1px 1px 3px #999;
         color: white;
         display: flex;
         font-family: $title-font-family;
