@@ -122,6 +122,20 @@ describe("<Grid />", () => {
             expect(renderGrid).not.toThrow();
         });
 
+        it("should not update props of children that are not grid items", () => {
+            const NonGrid = (props) => (<div>{props}</div>);
+            const grid = shallow(
+                <Grid container>
+                    <NonGrid width={4}></NonGrid>
+                    <NonGrid width={4}></NonGrid>
+                </Grid>
+            );
+
+            grid.find(NonGrid).forEach(nonGrid => {
+                expect(nonGrid.prop('offset')).toBe(undefined);
+            })
+        });
+
         it("should increase the offset of child grid items in each size class", () => {
             const grid = shallow(
                 <Grid container>

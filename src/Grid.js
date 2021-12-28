@@ -120,7 +120,7 @@ const Grid = ({
         return childrenToRender.map((child, index) => {
             let renderedChild = child;
 
-            if (child?.type?.name === "Grid" && child?.props?.item) {
+            if (child?.type?.name === Grid.name && child?.props?.item) {
                 const renderedChildOffset = sizes.reduce((acc, size) => {
                     const completedClear = addMissingSizes(
                         "clear",
