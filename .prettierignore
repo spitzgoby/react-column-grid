@@ -1,3 +1,7 @@
-node_modules/
+# files
 .DS_Store
+react-column-grid-*.tgz
+
+# directories
+node_modules/
 dist/
