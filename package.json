@@ -10,6 +10,12 @@
         "column"
     ],
     "main": "dist/index.js",
+    "files": [
+        "dist",
+        "LICENSE",
+        "package.json",
+        "README.md"
+    ],
     "sideEffects": [
         "*.s[ac]ss"
     ],
