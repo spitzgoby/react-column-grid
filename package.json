@@ -24,7 +24,8 @@
         "clean": "rm -rf node_modules lib",
         "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.dev.js",
         "test": "jest",
-        "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch"
+        "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
+        "prepare": "husky install"
     },
     "jest": {
         "moduleNameMapper": {
@@ -63,11 +64,14 @@
         "enzyme-to-json": "^3.6.2",
         "eslint": "^8.5.0",
         "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-jest": "^25.3.2",
         "eslint-plugin-react": "^7.28.0",
         "html-webpack-plugin": "^5.5.0",
+        "husky": ">=6",
         "jest": "^27.3.1",
         "jsdom": "^18.0.1",
         "jsdom-global": "^3.0.2",
+        "lint-staged": ">=10",
         "prettier": "^2.5.1",
         "prop-types": "^15.7.2",
         "react": "^16.8.6",
@@ -87,5 +91,9 @@
         "react": "^16.8.6 || ^17.0.0",
         "react-dom": "^16.8.6 || ^17.0.0",
         "react-jss": "^10.8.2"
+    },
+    "lint-staged": {
+        "*.js": "eslint --cache --fix",
+        "*.{js,css,md}": "prettier --write"
     }
 }

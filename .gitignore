@@ -1,6 +1,7 @@
 # files
 .DS_Store
 react-column-grid-*.tgz
+.eslintcache
 
 # directories
 node_modules/

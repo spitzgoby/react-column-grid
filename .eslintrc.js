@@ -13,5 +13,5 @@ module.exports = {
         ecmaVersion: 13,
         sourceType: "module",
     },
-    plugins: ["react"],
+    plugins: ["jest", "react"],
 };

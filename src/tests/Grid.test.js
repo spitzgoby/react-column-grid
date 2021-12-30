@@ -123,7 +123,7 @@ describe("<Grid />", () => {
         });
 
         it("should not update props of children that are not grid items", () => {
-            const NonGrid = (props) => (<div>{props}</div>);
+            const NonGrid = (props) => <div>{props}</div>;
             const grid = shallow(
                 <Grid container>
                     <NonGrid width={4}></NonGrid>
@@ -131,9 +131,9 @@ describe("<Grid />", () => {
                 </Grid>
             );
 
-            grid.find(NonGrid).forEach(nonGrid => {
-                expect(nonGrid.prop('offset')).toBe(undefined);
-            })
+            grid.find(NonGrid).forEach((nonGrid) => {
+                expect(nonGrid.prop("offset")).toBe(undefined);
+            });
         });
 
         it("should increase the offset of child grid items in each size class", () => {
