@@ -1,6 +1,6 @@
 {
     "name": "react-column-grid",
-    "version": "1.0.0",
+    "version": "0.0.0",
     "description": "A simple grid layout system for React using CSS Grid Layout.",
     "keywords": [
         "react",
