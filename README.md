@@ -1,3 +1,5 @@
+# react-column-grid
+
 A simple, lightweight and terse grid based layout system for React
 applications. It allows you to quickly generate responsive layouts
 for a great looking application on any screen size.

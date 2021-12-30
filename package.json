@@ -41,14 +41,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/spitzgoby/css-column-grid.git"
+        "url": "git+https://github.com/spitzgoby/react-column-grid.git"
     },
     "author": "Tom Leu",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/spitzgoby/css-column-grid/issues"
+        "url": "https://github.com/spitzgoby/react-column-grid/issues"
     },
-    "homepage": "https://github.com/spitzgoby/css-column-grid#readme",
+    "homepage": "https://github.com/spitzgoby/react-column-grid#readme",
     "devDependencies": {
         "@babel/core": "^7.16.0",
         "@babel/node": "^7.16.0",
