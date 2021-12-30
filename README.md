@@ -38,6 +38,19 @@ OR
 const Grid = require('react-column-grid');
 ```
 
+### Example App
+There is an example app included in this repo. To run it first clone the repo
+and then run
+```bash
+npm install # installs dependencies
+npm start # runs the application
+
+# OR 
+
+yarn # installs dependencies
+yarn start # runs the application
+```
+
 ---
 
 ## Getting Started
