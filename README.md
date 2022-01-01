@@ -216,9 +216,20 @@ which behaves the same as on the `<Grid />` component.
 ```Javascript
     <Grid container>
         <Grid item width={12}>
-            <Hidden hide={{ xs: true, sm: false }}>Hide me on small screens</Hidden>
+            <Hidden hide={{ xs: true, sm: false }}>Hide me on extra small screens</Hidden>
         </Grid>
     </Grid>
+```
+
+There is also a shorthand syntax for hiding elements. By passing the desired
+screen size as a prop you can hide only elements at that breakpoint. Unlike
+the `hide` prop where the next smallest screen size value is used by larger
+screen sizes, this prop only targets the specific screen size passed.
+
+```Javascript
+    <Hidden xs xl>
+        <span>Hide me on extra small and extra large screens</span>
+    </Hidden>
 ```
 
 ## Grid Customization

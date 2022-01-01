@@ -49,15 +49,15 @@ export default [
         sourceCode:
             "<Grid container>\n" +
             "   <Grid item width={6}>\n" +
-            "       <Hidden hide={{ xs: false, sm: true }}>\n" +
+            "       <Hidden hide={{ sm: true }}>\n" +
             "           <img />\n" +
             "       </Hidden>\n" +
-            "       <Hidden hide={{ xs: true, sm: false }}>\n" +
+            "       <Hidden xs>\n" +
             "            <a>Home</a>\n" +
             "       </Hidden>\n" +
             "   </Grid>\n" +
             "   <Grid item width={6}>\n" +
-            "       <Hidden hide={{ xs: false, md: true }}>\n" +
+            "       <Hidden hide={{ md: true }}>\n" +
             "           <img />\n" +
             "       </Hidden>\n" +
             "       <Hidden hide={{ xs: true, md: false }}>\n" +

@@ -6,14 +6,15 @@ import styles from "./Hidden.styles";
 
 const defaultHide = false;
 
-const Hidden = ({ children, hide }) => {
+const Hidden = ({ children, hide, xs, sm, md, lg, xl }) => {
     const useShorthandSyntax = () => false;
-    const adjustedHide = addMissingSizes(
-        "hide",
-        hide,
-        defaultHide,
-        useShorthandSyntax
-    );
+
+    const buildHideUsingShorthandSizes = () => ({ xs, sm, md, lg, xl });
+    const hasShorthandSizes = xs || sm || md || lg || xl;
+    const adjustedHide =
+        hide || !hasShorthandSizes
+            ? addMissingSizes("hide", hide, defaultHide, useShorthandSyntax)
+            : buildHideUsingShorthandSizes();
     const useStyles = createUseStyles(styles);
     const { hidden: hiddenClass } = useStyles({ hide: adjustedHide });
 
@@ -29,6 +30,11 @@ Hidden.propTypes = {
         lg: PropTypes.bool,
         xl: PropTypes.bool,
     }),
+    xs: PropTypes.bool,
+    sm: PropTypes.bool,
+    md: PropTypes.bool,
+    lg: PropTypes.bool,
+    xl: PropTypes.bool,
 };
 
 export default Hidden;

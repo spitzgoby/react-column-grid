@@ -134,13 +134,13 @@ export const App = () => {
                                 width={12}
                             >
                                 <Grid item className="app--home-nav" width={6}>
-                                    <Hidden hide={{ xs: false, sm: true }}>
+                                    <Hidden hide={{ sm: true }}>
                                         <img
                                             className="app--nav-button_logo"
                                             src={Home}
                                         />
                                     </Hidden>
-                                    <Hidden hide={{ xs: true, sm: false }}>
+                                    <Hidden xs>
                                         <a
                                             className="app--nav-button_text"
                                             href="#"
@@ -154,7 +154,7 @@ export const App = () => {
                                     className="app--articles-nav"
                                     width={6}
                                 >
-                                    <Hidden hide={{ xs: false, md: true }}>
+                                    <Hidden hide={{ md: true }}>
                                         <img
                                             className="app--nav-button_logo"
                                             src={List}
@@ -164,7 +164,7 @@ export const App = () => {
                                         <ul className="app--articles-nav--list">
                                             <li>User</li>
                                             <li>Settings</li>
-                                            <li>Log Out</li>
+                                            <li>Logout</li>
                                         </ul>
                                     </Hidden>
                                 </Grid>
