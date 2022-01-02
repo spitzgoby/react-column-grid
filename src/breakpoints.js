@@ -1,4 +1,37 @@
-export const breakpoints = [
+const validateWidths = (widths) => {
+    if (widths.length !== 4) {
+        throw new Error();
+    }
+
+    widths.forEach((width, index) => {
+        const parsedWidth = parseFloat(width);
+
+        if (
+            isNaN(parsedWidth) ||
+            (index > 0 && parsedWidth <= parseFloat(widths[index - 1]))
+        ) {
+            throw new Error();
+        }
+    });
+};
+export const sizes = ["xs", "sm", "md", "lg", "xl"];
+export const createBreakpoints = (widths) =>
+    sizes.map((size, index) => {
+        validateWidths(widths);
+        let newBreakpoint = { size };
+
+        if (index > 0) {
+            newBreakpoint.minWidth = parseFloat(widths[index - 1]) + "px";
+        }
+
+        if (index < widths.length) {
+            newBreakpoint.maxWidth = parseFloat(widths[index]) - 1 + "px";
+        }
+
+        return newBreakpoint;
+    });
+
+export const defaultBreakpoints = [
     {
         size: "xs",
         maxWidth: "599px",
@@ -23,7 +56,6 @@ export const breakpoints = [
         minWidth: "1536px",
     },
 ];
-export const sizes = breakpoints.map((breakpoint) => breakpoint.size);
 
 export const addMissingSizes = (propName, prop = {}, defaultValue, shorthand) =>
     sizes.reduce((acc, size, index) => {

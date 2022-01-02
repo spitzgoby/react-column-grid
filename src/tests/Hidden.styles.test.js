@@ -1,7 +1,7 @@
-import { breakpoints, createScreenMediaQuery } from "../breakpoints";
+import { createScreenMediaQuery, defaultBreakpoints } from "../breakpoints";
 import styles from "../Hidden.styles";
 
-const xsMediaQuery = createScreenMediaQuery(breakpoints[0]);
+const xsMediaQuery = createScreenMediaQuery(defaultBreakpoints[0]);
 
 describe("Hidden styles", () => {
     describe("[display]", () => {

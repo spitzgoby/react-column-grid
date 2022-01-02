@@ -1,4 +1,4 @@
-import { breakpoints, createScreenMediaQuery } from "./breakpoints";
+import { createScreenMediaQuery, defaultBreakpoints } from "./breakpoints";
 
 const DEFAULT_GAP = "1em";
 const DEFAULT_NUM_COLS = 12;
@@ -25,7 +25,7 @@ const getGridColumn = ({ width, offset }, size) => {
         : null;
 };
 
-export default breakpoints.reduce(
+export default defaultBreakpoints.reduce(
     (styles, breakpoint) => ({
         ...styles,
         [createScreenMediaQuery(breakpoint)]: {

@@ -1,7 +1,7 @@
-import { breakpoints, createScreenMediaQuery } from "../breakpoints";
+import { createScreenMediaQuery, defaultBreakpoints } from "../breakpoints";
 import styles from "../Grid.styles";
 
-const xsMediaQuery = createScreenMediaQuery(breakpoints[0]);
+const xsMediaQuery = createScreenMediaQuery(defaultBreakpoints[0]);
 
 describe("Grid styles", () => {
     describe(".grid", () => {
@@ -141,13 +141,13 @@ describe("Grid styles", () => {
             expect(
                 styles["@media screen and (max-width: 599px)"].grid.display(
                     mockProps,
-                    breakpoints[0]
+                    defaultBreakpoints[0]
                 )
             ).toEqual("none");
             expect(
                 styles[
                     "@media screen and (min-width: 600px) and (max-width: 899px)"
-                ].grid.display(mockProps, breakpoints[0])
+                ].grid.display(mockProps, defaultBreakpoints[0])
             ).toEqual(null);
         });
     });

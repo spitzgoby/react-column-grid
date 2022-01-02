@@ -1,8 +1,8 @@
-import { breakpoints, createScreenMediaQuery } from "./breakpoints";
+import { createScreenMediaQuery, defaultBreakpoints } from "./breakpoints";
 
 const getDisplay = (props, size) => (props.hide?.[size] ? "none" : null);
 
-export default breakpoints.reduce(
+export default defaultBreakpoints.reduce(
     (styles, breakpoint) => ({
         ...styles,
         [createScreenMediaQuery(breakpoint)]: {
