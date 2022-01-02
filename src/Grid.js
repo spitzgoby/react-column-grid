@@ -1,5 +1,6 @@
 import { addMissingSizes, sizes } from "./breakpoints";
 import classNames from "classnames";
+import { getAdjustedLayoutProps } from "./Grid.layout";
 import styles from "./Grid.styles";
 import PropTypes from "prop-types";
 import React from "react";
@@ -63,12 +64,6 @@ const Grid = ({
         width: adjustedWidth,
     });
 
-    const areValidColumns = (colWidth, colOffset) =>
-        !isNaN(parseInt(colWidth, 10)) &&
-        !isNaN(parseInt(colOffset, 10)) &&
-        colWidth > 0 &&
-        colOffset + colWidth <= adjustedColumns;
-
     const getClass = () => {
         return classNames(
             {
@@ -80,35 +75,6 @@ const Grid = ({
             gridClass,
             className
         );
-    };
-
-    const getAdjustedLayoutProps = (
-        size,
-        offset,
-        width,
-        hide,
-        clear,
-        columns
-    ) => {
-        const sizeHide = hide?.[size];
-        const sizeOffset = parseInt(offset?.[size], 10) || 0;
-        const sizeWidth = parseInt(width?.[size], 10);
-        const suggestedOffset = columns[size] + sizeOffset;
-        let adjustedColumn = columns[size];
-        let adjustedOffset = sizeHide ? 0 : sizeOffset;
-
-        if (areValidColumns(sizeWidth, suggestedOffset) && !sizeHide) {
-            adjustedOffset = suggestedOffset;
-            adjustedColumn = !clear[size] ? suggestedOffset + sizeWidth : 0;
-        } else if (areValidColumns(sizeWidth, sizeOffset) && !sizeHide) {
-            adjustedOffset = sizeOffset;
-            adjustedColumn = !clear[size] ? sizeOffset + sizeWidth : 0;
-        }
-
-        return {
-            adjustedOffset,
-            adjustedColumn,
-        };
     };
 
     const renderChildren = () => {
@@ -153,7 +119,8 @@ const Grid = ({
                             completedWidth,
                             completedHide,
                             completedClear,
-                            currentColumns
+                            currentColumns,
+                            adjustedColumns
                         );
 
                     currentColumns[size] = adjustedColumn;
