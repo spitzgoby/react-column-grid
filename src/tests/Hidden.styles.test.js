@@ -1,7 +1,8 @@
-import { createScreenMediaQuery, defaultBreakpoints } from "../breakpoints";
+import { createScreenMediaQuery, DEFAULT_BREAKPOINTS } from "../breakpoints";
 import styles from "../Hidden.styles";
 
-const xsMediaQuery = createScreenMediaQuery(defaultBreakpoints[0]);
+const defaultStyles = styles(DEFAULT_BREAKPOINTS);
+const xsMediaQuery = createScreenMediaQuery(DEFAULT_BREAKPOINTS[0]);
 
 describe("Hidden styles", () => {
     describe("[display]", () => {
@@ -10,9 +11,9 @@ describe("Hidden styles", () => {
                 hide: { xs: false },
             };
 
-            expect(styles[xsMediaQuery].hidden.display(mockHiddenProps)).toBe(
-                null
-            );
+            expect(
+                defaultStyles[xsMediaQuery].hidden.display(mockHiddenProps)
+            ).toBe(null);
         });
 
         it("should not provide a [display] value of none if the item is hidden", () => {
@@ -20,9 +21,9 @@ describe("Hidden styles", () => {
                 hide: { xs: true },
             };
 
-            expect(styles[xsMediaQuery].hidden.display(mockHiddenProps)).toBe(
-                "none"
-            );
+            expect(
+                defaultStyles[xsMediaQuery].hidden.display(mockHiddenProps)
+            ).toBe("none");
         });
     });
 
@@ -32,7 +33,7 @@ describe("Hidden styles", () => {
         };
 
         it("should create media queries at every breakpoint", () => {
-            expect(styles).toEqual(
+            expect(defaultStyles).toEqual(
                 expect.objectContaining({
                     "@media screen and (max-width: 599px)": expectHidden,
                     "@media screen and (min-width: 600px) and (max-width: 899px)":

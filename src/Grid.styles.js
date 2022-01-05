@@ -1,6 +1,6 @@
-import { createScreenMediaQuery, defaultBreakpoints } from "./breakpoints";
+import { createScreenMediaQuery } from "./breakpoints";
+import { DEFAULT_GAP } from "./gap";
 
-const DEFAULT_GAP = "1em";
 const DEFAULT_NUM_COLS = 12;
 
 const getGap = ({ gap }) =>
@@ -25,27 +25,29 @@ const getGridColumn = ({ width, offset }, size) => {
         : null;
 };
 
-export default defaultBreakpoints.reduce(
-    (styles, breakpoint) => ({
-        ...styles,
-        [createScreenMediaQuery(breakpoint)]: {
+export default (breakpoints) =>
+    breakpoints.reduce(
+        (styles, breakpoint) => ({
+            ...styles,
+            [createScreenMediaQuery(breakpoint)]: {
+                container: {
+                    gap: getGap,
+                },
+                grid: {
+                    display: (props) => getDisplay(props, breakpoint.size),
+                },
+                item: {
+                    gridColumn: (props) =>
+                        getGridColumn(props, breakpoint.size),
+                },
+            },
+        }),
+        {
             container: {
                 gap: getGap,
+                gridTemplateColumns: getGridTemplateColumns,
             },
-            grid: {
-                display: (props) => getDisplay(props, breakpoint.size),
-            },
-            item: {
-                gridColumn: (props) => getGridColumn(props, breakpoint.size),
-            },
-        },
-    }),
-    {
-        container: {
-            gap: getGap,
-            gridTemplateColumns: getGridTemplateColumns,
-        },
-        grid: {},
-        item: {},
-    }
-);
+            grid: {},
+            item: {},
+        }
+    );

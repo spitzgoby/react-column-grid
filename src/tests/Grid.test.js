@@ -1,9 +1,12 @@
 const mockUseStyles = jest.fn();
+const mockStyles = jest.fn();
 jest.mock("react-jss", () => ({ createUseStyles: () => mockUseStyles }));
 
+import { createBreakpoints } from "../breakpoints";
 import { shallow } from "enzyme";
 import Grid from "../Grid";
 import React from "react";
+import ThemeContext from "../ThemeContext";
 
 describe("<Grid />", () => {
     beforeEach(() => {
@@ -12,6 +15,7 @@ describe("<Grid />", () => {
 
     afterEach(() => {
         mockUseStyles.mockReset();
+        mockStyles.mockReset();
     });
 
     describe("when styling component", () => {
@@ -330,6 +334,85 @@ describe("<Grid />", () => {
                     });
                 })
             );
+        });
+
+        describe("when using custom breakpoints", () => {
+            it("should wrap its root element in a theme context provider", () => {
+                const props = {
+                    breakpoints: [100, 200, 300, 400],
+                    container: true,
+                };
+                const grid = shallow(<Grid {...props} />);
+
+                expect(grid.find(ThemeContext.Provider).length).toBe(1);
+            });
+
+            it("should not consider breakpoints if it is not a container", () => {
+                const props = { breakpoints: [100, 200, 300, 400] };
+                const grid = shallow(<Grid {...props} />);
+
+                expect(grid.find(ThemeContext.Provider).length).toBe(0);
+            });
+
+            it("should not consider breakpoints if they are not provided", () => {
+                const props = { container: true };
+                const grid = shallow(<Grid {...props} />);
+
+                expect(grid.find(ThemeContext.Provider).length).toBe(0);
+            });
+
+            it("should not consider breakpoints if they are invalid", () => {
+                const props = {
+                    breakpoints: ["abc", 200, 300, 400],
+                    container: true,
+                };
+                const grid = shallow(<Grid {...props} />);
+
+                expect(grid.find(ThemeContext.Provider).length).toBe(0);
+            });
+
+            it("should update breakpoints state if they have changed", () => {
+                const startingBreakpoints = [100, 200, 300, 400];
+                const changedBreakpoints = [200, 300, 400, 500];
+                const grid = shallow(
+                    <Grid container breakpoints={startingBreakpoints} />
+                );
+                const setBreakpointsSpy = jest.fn();
+                const useStateSpy = jest
+                    .spyOn(React, "useState")
+                    .mockImplementation(() => [
+                        createBreakpoints(startingBreakpoints),
+                        setBreakpointsSpy,
+                    ]);
+
+                grid.setProps({ breakpoints: changedBreakpoints });
+
+                expect(setBreakpointsSpy).toHaveBeenCalledWith(
+                    createBreakpoints(changedBreakpoints)
+                );
+
+                useStateSpy.mockRestore();
+            });
+
+            it("should not update breakpoints state if it the values are equivalent", () => {
+                const startingBreakpoints = [100, 200, 300, 400];
+                const grid = shallow(
+                    <Grid container breakpoints={startingBreakpoints} />
+                );
+                const setBreakpointsSpy = jest.fn();
+                const useStateSpy = jest
+                    .spyOn(React, "useState")
+                    .mockImplementation(() => [
+                        createBreakpoints(startingBreakpoints),
+                        setBreakpointsSpy,
+                    ]);
+
+                grid.setProps({ breakpoints: startingBreakpoints });
+
+                expect(setBreakpointsSpy).not.toHaveBeenCalled();
+
+                useStateSpy.mockRestore();
+            });
         });
     });
 });

@@ -1,21 +1,23 @@
 import { addMissingSizes } from "./breakpoints";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useContext } from "react";
 import { createUseStyles } from "react-jss";
 import styles from "./Hidden.styles";
+import { ThemeContext } from "./ThemeContext";
 
 const defaultHide = false;
 
-const Hidden = ({ children, hide, xs, sm, md, lg, xl }) => {
-    const useShorthandSyntax = () => false;
+const useShorthandSyntax = () => false;
 
+const Hidden = ({ children, hide, xs, sm, md, lg, xl }) => {
+    const { breakpoints } = useContext(ThemeContext);
     const buildHideUsingShorthandSizes = () => ({ xs, sm, md, lg, xl });
     const hasShorthandSizes = xs || sm || md || lg || xl;
     const adjustedHide =
         hide || !hasShorthandSizes
             ? addMissingSizes("hide", hide, defaultHide, useShorthandSyntax)
             : buildHideUsingShorthandSizes();
-    const useStyles = createUseStyles(styles);
+    const useStyles = createUseStyles(styles(breakpoints));
     const { hidden: hiddenClass } = useStyles({ hide: adjustedHide });
 
     return <span className={hiddenClass}>{children}</span>;

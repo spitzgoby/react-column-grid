@@ -1,9 +1,9 @@
 export default [
     {
         description: `
-        Three evenly spaced columns across all screen sizes. It is only 
-        necessary to define the extra small width because it will be
-        inherited by the larger sizes.`,
+            Three evenly spaced columns across all screen sizes. It is only 
+            necessary to define the extra small width because it will be
+            inherited by the larger sizes.`,
         sourceCode:
             "<Grid container>\n" +
             "    <Grid item width={4}>Box 1</Grid>\n" +
@@ -14,9 +14,9 @@ export default [
     },
     {
         description: `
-        6 cells in progressively fewer columns as the screen size narrows.
-        This ensures that there is ample space to interact with the component 
-        on smaller devices.`,
+            6 cells in progressively fewer columns as the screen size narrows.
+            This ensures that there is ample space to interact with the component 
+            on smaller devices.`,
         sourceCode:
             "<Grid container>\n" +
             "    <Grid item width={{ xs: 12, sm: 6, lg: 4 }}>Box 1</Grid>\n" +
@@ -30,10 +30,10 @@ export default [
     },
     {
         description: `
-        A centered item with progressively less surrounding whitespace as
-        the screen narrows. It's uneccesary to define the extra small 
-        or extra large offsets as they default to 0 and the large value, 
-        respectively. `,
+            A centered item with progressively less surrounding whitespace as
+            the screen narrows. It's uneccesary to define the extra small 
+            or extra large offsets as they default to 0 and the large value, 
+            respectively. `,
         sourceCode:
             "<Grid container>\n" +
             "    <Grid item \n" +
@@ -45,9 +45,12 @@ export default [
     },
     {
         description: `
-        A responsive header that shows and hides items at various screen sizes.`,
+            A responsive header that shows and hides items at various screen 
+            sizes while using custom breakpoints. Try resizing the screen to
+            550, 800, 1050, and 1300 pixels to see various elements appear 
+            and disappear.`,
         sourceCode:
-            "<Grid container>\n" +
+            "<Grid breakpoints={[550, 800, 1050, 1300]} container>\n" +
             "   <Grid item width={6}>\n" +
             "       <Hidden hide={{ sm: true }}>\n" +
             "           <img />\n" +

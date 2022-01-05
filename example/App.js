@@ -128,6 +128,7 @@ export const App = () => {
                         </Grid>
                         <Grid container item width={12}>
                             <Grid
+                                breakpoints={[550, 800, 1050, 1300]}
                                 container
                                 item
                                 className="app--box"

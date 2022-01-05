@@ -1,10 +1,17 @@
-import { addMissingSizes, sizes } from "./breakpoints";
+import {
+    addMissingSizes,
+    areBreakpointsEquivalent,
+    areValidWidths,
+    createBreakpoints,
+    sizes,
+} from "./breakpoints";
 import classNames from "classnames";
 import { getAdjustedLayoutProps } from "./Grid.layout";
 import styles from "./Grid.styles";
 import PropTypes from "prop-types";
 import React from "react";
 import { createUseStyles } from "react-jss";
+import ThemeContext from "./ThemeContext";
 
 const defaultClear = false;
 const defaultColumns = 12;
@@ -13,7 +20,12 @@ const defaultOffset = 0;
 const defaultWidth = 12;
 const shortHandProps = ["offset", "width"];
 
+const isInteger = (value) => !isNaN(parseInt(value, 10));
+const useShorthandSyntax = (propName, prop) =>
+    shortHandProps.includes(propName) && isInteger(prop);
+
 const Grid = ({
+    breakpoints: propBreakpoints,
     children,
     columns,
     className,
@@ -24,11 +36,27 @@ const Grid = ({
     offset = {},
     width = { xs: 12 },
 }) => {
-    const isInteger = (value) => !isNaN(parseInt(value, 10));
+    // Determine breakpoints and update state
+    // State is used to ensure that the context provider does not trigger
+    // unnecessary renders
+    const { breakpoints } = React.useContext(ThemeContext);
+    const shouldUsePropBreakpoints =
+        container && propBreakpoints && areValidWidths(propBreakpoints);
+    const calculatedBreakpoints = shouldUsePropBreakpoints
+        ? createBreakpoints(propBreakpoints)
+        : breakpoints;
+    const [adjustedBreakpoints, setAdjustedBreakpoints] = React.useState(
+        calculatedBreakpoints
+    );
 
-    const useShorthandSyntax = (propName, prop) =>
-        shortHandProps.includes(propName) && isInteger(prop);
+    if (
+        shouldUsePropBreakpoints &&
+        !areBreakpointsEquivalent(calculatedBreakpoints, adjustedBreakpoints)
+    ) {
+        setAdjustedBreakpoints(calculatedBreakpoints);
+    }
 
+    // Fill out incomplete layout props
     const adjustedColumns = isInteger(columns)
         ? parseInt(columns, 10)
         : defaultColumns;
@@ -50,7 +78,7 @@ const Grid = ({
         defaultWidth,
         useShorthandSyntax
     );
-    const useStyles = createUseStyles(styles);
+    const useStyles = createUseStyles(styles(adjustedBreakpoints));
     const {
         container: containerClass,
         grid: gridClass,
@@ -141,14 +169,25 @@ const Grid = ({
         });
     };
 
-    return (
+    const renderWithThemeProvider = () => (
+        <ThemeContext.Provider value={{ breakpoints: adjustedBreakpoints }}>
+            {renderGrid()}
+        </ThemeContext.Provider>
+    );
+
+    const renderGrid = () => (
         <div className={getClass()}>
             {container ? renderChildren() : children}
         </div>
     );
+
+    return shouldUsePropBreakpoints ? renderWithThemeProvider() : renderGrid();
 };
 
 Grid.propTypes = {
+    breakpoints: PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    ),
     children: PropTypes.node,
     clear: PropTypes.shape({
         xs: PropTypes.bool,

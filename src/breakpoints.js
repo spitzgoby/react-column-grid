@@ -1,37 +1,19 @@
-const validateWidths = (widths) => {
-    if (widths.length !== 4) {
-        throw new Error();
-    }
+export const areValidWidths = (widths = []) => {
+    return (
+        widths.length === 4 &&
+        widths.reduce((valid, width, index) => {
+            const parsedWidth = parseFloat(width);
 
-    widths.forEach((width, index) => {
-        const parsedWidth = parseFloat(width);
-
-        if (
-            isNaN(parsedWidth) ||
-            (index > 0 && parsedWidth <= parseFloat(widths[index - 1]))
-        ) {
-            throw new Error();
-        }
-    });
+            return (
+                valid &&
+                parsedWidth > 0 &&
+                (index === 0 || parsedWidth > parseFloat(widths[index - 1]))
+            );
+        })
+    );
 };
 export const sizes = ["xs", "sm", "md", "lg", "xl"];
-export const createBreakpoints = (widths) =>
-    sizes.map((size, index) => {
-        validateWidths(widths);
-        let newBreakpoint = { size };
-
-        if (index > 0) {
-            newBreakpoint.minWidth = parseFloat(widths[index - 1]) + "px";
-        }
-
-        if (index < widths.length) {
-            newBreakpoint.maxWidth = parseFloat(widths[index]) - 1 + "px";
-        }
-
-        return newBreakpoint;
-    });
-
-export const defaultBreakpoints = [
+export const DEFAULT_BREAKPOINTS = [
     {
         size: "xs",
         maxWidth: "599px",
@@ -56,6 +38,45 @@ export const defaultBreakpoints = [
         minWidth: "1536px",
     },
 ];
+export const createBreakpoints = (widths) => {
+    return areValidWidths(widths)
+        ? sizes.map((size, index) => {
+              let newBreakpoint = { size };
+
+              if (index > 0) {
+                  newBreakpoint.minWidth = parseFloat(widths[index - 1]) + "px";
+              }
+
+              if (index < widths.length) {
+                  newBreakpoint.maxWidth = parseFloat(widths[index]) - 1 + "px";
+              }
+
+              return newBreakpoint;
+          })
+        : DEFAULT_BREAKPOINTS;
+};
+export const areBreakpointsEquivalent = (
+    breakpoints1 = [],
+    breakpoints2 = []
+) => {
+    return (
+        breakpoints1?.length === breakpoints2?.length &&
+        breakpoints1.reduce((currentlyEquivalent, breakpoint1, index) => {
+            let equivalent = false;
+
+            if (currentlyEquivalent) {
+                const breakpoint2 = breakpoints2[index];
+
+                equivalent =
+                    breakpoint1.size === breakpoint2.size &&
+                    breakpoint1.minWidth === breakpoint2.minWidth &&
+                    breakpoint1.maxWidth === breakpoint2.maxWidth;
+            }
+
+            return equivalent;
+        }, true)
+    );
+};
 
 export const addMissingSizes = (propName, prop = {}, defaultValue, shorthand) =>
     sizes.reduce((acc, size, index) => {
