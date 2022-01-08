@@ -120,8 +120,16 @@ of `md` for both `lg` and `xl` since it is the closest smaller size defined.
 </Grid>
 ```
 
-See the [Grid component documentation](./src/Grid.md) for a complete list of
+See the [<Grid /> documentation](./src/Grid.md) for a complete list of
 props that use breakpoints.
+
+If you need to use custom breakpoints then you can pass the `breakpoints` prop
+to a `container` component. The prop should be an array with 4 numbers in
+ascending order that represent the screen widths in pixels.
+
+```Javascript
+<Grid container breakpoints={[500, 800, 1100, 1400]} />
+```
 
 ## Width and Offset
 
@@ -262,3 +270,8 @@ width or a number in which case the unit will be `em`.
     <Grid item width={6}>There are 30px between me and my sibling</Grid>
 </Grid>
 ```
+
+## Additional Documentation
+
+-   [<Grid /> Documentation](./src/Grid.md)
+-   [<Hidden /> Documentation](./src/Hidden.md)
