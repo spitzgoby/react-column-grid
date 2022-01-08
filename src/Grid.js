@@ -30,7 +30,7 @@ const Grid = ({
     columns,
     className,
     container,
-    gap = null,
+    gap: propGap = null,
     hide = {},
     item,
     offset = {},
@@ -39,7 +39,7 @@ const Grid = ({
     // Determine breakpoints and update state
     // State is used to ensure that the context provider does not trigger
     // unnecessary renders
-    const { breakpoints } = React.useContext(ThemeContext);
+    const { breakpoints, gap } = React.useContext(ThemeContext);
     const shouldUsePropBreakpoints =
         container && propBreakpoints && areValidWidths(propBreakpoints);
     const calculatedBreakpoints = shouldUsePropBreakpoints
@@ -54,6 +54,14 @@ const Grid = ({
         !areBreakpointsEquivalent(calculatedBreakpoints, adjustedBreakpoints)
     ) {
         setAdjustedBreakpoints(calculatedBreakpoints);
+    }
+
+    const shouldUsePropGap = container && propGap;
+    const calculatedGap = shouldUsePropGap ? propGap : gap;
+    const [adjustedGap, setAdjustedGap] = React.useState(calculatedGap);
+
+    if (shouldUsePropGap && adjustedGap !== propGap) {
+        setAdjustedGap(calculatedGap);
     }
 
     // Fill out incomplete layout props
@@ -86,10 +94,15 @@ const Grid = ({
     } = useStyles({
         columns: adjustedColumns,
         container,
-        gap,
+        gap: adjustedGap,
         hide: adjustedHide,
         offset: adjustedOffset,
         width: adjustedWidth,
+    });
+
+    const getThemeValues = () => ({
+        breakpoints: adjustedBreakpoints,
+        gap: adjustedGap,
     });
 
     const getClass = () => {
@@ -170,7 +183,7 @@ const Grid = ({
     };
 
     const renderWithThemeProvider = () => (
-        <ThemeContext.Provider value={{ breakpoints: adjustedBreakpoints }}>
+        <ThemeContext.Provider value={getThemeValues()}>
             {renderGrid()}
         </ThemeContext.Provider>
     );
@@ -181,7 +194,9 @@ const Grid = ({
         </div>
     );
 
-    return shouldUsePropBreakpoints ? renderWithThemeProvider() : renderGrid();
+    return shouldUsePropBreakpoints || shouldUsePropGap
+        ? renderWithThemeProvider()
+        : renderGrid();
 };
 
 Grid.propTypes = {

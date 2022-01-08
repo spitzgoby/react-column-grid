@@ -183,7 +183,7 @@ export const App = () => {
                             />
                         </Grid>
                         <Grid container item width={12}>
-                            <Grid container item width={12}>
+                            <Grid container gap="0.5" item width={12}>
                                 <Grid container item width={6}>
                                     <Grid item className="app--box" width={12}>
                                         Rows 1 and 2

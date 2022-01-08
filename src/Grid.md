@@ -16,6 +16,36 @@ should have a container element at the root. The container element will have its
 
 ---
 
+## breakpoints
+
+**Type**: `PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string]))`
+**Default**: `[600, 900, 1200, 1536]`
+**Description**: Sets the screen widths in pixels for the various size classes.
+There must be exactly 4 values greater than 0 and in increasing order. If the
+values provided do not fit these rules then the default values will be used instead.
+Breakpoints will only be considered on container components and can be nested.
+
+**Usage**
+
+```Javascript
+<Grid container breakpoints={[100, 200, 300, 400]}>
+    <Grid item width={12}>
+        My size classes are
+        xs: 0px - 99px
+        sm: 100px - 199px
+        md: 200px - 299px
+        lg: 300px - 399px
+        xl: 400px+
+    </Grid>
+    <Grid container breakpoints="Invalid value">
+        <Grid item width={12}>
+            My size classes are the defaults
+        </Grid>
+</Grid>
+```
+
+---
+
 ## columns
 
 **Type**: `PropTypes.oneOfType([PropTypes.number, PropTypes.string])`
@@ -249,7 +279,8 @@ given the `display: none` attribute.
 **Description**: Determines the size of the grap between grid columns. The default
 unit is `em`, but a string can be provided with an arbitrary unit. The component
 does not validate the string and will happily apply any arbitrary value as the gap.
-This value is ignored if the component is not a `container`.
+This value is ignored if the component is not a `container`. This value will be
+inherited by any descendant grid containers.
 
 **Usage**:
 

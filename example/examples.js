@@ -75,9 +75,10 @@ export default [
         title: "Example 4",
     },
     {
-        description: "A multi-item layout with cells that span multiple rows.",
+        description:
+            "A multi-item layout with cells that span multiple rows with a reduced gap",
         sourceCode:
-            "<Grid container>\n" +
+            "<Grid container gap={0.5}>\n" +
             "   <Grid container item width={6}>\n" +
             "       <Grid item width={12}>Rows 1 and 2</Grid>\n" +
             "   </Grid>\n" +

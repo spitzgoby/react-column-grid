@@ -414,5 +414,68 @@ describe("<Grid />", () => {
                 useStateSpy.mockRestore();
             });
         });
+
+        describe("when using custom gap", () => {
+            it("should wrap its root element in a theme context provider", () => {
+                const props = {
+                    container: true,
+                    gap: "2em",
+                };
+                const grid = shallow(<Grid {...props} />);
+
+                expect(grid.find(ThemeContext.Provider).length).toBe(1);
+            });
+
+            it("should not consider gap if it is not a container", () => {
+                const props = { gap: "2em" };
+                const grid = shallow(<Grid {...props} />);
+
+                expect(grid.find(ThemeContext.Provider).length).toBe(0);
+            });
+
+            it("should not consider gap if it is not provided", () => {
+                const props = { container: true };
+                const grid = shallow(<Grid {...props} />);
+
+                expect(grid.find(ThemeContext.Provider).length).toBe(0);
+            });
+
+            it("should update gap state if it has changed", () => {
+                const startingGap = 1.5;
+                const changedGap = 2;
+                const grid = shallow(<Grid container gap={startingGap} />);
+                const setGapSpy = jest.fn();
+                const useStateSpy = jest
+                    .spyOn(React, "useState")
+                    .mockImplementation((value) =>
+                        // if true then this is the breakpoints call and we must return an array
+                        // or the component will throw an exception
+                        Array.isArray(value)
+                            ? [value, jest.fn()]
+                            : [startingGap, setGapSpy]
+                    );
+
+                grid.setProps({ gap: changedGap });
+
+                expect(setGapSpy).toHaveBeenCalledWith(changedGap);
+
+                useStateSpy.mockRestore();
+            });
+
+            it("should not update breakpoints state if it the values are equivalent", () => {
+                const gap = 1.5;
+                const grid = shallow(<Grid container gap={gap} />);
+                const setGapSpy = jest.fn();
+                const useStateSpy = jest
+                    .spyOn(React, "useState")
+                    .mockImplementation((value) => [value, setGapSpy]);
+
+                grid.setProps({ gap: gap });
+
+                expect(setGapSpy).not.toHaveBeenCalled();
+
+                useStateSpy.mockRestore();
+            });
+        });
     });
 });
