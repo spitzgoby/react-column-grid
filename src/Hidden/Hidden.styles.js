@@ -1,4 +1,4 @@
-import { createScreenMediaQuery } from "./breakpoints";
+import { createScreenMediaQuery } from "../utils/breakpoints";
 
 const getDisplay = (props, size) => (props.hide?.[size] ? "none" : null);
 

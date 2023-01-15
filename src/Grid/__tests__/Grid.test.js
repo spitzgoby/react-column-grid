@@ -2,11 +2,11 @@ const mockUseStyles = jest.fn();
 const mockStyles = jest.fn();
 jest.mock("react-jss", () => ({ createUseStyles: () => mockUseStyles }));
 
-import { createBreakpoints } from "../breakpoints";
+import { createBreakpoints } from "../../utils/breakpoints";
 import { shallow } from "enzyme";
 import Grid from "../Grid";
 import React from "react";
-import ThemeContext from "../ThemeContext";
+import ThemeContext from "../../ThemeContext";
 
 describe("<Grid />", () => {
     beforeEach(() => {

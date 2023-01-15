@@ -4,14 +4,14 @@ import {
     areValidWidths,
     createBreakpoints,
     sizes,
-} from "./breakpoints";
+} from "../utils/breakpoints";
 import classNames from "classnames";
 import { getAdjustedLayoutProps } from "./Grid.layout";
 import styles from "./Grid.styles";
 import PropTypes from "prop-types";
 import React from "react";
 import { createUseStyles } from "react-jss";
-import ThemeContext from "./ThemeContext";
+import ThemeContext from "../ThemeContext";
 
 const defaultClear = false;
 const defaultColumns = 12;

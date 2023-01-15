@@ -1,5 +1,5 @@
-import { createScreenMediaQuery } from "./breakpoints";
-import { DEFAULT_GAP } from "./gap";
+import { createScreenMediaQuery } from "../utils/breakpoints";
+import { DEFAULT_GAP } from "../utils/gap";
 
 const DEFAULT_NUM_COLS = 12;
 

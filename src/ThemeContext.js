@@ -1,5 +1,5 @@
-import { DEFAULT_BREAKPOINTS } from "./breakpoints";
-import { DEFAULT_GAP } from "./gap";
+import { DEFAULT_BREAKPOINTS } from "./utils/breakpoints";
+import { DEFAULT_GAP } from "./utils/gap";
 import { createContext } from "react";
 
 export const ThemeContext = createContext({

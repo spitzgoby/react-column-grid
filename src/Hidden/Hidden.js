@@ -1,9 +1,9 @@
-import { addMissingSizes } from "./breakpoints";
+import { addMissingSizes } from "../utils/breakpoints";
 import PropTypes from "prop-types";
 import React, { useContext } from "react";
 import { createUseStyles } from "react-jss";
 import styles from "./Hidden.styles";
-import { ThemeContext } from "./ThemeContext";
+import { ThemeContext } from "../ThemeContext";
 
 const defaultHide = false;
 

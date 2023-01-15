@@ -1,17 +1,3 @@
-export const areValidWidths = (widths = []) => {
-    return (
-        widths.length === 4 &&
-        widths.reduce((valid, width, index) => {
-            const parsedWidth = parseFloat(width);
-
-            return (
-                valid &&
-                parsedWidth > 0 &&
-                (index === 0 || parsedWidth > parseFloat(widths[index - 1]))
-            );
-        })
-    );
-};
 export const sizes = ["xs", "sm", "md", "lg", "xl"];
 export const DEFAULT_BREAKPOINTS = [
     {
@@ -38,6 +24,22 @@ export const DEFAULT_BREAKPOINTS = [
         minWidth: "1536px",
     },
 ];
+
+export const areValidWidths = (widths = []) => {
+    return (
+        widths.length === 4 &&
+        widths.reduce((valid, width, index) => {
+            const parsedWidth = parseFloat(width);
+
+            return (
+                valid &&
+                parsedWidth > 0 &&
+                (index === 0 || parsedWidth > parseFloat(widths[index - 1]))
+            );
+        })
+    );
+};
+
 export const createBreakpoints = (widths) => {
     return areValidWidths(widths)
         ? sizes.map((size, index) => {
@@ -55,6 +57,7 @@ export const createBreakpoints = (widths) => {
           })
         : DEFAULT_BREAKPOINTS;
 };
+
 export const areBreakpointsEquivalent = (
     breakpoints1 = [],
     breakpoints2 = []

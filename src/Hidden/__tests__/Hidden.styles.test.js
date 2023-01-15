@@ -1,4 +1,7 @@
-import { createScreenMediaQuery, DEFAULT_BREAKPOINTS } from "../breakpoints";
+import {
+    createScreenMediaQuery,
+    DEFAULT_BREAKPOINTS,
+} from "../../utils/breakpoints";
 import styles from "../Hidden.styles";
 
 const defaultStyles = styles(DEFAULT_BREAKPOINTS);
