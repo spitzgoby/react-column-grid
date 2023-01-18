@@ -1,0 +1,34 @@
+@import '../style/sizes.scss';
+
+.rcg-c {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+@media screen and (min-width: 1535px) {
+  .rcg-xl_h {
+    display: none;
+  }
+}
+
+@each $sizeName, $maxWidth in $maxWidthSizes {
+  @media screen and (max-width: #{$maxWidth}) {
+    .rcg-#{$sizeName}_h {
+      display: none;
+    }
+  }
+}
+
+@each $sizeName, $minWidth in $minWidthSizes {
+  @media screen and (min-width: #{$minWidth}) {
+    @for $col from 1 through 12 {
+      @for $width from 1 through 12 {
+        @if ($col + $width <= 13) {
+          .rcg-#{$sizeName}-#{$col}-#{$width} {
+            grid-column: #{$col} / span #{$width};
+          }
+        }
+      }
+    }
+  }
+}

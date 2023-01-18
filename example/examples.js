@@ -46,11 +46,9 @@ export default [
     {
         description: `
             A responsive header that shows and hides items at various screen 
-            sizes while using custom breakpoints. Try resizing the screen to
-            550, 800, 1050, and 1300 pixels to see various elements appear 
-            and disappear.`,
+            sizes.`,
         sourceCode:
-            "<Grid breakpoints={[550, 800, 1050, 1300]} container>\n" +
+            "<Grid container>\n" +
             "   <Grid item width={6}>\n" +
             "       <Hidden hide={{ sm: true }}>\n" +
             "           <img />\n" +
@@ -64,14 +62,8 @@ export default [
             "           <img />\n" +
             "       </Hidden>\n" +
             "       <Hidden hide={{ xs: true, md: false }}>\n" +
-            "           <ul>\n" +
-            "               <li>User</li>\n" +
-            "               <li>Settings</li>\n" +
-            "               <li>Log Out</li>\n" +
-            "           </ul>\n" +
-            "       </Hidden>\n" +
-            "   </Grid>\n" +
-            "</Grid>\n",
+            "    </Grid>\n" +
+            "</Grid>",
         title: "Example 4",
     },
     {

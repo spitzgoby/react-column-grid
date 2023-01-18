@@ -1,20 +1,17 @@
-import {
-    addMissingSizes,
-    areBreakpointsEquivalent,
-    areValidWidths,
-    createBreakpoints,
-    sizes,
-} from "../utils/breakpoints";
+import { addMissingSizes, sizes } from "../utils/breakpoints";
 import classNames from "classnames";
-import { getAdjustedLayoutProps } from "./Grid.layout";
-import styles from "./Grid.styles";
+import {
+    generateSizeClassNames,
+    getAdjustedLayoutProps,
+    getGap,
+} from "./Grid.layout";
 import PropTypes from "prop-types";
 import React from "react";
-import { createUseStyles } from "react-jss";
 import ThemeContext from "../ThemeContext";
 
+import "./Grid.scss";
+
 const defaultClear = false;
-const defaultColumns = 12;
 const defaultHide = false;
 const defaultOffset = 0;
 const defaultWidth = 12;
@@ -25,9 +22,7 @@ const useShorthandSyntax = (propName, prop) =>
     shortHandProps.includes(propName) && isInteger(prop);
 
 const Grid = ({
-    breakpoints: propBreakpoints,
     children,
-    columns,
     className,
     container,
     gap: propGap = null,
@@ -39,22 +34,7 @@ const Grid = ({
     // Determine breakpoints and update state
     // State is used to ensure that the context provider does not trigger
     // unnecessary renders
-    const { breakpoints, gap } = React.useContext(ThemeContext);
-    const shouldUsePropBreakpoints =
-        container && propBreakpoints && areValidWidths(propBreakpoints);
-    const calculatedBreakpoints = shouldUsePropBreakpoints
-        ? createBreakpoints(propBreakpoints)
-        : breakpoints;
-    const [adjustedBreakpoints, setAdjustedBreakpoints] = React.useState(
-        calculatedBreakpoints
-    );
-
-    if (
-        shouldUsePropBreakpoints &&
-        !areBreakpointsEquivalent(calculatedBreakpoints, adjustedBreakpoints)
-    ) {
-        setAdjustedBreakpoints(calculatedBreakpoints);
-    }
+    const { gap } = React.useContext(ThemeContext);
 
     const shouldUsePropGap = container && propGap;
     const calculatedGap = shouldUsePropGap ? propGap : gap;
@@ -65,9 +45,6 @@ const Grid = ({
     }
 
     // Fill out incomplete layout props
-    const adjustedColumns = isInteger(columns)
-        ? parseInt(columns, 10)
-        : defaultColumns;
     const adjustedHide = addMissingSizes(
         "hide",
         hide,
@@ -86,37 +63,23 @@ const Grid = ({
         defaultWidth,
         useShorthandSyntax
     );
-    const useStyles = createUseStyles(styles(adjustedBreakpoints));
-    const {
-        container: containerClass,
-        grid: gridClass,
-        item: itemClass,
-    } = useStyles({
-        columns: adjustedColumns,
-        container,
-        gap: adjustedGap,
+
+    // Generate classes based on width, offset and sizes
+    const sizeClassNames = generateSizeClassNames({
         hide: adjustedHide,
+        item,
         offset: adjustedOffset,
         width: adjustedWidth,
     });
 
-    const getThemeValues = () => ({
-        breakpoints: adjustedBreakpoints,
-        gap: adjustedGap,
-    });
+    const getThemeValues = () => ({ gap: adjustedGap });
 
-    const getClass = () => {
-        return classNames(
-            {
-                "swa-react-grid": true,
-                "swa-react-grid--container": container,
-                [containerClass]: container,
-                [itemClass]: item,
-            },
-            gridClass,
-            className
-        );
-    };
+    const getClass = () =>
+        classNames({ "rcg-c": container }, sizeClassNames, className);
+
+    const getStyle = () => ({
+        gap: container && adjustedGap && getGap(adjustedGap),
+    });
 
     const renderChildren = () => {
         let currentColumns = { xs: 0, sm: 0, md: 0, lg: 0, xl: 0 };
@@ -160,8 +123,7 @@ const Grid = ({
                             completedWidth,
                             completedHide,
                             completedClear,
-                            currentColumns,
-                            adjustedColumns
+                            currentColumns
                         );
 
                     currentColumns[size] = adjustedColumn;
@@ -189,20 +151,15 @@ const Grid = ({
     );
 
     const renderGrid = () => (
-        <div className={getClass()}>
+        <div className={getClass()} style={getStyle()}>
             {container ? renderChildren() : children}
         </div>
     );
 
-    return shouldUsePropBreakpoints || shouldUsePropGap
-        ? renderWithThemeProvider()
-        : renderGrid();
+    return shouldUsePropGap ? renderWithThemeProvider() : renderGrid();
 };
 
 Grid.propTypes = {
-    breakpoints: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    ),
     children: PropTypes.node,
     clear: PropTypes.shape({
         xs: PropTypes.bool,
@@ -212,7 +169,6 @@ Grid.propTypes = {
         xl: PropTypes.bool,
     }),
     className: PropTypes.string,
-    columns: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     container: PropTypes.bool,
     gap: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     hide: PropTypes.shape({

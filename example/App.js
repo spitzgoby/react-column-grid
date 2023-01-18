@@ -109,8 +109,8 @@ export const App = () => {
                             <Grid
                                 className="app--box"
                                 item
-                                width={{ xs: 12, sm: 10, md: 8, lg: 6 }}
-                                offset={{ sm: 1, md: 2, lg: 3 }}
+                                width={{ xs: 12, sm: 10, md: 8, lg: 6, xl: 4 }}
+                                offset={{ sm: 1, md: 2, lg: 3, xl: 4 }}
                             >
                                 Centered Box
                             </Grid>
@@ -128,7 +128,6 @@ export const App = () => {
                         </Grid>
                         <Grid container item width={12}>
                             <Grid
-                                breakpoints={[550, 800, 1050, 1300]}
                                 container
                                 item
                                 className="app--box"

@@ -1,21 +1,16 @@
-const mockUseStyles = jest.fn();
-const mockStyles = jest.fn();
-jest.mock("react-jss", () => ({ createUseStyles: () => mockUseStyles }));
-
-import { createBreakpoints } from "../../utils/breakpoints";
 import { shallow } from "enzyme";
 import Grid from "../Grid";
+import * as layout from "../Grid.layout";
 import React from "react";
 import ThemeContext from "../../ThemeContext";
 
 describe("<Grid />", () => {
-    beforeEach(() => {
-        mockUseStyles.mockImplementation(() => ({}));
+    beforeAll(() => {
+        jest.spyOn(layout, "generateSizeClassNames");
     });
 
     afterEach(() => {
-        mockUseStyles.mockReset();
-        mockStyles.mockReset();
+        jest.clearAllMocks();
     });
 
     describe("when styling component", () => {
@@ -26,20 +21,16 @@ describe("<Grid />", () => {
 
             shallow(
                 <Grid
-                    columns={12}
                     container
-                    gap="2em"
                     hide={hideProp}
                     offset={offsetProp}
                     width={widthProp}
                 />
             );
 
-            expect(mockUseStyles).toHaveBeenCalledWith({
-                columns: 12,
-                container: true,
-                gap: "2em",
+            expect(layout.generateSizeClassNames).toHaveBeenCalledWith({
                 hide: { xs: true, sm: true, md: false, lg: false, xl: false },
+                item: undefined,
                 offset: { xs: "0", sm: "0", md: "2", lg: "3", xl: "3" },
                 width: { xs: "6", sm: "6", md: "4", lg: "3", xl: "3" },
             });
@@ -51,59 +42,33 @@ describe("<Grid />", () => {
 
             shallow(
                 <Grid
-                    columns={12}
                     container
-                    gap="2em"
                     hide={{}}
                     offset={offsetProp}
                     width={widthProp}
                 />
             );
 
-            expect(mockUseStyles).toHaveBeenCalledWith({
-                columns: 12,
-                container: true,
-                gap: "2em",
+            expect(layout.generateSizeClassNames).toHaveBeenCalledWith({
                 hide: { xs: false, sm: false, md: false, lg: false, xl: false },
+                item: undefined,
                 offset: { xs: "1", sm: "1", md: "1", lg: "1", xl: "1" },
                 width: { xs: "10", sm: "10", md: "10", lg: "10", xl: "10" },
             });
         });
 
-        it("should translate string column values into integers", () => {
-            shallow(<Grid container columns="12" />);
-
-            expect(mockUseStyles.mock.calls[0][0].columns).toEqual(12);
-        });
-
-        it("should use supplied .grid class", () => {
-            mockUseStyles.mockImplementation(() => ({
-                grid: "test-grid-class",
-            }));
+        it("should use supplied class", () => {
+            layout.generateSizeClassNames.mockReturnValueOnce("test-class");
 
             const grid = shallow(<Grid item hide={{ xs: true }}></Grid>);
 
-            expect(grid.hasClass("test-grid-class")).toBe(true);
+            expect(grid.hasClass("test-class")).toBe(true);
         });
 
-        it("should use supplied .container class if it is a container", () => {
-            mockUseStyles.mockImplementation(() => ({
-                container: "test-container-class",
-            }));
-
+        it("should use supplied container class if it is a container", () => {
             const grid = shallow(<Grid container hide={{ xs: true }}></Grid>);
 
-            expect(grid.hasClass("test-container-class")).toBe(true);
-        });
-
-        it("should use supplied .item class if it is an item", () => {
-            mockUseStyles.mockImplementation(() => ({
-                item: "test-item-class",
-            }));
-
-            const grid = shallow(<Grid item hide={{ xs: true }}></Grid>);
-
-            expect(grid.hasClass("test-item-class")).toBe(true);
+            expect(grid.hasClass("rcg-c")).toBe(true);
         });
     });
 
@@ -156,20 +121,8 @@ describe("<Grid />", () => {
                 </Grid>
             );
             const expectedOffsets = [
-                {
-                    xs: 0,
-                    sm: 0,
-                    md: 3,
-                    lg: 3,
-                    xl: 3,
-                },
-                {
-                    xs: 0,
-                    sm: 0,
-                    md: 9,
-                    lg: 9,
-                    xl: 9,
-                },
+                { xs: 0, sm: 0, md: 3, lg: 3, xl: 3 },
+                { xs: 0, sm: 0, md: 9, lg: 9, xl: 9 },
             ];
 
             expect(
@@ -206,27 +159,9 @@ describe("<Grid />", () => {
                 </Grid>
             );
             const expectedOffsets = [
-                {
-                    xs: 0,
-                    sm: 0,
-                    md: 3,
-                    lg: 3,
-                    xl: 3,
-                },
-                {
-                    xs: 2,
-                    sm: 2,
-                    md: 9,
-                    lg: 9,
-                    xl: 9,
-                },
-                {
-                    xs: 0,
-                    sm: 0,
-                    md: 3,
-                    lg: 3,
-                    xl: 3,
-                },
+                { xs: 0, sm: 0, md: 3, lg: 3, xl: 3 },
+                { xs: 2, sm: 2, md: 9, lg: 9, xl: 9 },
+                { xs: 0, sm: 0, md: 3, lg: 3, xl: 3 },
             ];
 
             expect(
@@ -251,27 +186,9 @@ describe("<Grid />", () => {
                 </Grid>
             );
             const expectedOffsets = [
-                {
-                    xs: 3,
-                    sm: 3,
-                    md: 3,
-                    lg: 3,
-                    xl: 3,
-                },
-                {
-                    xs: 0,
-                    sm: 0,
-                    md: 0,
-                    lg: 0,
-                    xl: 0,
-                },
-                {
-                    xs: 8,
-                    sm: 8,
-                    md: 8,
-                    lg: 8,
-                    xl: 8,
-                },
+                { xs: 3, sm: 3, md: 3, lg: 3, xl: 3 },
+                { xs: 0, sm: 0, md: 0, lg: 0, xl: 0 },
+                { xs: 8, sm: 8, md: 8, lg: 8, xl: 8 },
             ];
 
             expect(
@@ -300,27 +217,9 @@ describe("<Grid />", () => {
                 </Grid>
             );
             const expectedOffsets = [
-                {
-                    xs: 0,
-                    sm: 0,
-                    md: 0,
-                    lg: 0,
-                    xl: 0,
-                },
-                {
-                    xs: 0,
-                    sm: 0,
-                    md: 1,
-                    lg: 1,
-                    xl: 1,
-                },
-                {
-                    xs: 1,
-                    sm: 1,
-                    md: 2,
-                    lg: 2,
-                    xl: 2,
-                },
+                { xs: 0, sm: 0, md: 0, lg: 0, xl: 0 },
+                { xs: 0, sm: 0, md: 1, lg: 1, xl: 1 },
+                { xs: 1, sm: 1, md: 2, lg: 2, xl: 2 },
             ];
 
             expect(
@@ -334,85 +233,6 @@ describe("<Grid />", () => {
                     });
                 })
             );
-        });
-
-        describe("when using custom breakpoints", () => {
-            it("should wrap its root element in a theme context provider", () => {
-                const props = {
-                    breakpoints: [100, 200, 300, 400],
-                    container: true,
-                };
-                const grid = shallow(<Grid {...props} />);
-
-                expect(grid.find(ThemeContext.Provider).length).toBe(1);
-            });
-
-            it("should not consider breakpoints if it is not a container", () => {
-                const props = { breakpoints: [100, 200, 300, 400] };
-                const grid = shallow(<Grid {...props} />);
-
-                expect(grid.find(ThemeContext.Provider).length).toBe(0);
-            });
-
-            it("should not consider breakpoints if they are not provided", () => {
-                const props = { container: true };
-                const grid = shallow(<Grid {...props} />);
-
-                expect(grid.find(ThemeContext.Provider).length).toBe(0);
-            });
-
-            it("should not consider breakpoints if they are invalid", () => {
-                const props = {
-                    breakpoints: ["abc", 200, 300, 400],
-                    container: true,
-                };
-                const grid = shallow(<Grid {...props} />);
-
-                expect(grid.find(ThemeContext.Provider).length).toBe(0);
-            });
-
-            it("should update breakpoints state if they have changed", () => {
-                const startingBreakpoints = [100, 200, 300, 400];
-                const changedBreakpoints = [200, 300, 400, 500];
-                const grid = shallow(
-                    <Grid container breakpoints={startingBreakpoints} />
-                );
-                const setBreakpointsSpy = jest.fn();
-                const useStateSpy = jest
-                    .spyOn(React, "useState")
-                    .mockImplementation(() => [
-                        createBreakpoints(startingBreakpoints),
-                        setBreakpointsSpy,
-                    ]);
-
-                grid.setProps({ breakpoints: changedBreakpoints });
-
-                expect(setBreakpointsSpy).toHaveBeenCalledWith(
-                    createBreakpoints(changedBreakpoints)
-                );
-
-                useStateSpy.mockRestore();
-            });
-
-            it("should not update breakpoints state if it the values are equivalent", () => {
-                const startingBreakpoints = [100, 200, 300, 400];
-                const grid = shallow(
-                    <Grid container breakpoints={startingBreakpoints} />
-                );
-                const setBreakpointsSpy = jest.fn();
-                const useStateSpy = jest
-                    .spyOn(React, "useState")
-                    .mockImplementation(() => [
-                        createBreakpoints(startingBreakpoints),
-                        setBreakpointsSpy,
-                    ]);
-
-                grid.setProps({ breakpoints: startingBreakpoints });
-
-                expect(setBreakpointsSpy).not.toHaveBeenCalled();
-
-                useStateSpy.mockRestore();
-            });
         });
 
         describe("when using custom gap", () => {

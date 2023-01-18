@@ -123,14 +123,6 @@ of `md` for both `lg` and `xl` since it is the closest smaller size defined.
 See the [<Grid /> documentation](./src/Grid.md) for a complete list of
 props that use breakpoints.
 
-If you need to use custom breakpoints then you can pass the `breakpoints` prop
-to a `container` component. The prop should be an array with 4 numbers in
-ascending order that represent the screen widths in pixels.
-
-```Javascript
-<Grid container breakpoints={[500, 800, 1100, 1400]} />
-```
-
 ## Width and Offset
 
 The `width` property is an object that defines the number of columns an item
@@ -176,8 +168,8 @@ sizes you can use the shorthand syntax.
 ## Clear and Hide
 
 The `clear` and `hide` properties are similar to `width` and
-`offset` in the sense that they both use [breakpoints](#breakpoints),
-but use boolean values instead of numeric ones.
+`offset` in the sense that they both use breakpoints, but use
+boolean values instead of numeric ones.
 
 The `clear` prop defines whether a given item should prevent siblings
 from being placed after in on the same row. One use case would be to create

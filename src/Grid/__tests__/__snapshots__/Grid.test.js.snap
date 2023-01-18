@@ -2,6 +2,11 @@
 
 exports[`<Grid /> when the grid is a container should create a grid container 1`] = `
 <div
-  className="swa-react-grid swa-react-grid--container"
+  className="rcg-c"
+  style={
+    Object {
+      "gap": "1em",
+    }
+  }
 />
 `;
