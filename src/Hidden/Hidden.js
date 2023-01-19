@@ -1,26 +1,33 @@
+import classNames from "classnames";
 import { addMissingSizes } from "../utils/breakpoints";
 import PropTypes from "prop-types";
-import React, { useContext } from "react";
-import { createUseStyles } from "react-jss";
-import styles from "./Hidden.styles";
-import { ThemeContext } from "../ThemeContext";
+import React from "react";
+
+import "./Hidden.scss";
 
 const defaultHide = false;
 
+// Shorthand syntax does not apply to the <Hidden /> element
 const useShorthandSyntax = () => false;
 
 const Hidden = ({ children, hide, xs, sm, md, lg, xl }) => {
-    const { breakpoints } = useContext(ThemeContext);
     const buildHideUsingShorthandSizes = () => ({ xs, sm, md, lg, xl });
     const hasShorthandSizes = xs || sm || md || lg || xl;
     const adjustedHide =
         hide || !hasShorthandSizes
             ? addMissingSizes("hide", hide, defaultHide, useShorthandSyntax)
             : buildHideUsingShorthandSizes();
-    const useStyles = createUseStyles(styles(breakpoints));
-    const { hidden: hiddenClass } = useStyles({ hide: adjustedHide });
 
-    return <span className={hiddenClass}>{children}</span>;
+    const getClass = () =>
+        classNames({
+            "rcg-h-xs": adjustedHide.xs,
+            "rcg-h-sm": adjustedHide.sm,
+            "rcg-h-md": adjustedHide.md,
+            "rcg-h-lg": adjustedHide.lg,
+            "rcg-h-xl": adjustedHide.xl,
+        });
+
+    return <span className={getClass()}>{children}</span>;
 };
 
 Hidden.propTypes = {
