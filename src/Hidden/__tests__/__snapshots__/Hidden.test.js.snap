@@ -1,7 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Hidden /> should prioritize hide prop when present 1`] = `
+<div>
+  <span
+    class="rcg-h-xs rcg-h-sm"
+  />
+</div>
+`;
+
 exports[`<Hidden /> should render a span component 1`] = `
-<span
-  className=""
-/>
+<div>
+  <span
+    class=""
+  />
+</div>
+`;
+
+exports[`<Hidden /> should use the correct classes based on size rules 1`] = `
+<div>
+  <span
+    class="rcg-h-xs rcg-h-sm rcg-h-xl"
+  />
+</div>
 `;

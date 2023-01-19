@@ -31,12 +31,6 @@
         "moduleNameMapper": {
             "^.+\\.(css|less|scss)$": "babel-jest"
         },
-        "snapshotSerializers": [
-            "enzyme-to-json/serializer"
-        ],
-        "setupFiles": [
-            "./setupTests.js"
-        ],
         "testEnvironment": "jsdom"
     },
     "repository": {
@@ -54,14 +48,12 @@
         "@babel/node": "^7.16.0",
         "@babel/preset-env": "^7.16.0",
         "@babel/preset-react": "^7.16.0",
+        "@testing-library/react": "^13.4.0",
         "babel-jest": "^27.3.1",
         "babel-loader": "^8.2.3",
         "classnames": "^2.3.1",
         "cross-env": "^7.0.3",
         "css-loader": "^6.5.0",
-        "enzyme": "^3.11.0",
-        "enzyme-adapter-react-16": "^1.15.6",
-        "enzyme-to-json": "^3.6.2",
         "eslint": "^8.5.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-jest": "^25.3.2",
@@ -73,9 +65,9 @@
         "jsdom-global": "^3.0.2",
         "lint-staged": ">=10",
         "prettier": "^2.5.1",
-        "prop-types": "^15.7.2",
-        "react": "^16.8.6",
-        "react-dom": "^16.8.6",
+        "prop-types": "^15.8.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
         "react-syntax-highlighter": "^15.4.5",
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0",
@@ -87,8 +79,8 @@
     "peerDependencies": {
         "classnames": "^2.3.1",
         "prop-types": "^15.7.2",
-        "react": "^16.8.6 || ^17.0.0",
-        "react-dom": "^16.8.6 || ^17.0.0"
+        "react": "^16.8.6 || ^17.0.0 || ^18.0.0",
+        "react-dom": "^16.8.6 || ^17.0.0 || ^18.0.0"
     },
     "lint-staged": {
         "*.js": "eslint --cache --fix",

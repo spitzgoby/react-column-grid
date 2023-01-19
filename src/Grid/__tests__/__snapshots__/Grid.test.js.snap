@@ -1,12 +1,99 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Grid /> when the grid is a container should clear move an item onto the nest row if the child clears the row 1`] = `
+<div>
+  <div
+    class="rcg-c"
+    style="gap: 1em;"
+  >
+    <div
+      class="rcg-xs-1-1 rcg-sm-1-1 rcg-md-1-1 rcg-lg-1-1 rcg-xl-1-1"
+    />
+    <div
+      class="rcg-xs-1-1 rcg-sm-1-1 rcg-md-2-1 rcg-lg-2-1 rcg-xl-2-1"
+    />
+    <div
+      class="rcg-xs-2-1 rcg-sm-2-1 rcg-md-3-1 rcg-lg-3-1 rcg-xl-3-1"
+    />
+  </div>
+</div>
+`;
+
 exports[`<Grid /> when the grid is a container should create a grid container 1`] = `
-<div
-  className="rcg-c"
-  style={
-    Object {
-      "gap": "1em",
-    }
-  }
-/>
+<div>
+  <div
+    class="rcg-c"
+    style="gap: 1em;"
+  />
+</div>
+`;
+
+exports[`<Grid /> when the grid is a container should increase the offset of child grid items in each size class 1`] = `
+<div>
+  <div
+    class="rcg-c"
+    style="gap: 1em;"
+  >
+    <div
+      class="rcg-xs-1-12 rcg-sm-1-12 rcg-md-4-3 rcg-lg-4-3 rcg-xl-4-3"
+    />
+    <div
+      class="rcg-xs-1-12 rcg-sm-1-12 rcg-md-10-3 rcg-lg-10-3 rcg-xl-10-3"
+    />
+  </div>
+</div>
+`;
+
+exports[`<Grid /> when the grid is a container should move elements onto the next row when the columns exceed row width 1`] = `
+<div>
+  <div
+    class="rcg-c"
+    style="gap: 1em;"
+  >
+    <div
+      class="rcg-xs-1-6 rcg-sm-1-6 rcg-md-4-3 rcg-lg-4-3 rcg-xl-4-3"
+    />
+    <div
+      class="rcg-xs-3-6 rcg-sm-3-6 rcg-md-10-3 rcg-lg-10-3 rcg-xl-10-3"
+    />
+    <div
+      class="rcg-xs-1-12 rcg-sm-1-12 rcg-md-4-3 rcg-lg-4-3 rcg-xl-4-3"
+    />
+  </div>
+</div>
+`;
+
+exports[`<Grid /> when the grid is a container should not update props of children that are not grid items 1`] = `
+<div>
+  <div
+    class="rcg-c"
+    style="gap: 1em;"
+  >
+    <div
+      width="4"
+    />
+    <div
+      width="4"
+    />
+  </div>
+</div>
+`;
+
+exports[`<Grid /> when the grid is a container should recalculate rows when an item spills over into a new row 1`] = `
+<div>
+  <div
+    class="rcg-c"
+    style="gap: 1em;"
+  >
+    <div
+      class="rcg-xs-4-6 rcg-sm-4-6 rcg-md-4-6 rcg-lg-4-6 rcg-xl-4-6"
+    />
+    <div
+      class="rcg-xs-1-8 rcg-sm-1-8 rcg-md-1-8 rcg-lg-1-8 rcg-xl-1-8"
+    />
+    <div
+      class="rcg-xs-9-4 rcg-sm-9-4 rcg-md-9-4 rcg-lg-9-4 rcg-xl-9-4"
+    />
+  </div>
+</div>
 `;

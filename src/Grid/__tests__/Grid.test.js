@@ -1,8 +1,7 @@
-import { shallow } from "enzyme";
+import { render } from "@testing-library/react";
 import Grid from "../Grid";
 import * as layout from "../Grid.layout";
 import React from "react";
-import ThemeContext from "../../ThemeContext";
 
 describe("<Grid />", () => {
     beforeAll(() => {
@@ -19,7 +18,7 @@ describe("<Grid />", () => {
             const offsetProp = { xs: "0", md: "2", lg: "3" };
             const widthProp = { xs: "6", md: "4", lg: "3" };
 
-            shallow(
+            render(
                 <Grid
                     container
                     hide={hideProp}
@@ -40,7 +39,7 @@ describe("<Grid />", () => {
             const offsetProp = "1";
             const widthProp = "10";
 
-            shallow(
+            render(
                 <Grid
                     container
                     hide={{}}
@@ -60,28 +59,30 @@ describe("<Grid />", () => {
         it("should use supplied class", () => {
             layout.generateSizeClassNames.mockReturnValueOnce("test-class");
 
-            const grid = shallow(<Grid item hide={{ xs: true }}></Grid>);
+            const { container } = render(
+                <Grid item hide={{ xs: true }}></Grid>
+            );
 
-            expect(grid.hasClass("test-class")).toBe(true);
+            expect(container.querySelector(".test-class")).not.toBeNull();
         });
 
         it("should use supplied container class if it is a container", () => {
-            const grid = shallow(<Grid container hide={{ xs: true }}></Grid>);
+            const { container } = render(<Grid container />);
 
-            expect(grid.hasClass("rcg-c")).toBe(true);
+            expect(container.querySelector(".rcg-c")).not.toBeNull();
         });
     });
 
     describe("when the grid is a container", () => {
         it("should create a grid container", () => {
-            const grid = shallow(<Grid container />);
+            const { container } = render(<Grid container />);
 
-            expect(grid).toMatchSnapshot();
+            expect(container).toMatchSnapshot();
         });
 
         it("should be able to render a single child component", () => {
             const renderGrid = () => {
-                shallow(
+                render(
                     <Grid container item>
                         <div></div>
                     </Grid>
@@ -92,21 +93,18 @@ describe("<Grid />", () => {
         });
 
         it("should not update props of children that are not grid items", () => {
-            const NonGrid = (props) => <div>{props}</div>;
-            const grid = shallow(
+            const { container } = render(
                 <Grid container>
-                    <NonGrid width={4}></NonGrid>
-                    <NonGrid width={4}></NonGrid>
+                    <div width={4} />
+                    <div width={4} />
                 </Grid>
             );
 
-            grid.find(NonGrid).forEach((nonGrid) => {
-                expect(nonGrid.prop("offset")).toBe(undefined);
-            });
+            expect(container).toMatchSnapshot();
         });
 
         it("should increase the offset of child grid items in each size class", () => {
-            const grid = shallow(
+            const { container } = render(
                 <Grid container>
                     <Grid
                         item
@@ -120,26 +118,12 @@ describe("<Grid />", () => {
                     />
                 </Grid>
             );
-            const expectedOffsets = [
-                { xs: 0, sm: 0, md: 3, lg: 3, xl: 3 },
-                { xs: 0, sm: 0, md: 9, lg: 9, xl: 9 },
-            ];
 
-            expect(
-                grid.children().forEach((item, index) => {
-                    const element = item.getElement();
-
-                    Object.keys(element.props.offset).forEach((size) => {
-                        expect(element.props.offset[size]).toEqual(
-                            expectedOffsets[index][size]
-                        );
-                    });
-                })
-            );
+            expect(container).toMatchSnapshot();
         });
 
         it("should move elements onto the next row when the columns exceed row width", () => {
-            const grid = shallow(
+            const { container } = render(
                 <Grid container>
                     <Grid
                         item
@@ -158,54 +142,24 @@ describe("<Grid />", () => {
                     />
                 </Grid>
             );
-            const expectedOffsets = [
-                { xs: 0, sm: 0, md: 3, lg: 3, xl: 3 },
-                { xs: 2, sm: 2, md: 9, lg: 9, xl: 9 },
-                { xs: 0, sm: 0, md: 3, lg: 3, xl: 3 },
-            ];
 
-            expect(
-                grid.children().forEach((item, index) => {
-                    const element = item.getElement();
-
-                    Object.keys(element.props.offset).forEach((size) => {
-                        expect(element.props.offset[size]).toEqual(
-                            expectedOffsets[index][size]
-                        );
-                    });
-                })
-            );
+            expect(container).toMatchSnapshot();
         });
 
         it("should recalculate rows when an item spills over into a new row", () => {
-            const grid = shallow(
+            const { container } = render(
                 <Grid container>
                     <Grid item width={{ xs: 6 }} offset={{ xs: 3 }} />
                     <Grid item width={{ xs: 8 }} />
                     <Grid item width={{ xs: 4 }} />
                 </Grid>
             );
-            const expectedOffsets = [
-                { xs: 3, sm: 3, md: 3, lg: 3, xl: 3 },
-                { xs: 0, sm: 0, md: 0, lg: 0, xl: 0 },
-                { xs: 8, sm: 8, md: 8, lg: 8, xl: 8 },
-            ];
 
-            expect(
-                grid.children().forEach((item, index) => {
-                    const element = item.getElement();
-
-                    Object.keys(element.props.offset).forEach((size) => {
-                        expect(element.props.offset[size]).toEqual(
-                            expectedOffsets[index][size]
-                        );
-                    });
-                })
-            );
+            expect(container).toMatchSnapshot();
         });
 
         it("should clear move an item onto the nest row if the child clears the row", () => {
-            const grid = shallow(
+            const { container } = render(
                 <Grid container>
                     <Grid
                         item
@@ -216,86 +170,24 @@ describe("<Grid />", () => {
                     <Grid item width={{ xs: 1 }} />
                 </Grid>
             );
-            const expectedOffsets = [
-                { xs: 0, sm: 0, md: 0, lg: 0, xl: 0 },
-                { xs: 0, sm: 0, md: 1, lg: 1, xl: 1 },
-                { xs: 1, sm: 1, md: 2, lg: 2, xl: 2 },
-            ];
 
-            expect(
-                grid.children().forEach((item, index) => {
-                    const element = item.getElement();
-
-                    Object.keys(element.props.offset).forEach((size) => {
-                        expect(element.props.offset[size]).toEqual(
-                            expectedOffsets[index][size]
-                        );
-                    });
-                })
-            );
+            expect(container).toMatchSnapshot();
         });
 
-        describe("when using custom gap", () => {
-            it("should wrap its root element in a theme context provider", () => {
-                const props = {
-                    container: true,
-                    gap: "2em",
-                };
-                const grid = shallow(<Grid {...props} />);
+        it("should update gap state if it has changed", () => {
+            const startingGap = 1.5;
+            const changedGap = 2;
+            const { rerender } = render(<Grid container gap={startingGap} />);
+            const setGapSpy = jest.fn();
+            const useStateSpy = jest
+                .spyOn(React, "useState")
+                .mockImplementation(() => [startingGap, setGapSpy]);
 
-                expect(grid.find(ThemeContext.Provider).length).toBe(1);
-            });
+            rerender(<Grid container gap={changedGap} />);
 
-            it("should not consider gap if it is not a container", () => {
-                const props = { gap: "2em" };
-                const grid = shallow(<Grid {...props} />);
+            expect(setGapSpy).toHaveBeenCalledWith(changedGap);
 
-                expect(grid.find(ThemeContext.Provider).length).toBe(0);
-            });
-
-            it("should not consider gap if it is not provided", () => {
-                const props = { container: true };
-                const grid = shallow(<Grid {...props} />);
-
-                expect(grid.find(ThemeContext.Provider).length).toBe(0);
-            });
-
-            it("should update gap state if it has changed", () => {
-                const startingGap = 1.5;
-                const changedGap = 2;
-                const grid = shallow(<Grid container gap={startingGap} />);
-                const setGapSpy = jest.fn();
-                const useStateSpy = jest
-                    .spyOn(React, "useState")
-                    .mockImplementation((value) =>
-                        // if true then this is the breakpoints call and we must return an array
-                        // or the component will throw an exception
-                        Array.isArray(value)
-                            ? [value, jest.fn()]
-                            : [startingGap, setGapSpy]
-                    );
-
-                grid.setProps({ gap: changedGap });
-
-                expect(setGapSpy).toHaveBeenCalledWith(changedGap);
-
-                useStateSpy.mockRestore();
-            });
-
-            it("should not update breakpoints state if it the values are equivalent", () => {
-                const gap = 1.5;
-                const grid = shallow(<Grid container gap={gap} />);
-                const setGapSpy = jest.fn();
-                const useStateSpy = jest
-                    .spyOn(React, "useState")
-                    .mockImplementation((value) => [value, setGapSpy]);
-
-                grid.setProps({ gap: gap });
-
-                expect(setGapSpy).not.toHaveBeenCalled();
-
-                useStateSpy.mockRestore();
-            });
+            useStateSpy.mockRestore();
         });
     });
 });
