@@ -76,7 +76,6 @@
         "prop-types": "^15.7.2",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
-        "react-jss": "^10.8.2",
         "react-syntax-highlighter": "^15.4.5",
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0",
@@ -89,11 +88,11 @@
         "classnames": "^2.3.1",
         "prop-types": "^15.7.2",
         "react": "^16.8.6 || ^17.0.0",
-        "react-dom": "^16.8.6 || ^17.0.0",
-        "react-jss": "^10.8.2"
+        "react-dom": "^16.8.6 || ^17.0.0"
     },
     "lint-staged": {
         "*.js": "eslint --cache --fix",
         "*.{js,css,md}": "prettier --write"
-    }
+    },
+    "dependencies": {}
 }
