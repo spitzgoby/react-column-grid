@@ -1,5 +1,20 @@
 # Grid
 
+## className
+
+**Default**: `undefined`
+**Description**: Provides a way to add additional classes to the wrapping DOM
+element. Any values here are applied last and thus will override the classes
+generated automatically.
+
+**Usage**
+
+```Javascript
+<Grid className="my-cool-classname" />
+```
+
+---
+
 ## container
 
 **Type**: `PropTypes.bool`  
@@ -232,7 +247,8 @@ given the `display: none` attribute.
 unit is `em`, but a string can be provided with an arbitrary unit. The component
 does not validate the string and will happily apply any arbitrary value as the gap.
 This value is ignored if the component is not a `container`. This value will be
-inherited by any descendant grid containers.
+inherited by any descendant grid containers. This value is added as an inline
+style and thus cannot be overridden by adding classes to the `<Grid>`.
 
 **Usage**:
 

@@ -57,6 +57,30 @@ yarn start # runs the application
 
 ---
 
+## Migrating from 1._ to 2._
+
+### Custom Breakpoints
+
+Version 1 of `React Column Grid` allowed the user to set breakpoints within a
+`<Grid>` component. This capability has been removed due to its reliance on JSS.
+This has 2 major upsides:
+
+1. It is easier to maintain compatibility with future version of `React`
+2. It greatly reduces the size of the `React Column Grid` install.
+
+If you have code that sets custom breakpoints within a `<Grid>` component it
+will produce a console warning and will ignore those values.
+
+Keep an eye out for future updates that will revive this capability.
+
+### Gap
+
+The `gap` property is now set on `<Grid>` components using inline styles. This
+means it will be more specific than any class based `gap` values you may want to
+set.
+
+--
+
 ## Getting Started
 
 If you're familiar with either
@@ -265,5 +289,5 @@ width or a number in which case the unit will be `em`.
 
 ## Additional Documentation
 
--   [<Grid /> Documentation](./src/Grid.md)
--   [<Hidden /> Documentation](./src/Hidden.md)
+-   [Grid Documentation](./src/Grid/README.md)
+-   [Hidden Documentation](./src/Hidden/README.md)
