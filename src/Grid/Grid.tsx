@@ -1,9 +1,16 @@
 import { addMissingSizes, sizes } from "../utils/breakpoints";
+import { 
+    getValueOfNumeric, 
+    Numeric, 
+    numericIsInteger 
+} from '../utils/numeric';
 import classNames from "classnames";
 import {
+    BooleanBreakpointValues,
     generateSizeClassNames,
     getAdjustedLayoutProps,
     getGap,
+    NumericBreakpointValues
 } from "./Grid.layout";
 import PropTypes from "prop-types";
 import React from "react";
@@ -17,11 +24,22 @@ const defaultOffset = 0;
 const defaultWidth = 12;
 const shortHandProps = ["offset", "width"];
 
-const isInteger = (value) => !isNaN(parseInt(value, 10));
-const useShorthandSyntax = (propName, prop) =>
-    shortHandProps.includes(propName) && isInteger(prop);
+const useShorthandSyntax = (propName: string, prop: Numeric) =>
+    shortHandProps.includes(propName) && numericIsInteger(prop);
 
-const Grid = ({
+type Props = {
+    children: React.ReactNode,
+    className: string,
+    clear: BooleanBreakpointValues,
+    container: boolean,
+    gap: Numeric,
+    hide: BooleanBreakpointValues,
+    item: boolean,
+    offset: NumericBreakpointValues | Numeric,
+    width: NumericBreakpointValues | Numeric,
+}
+
+const Grid: React.FC<Props> = ({
     children,
     className,
     container,
@@ -91,7 +109,7 @@ const Grid = ({
             let renderedChild = child;
 
             if (child?.type?.name === Grid.name && child?.props?.item) {
-                const renderedChildOffset = sizes.reduce((acc, size) => {
+                const renderedChildOffset = sizes.reduce((acc: NumericBreakpointValues, size) => {
                     const completedClear = addMissingSizes(
                         "clear",
                         child.props.clear,
@@ -126,8 +144,8 @@ const Grid = ({
                             currentColumns
                         );
 
-                    currentColumns[size] = adjustedColumn;
-                    acc[size] = adjustedOffset;
+                    currentColumns[size] = getValueOfNumeric(adjustedColumn);
+                    acc[size] = getValueOfNumeric(adjustedOffset);
 
                     return acc;
                 }, {});

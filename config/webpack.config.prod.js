@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-    entry: { index: path.resolve("src/index.js") },
+    entry: { index: path.resolve("src/index.ts") },
     externals: {
         react: "react",
         "react-dom": "react-dom",
@@ -14,13 +14,21 @@ module.exports = {
                 use: ["style-loader", "css-loader", "sass-loader"],
             },
             {
+                test: /\.(ts|tsx)$/i,
+                exclude: /node_modules/,
+                use: ["ts-loader"],
+            },
+            {
                 test: /\.(js|jsx)$/i,
                 exclude: /node_modules/,
                 use: ["babel-loader"],
             },
         ],
     },
-    resolve: { modules: [path.resolve(__dirname, "src"), "node_modules"] },
+    resolve: {
+        extensions: [".ts", ".tsx", ".js", ".json"],
+        modules: [path.resolve(__dirname, "src"), "node_modules"],
+    },
     output: {
         clean: true,
         filename: "[name].js",

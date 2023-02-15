@@ -4,13 +4,24 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import "./Hidden.scss";
+import { BooleanBreakpointValues } from "../Grid/Grid.layout";
 
 const defaultHide = false;
 
 // Shorthand syntax does not apply to the <Hidden /> element
 const useShorthandSyntax = () => false;
 
-const Hidden = ({ children, hide, xs, sm, md, lg, xl }) => {
+type Props = {
+    children: React.ReactNode,
+    hide: BooleanBreakpointValues,
+    lg: boolean,
+    md: boolean,
+    sm: boolean,
+    xl: boolean,
+    xs: boolean
+};
+
+const Hidden: React.FC<Props> = ({ children, hide, xs, sm, md, lg, xl }) => {
     const buildHideUsingShorthandSizes = () => ({ xs, sm, md, lg, xl });
     const hasShorthandSizes = xs || sm || md || lg || xl;
     const adjustedHide =
