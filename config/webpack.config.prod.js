@@ -1,4 +1,5 @@
 const path = require("path");
+const DeclarationBundlerPlugin = require("types-webpack-bundler");
 
 module.exports = {
     entry: { index: path.resolve("src/index.ts") },
@@ -38,4 +39,10 @@ module.exports = {
         },
         path: path.resolve("dist"),
     },
+    plugins: [
+        new DeclarationBundlerPlugin({
+            moduleName: "react-column-grid",
+            out: "./index.d.ts",
+        }),
+    ],
 };
