@@ -153,13 +153,38 @@ describe("Grid layout", () => {
             });
         });
 
-        it("should set the new coumn count to 0 if an item clears its row", () => {
+        it("should set the new column count to 0 if an item clears its row", () => {
             const mockSize = "xs";
             const mockOffset = { xs: 3 };
             const mockWidth = { xs: 6 };
             const mockHide = { xs: false };
             const mockClear = { xs: true };
             const mockColumns = { xs: 0 };
+            const mockNumColumns = 12;
+
+            expect(
+                getAdjustedLayoutProps(
+                    mockSize,
+                    mockOffset,
+                    mockWidth,
+                    mockHide,
+                    mockClear,
+                    mockColumns,
+                    mockNumColumns
+                )
+            ).toEqual({
+                adjustedOffset: 3,
+                adjustedColumn: 0,
+            });
+        });
+
+        it("should set the new column count to 0 if an item is pushed down a row and clears its row", () => {
+            const mockSize = "xs";
+            const mockOffset = { xs: 3 };
+            const mockWidth = { xs: 6 };
+            const mockHide = { xs: false };
+            const mockClear = { xs: true };
+            const mockColumns = { xs: 6 };
             const mockNumColumns = 12;
 
             expect(
