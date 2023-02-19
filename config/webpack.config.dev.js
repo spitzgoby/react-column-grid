@@ -1,7 +1,9 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const { merge } = require("webpack-merge");
+const commonConfig = require("./webpack.config.common");
 
-module.exports = {
+module.exports = merge(commonConfig, {
     devServer: {
         static: {
             directory: path.resolve("dist"),
@@ -16,28 +18,10 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.s[ac]ss$/i,
-                use: ["style-loader", "css-loader", "sass-loader"],
-            },
-            {
                 test: /\.png$/i,
                 type: "asset/resource",
             },
-            {
-                test: /\.(ts|tsx)$/i,
-                exclude: /node_modules/,
-                use: ["ts-loader"],
-            },
-            {
-                test: /\.(js|jsx)$/i,
-                exclude: /node_modules/,
-                use: ["babel-loader"],
-            },
         ],
-    },
-    resolve: {
-        extensions: [".ts", ".tsx", ".js", ".json"],
-        modules: [path.resolve(__dirname, "src"), "node_modules"],
     },
     output: {
         clean: true,
@@ -50,4 +34,4 @@ module.exports = {
             template: path.resolve("example/index.html"),
         }),
     ],
-};
+});
