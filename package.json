@@ -24,7 +24,7 @@
         "clean": "rm -rf dist",
         "prepare": "husky install",
         "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.dev.js",
-        "test": "jest",
+        "test": "jest --coverage",
         "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
         "type": "tsc"
     },

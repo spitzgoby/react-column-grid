@@ -6,3 +6,4 @@ react-column-grid-*.tgz
 # directories
 node_modules/
 dist/
+coverage/
