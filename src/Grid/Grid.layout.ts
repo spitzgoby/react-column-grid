@@ -3,6 +3,7 @@ import { DEFAULT_GAP } from "../constants/gap";
 import { 
     getValueOfNumeric, 
     Numeric, 
+    numericIsDecimal,
     numericIsInteger 
 } from "../utils/numeric";
 
@@ -22,7 +23,7 @@ export type BooleanBreakpointValues = {
     xl?: boolean
 }
 
-const gapHasNoUnits = (gap: string) => numericIsInteger(gap);
+const gapHasNoUnits = (gap: string) => numericIsInteger(gap) || numericIsDecimal(gap);
 export const getGap = (gap: Gap): Gap => {
     const gapType = typeof gap;
     let result: Gap = DEFAULT_GAP;

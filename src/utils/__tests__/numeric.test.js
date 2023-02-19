@@ -1,4 +1,8 @@
-import { numericIsInteger, getValueOfNumeric } from "../numeric";
+import {
+    numericIsInteger,
+    getValueOfNumeric,
+    numericIsDecimal,
+} from "../numeric";
 
 describe("numeric utilities", () => {
     describe("when determining if a numeric is an integer", () => {
@@ -20,6 +24,36 @@ describe("numeric utilities", () => {
 
         it("should determine that undefined is not an integer", () => {
             expect(numericIsInteger(undefined)).toBe(false);
+        });
+    });
+
+    describe("when determining if a numeric is a decimal", () => {
+        it("should determine when a string is a decimal with a leading zero", () => {
+            expect(numericIsDecimal("0.1")).toBe(true);
+        });
+
+        it("should determine when a string is a decimal without a leading zero", () => {
+            expect(numericIsDecimal(".1")).toBe(true);
+        });
+
+        it("should determine an integer string is not a decimal", () => {
+            expect(numericIsDecimal("1")).toBe(false);
+        });
+
+        it("should determine a string with multiple dots is not a decimal", () => {
+            expect(numericIsDecimal("1.1.1")).toBe(false);
+        });
+
+        it("should determine when a number is a decimal", () => {
+            expect(numericIsDecimal(0.1)).toBe(true);
+        });
+
+        it("should determine when a number is not a decimal", () => {
+            expect(numericIsDecimal(1)).toBe(false);
+        });
+
+        it("should determine that undefined is not a decimal", () => {
+            expect(numericIsDecimal(undefined)).toBe(false);
         });
     });
 

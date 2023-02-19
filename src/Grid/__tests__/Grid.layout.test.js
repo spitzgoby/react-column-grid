@@ -10,8 +10,12 @@ describe("Grid layout", () => {
             expect(getGap()).toEqual("1em");
         });
 
-        it("should use the provided gap with em if it is a number", () => {
+        it("should use the provided gap with em if it is an integer", () => {
             expect(getGap(2)).toEqual("2em");
+        });
+
+        it("should use the provided gap with em if it is a decimal", () => {
+            expect(getGap(0.5)).toEqual("0.5em");
         });
 
         it("should use the provided gap with em if it is a numeric string", () => {
