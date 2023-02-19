@@ -213,6 +213,53 @@ export const App = () => {
                         </Grid>
                     </Grid>
                 </div>
+                <div className="app--example">
+                    <h2>{examples[5].title}</h2>
+                    <p>{examples[5].description}</p>
+                    <Grid container>
+                        <Grid item width={12}>
+                            <SourceCodeBlock
+                                sourceCode={examples[5].sourceCode}
+                            />
+                        </Grid>
+                        <Grid container item width={12}>
+                            <Grid container item width={12}>
+                                <Grid
+                                    className="app--box"
+                                    clear={{ xs: true }}
+                                    item
+                                    width={6}
+                                >
+                                    Row 1
+                                </Grid>
+                                <Grid
+                                    className="app--box"
+                                    clear={{ xs: true }}
+                                    item
+                                    width={6}
+                                >
+                                    Row 2
+                                </Grid>
+                                <Grid
+                                    className="app--box"
+                                    clear={{ xs: true, md: false }}
+                                    item
+                                    width={6}
+                                >
+                                    Row 3
+                                </Grid>
+                                <Grid
+                                    className="app--box"
+                                    clear={{ xs: true, md: false }}
+                                    item
+                                    width={6}
+                                >
+                                    Row 4
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </div>
             </Grid>
         </Grid>
     );

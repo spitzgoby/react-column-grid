@@ -68,7 +68,7 @@ export default [
     },
     {
         description:
-            "A multi-item layout with cells that span multiple rows with a reduced gap",
+            "A multi-item layout with cells that span multiple rows with a reduced gap.",
         sourceCode:
             "<Grid container gap={0.5}>\n" +
             "   <Grid container item width={6}>\n" +
@@ -83,5 +83,17 @@ export default [
             "   </Grid>\n" +
             "</Grid>\n",
         title: "Example 5",
+    },
+    {
+        description: `A multi-line layout which clears the first 2 lines on all 
+            screen sizes and clears the last 2 lines on small screens and below.`,
+        sourceCode:
+            "<Grid container>\n" +
+            "   <Grid item width={6} clear={{ xs: true }}>Row 1</Grid>\n" +
+            "   <Grid item width={6} clear={{ xs: true }}>Row 2</Grid>\n" +
+            "   <Grid item width={6} clear={{ xs: true, md: false }}>Row 3</Grid>\n" +
+            "   <Grid item width={6} clear={{ xs: true, md: false }}>Row 3</Grid>\n" +
+            "</Grid>\n",
+        title: "Example 6",
     },
 ];

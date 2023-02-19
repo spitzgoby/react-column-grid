@@ -9,7 +9,7 @@ module.exports = {
     },
     devtool: "source-map",
     entry: {
-        index: path.resolve("src/index.js"),
+        index: path.resolve("src/index.ts"),
         example: path.resolve("example/index.js"),
     },
     mode: process.env.NODE_ENV || "development",
@@ -24,13 +24,21 @@ module.exports = {
                 type: "asset/resource",
             },
             {
+                test: /\.(ts|tsx)$/i,
+                exclude: /node_modules/,
+                use: ["ts-loader"],
+            },
+            {
                 test: /\.(js|jsx)$/i,
                 exclude: /node_modules/,
                 use: ["babel-loader"],
             },
         ],
     },
-    resolve: { modules: [path.resolve(__dirname, "src"), "node_modules"] },
+    resolve: {
+        extensions: [".ts", ".tsx", ".js", ".json"],
+        modules: [path.resolve(__dirname, "src"), "node_modules"],
+    },
     output: {
         clean: true,
         filename: "[name].js",
