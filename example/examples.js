@@ -89,9 +89,9 @@ export default [
             screen sizes and clears the last 2 lines on small screens and below.`,
         sourceCode:
             "<Grid container>\n" +
-            "   <Grid item width={6} clear={{ xs: true }}>Row 1</Grid>\n" +
-            "   <Grid item width={6} clear={{ xs: true }}>Row 2</Grid>\n" +
-            "   <Grid item width={6} clear={{ xs: true, md: false }}>Row 3</Grid>\n" +
+            "   <Grid item width={6} clear>Row 1</Grid>\n" +
+            "   <Grid item width={6} clear>Row 2</Grid>\n" +
+            "   <Grid item width={6} clear xs: true, md: false }}>Row 3</Grid>\n" +
             "   <Grid item width={6} clear={{ xs: true, md: false }}>Row 3</Grid>\n" +
             "</Grid>\n",
         title: "Example 6",

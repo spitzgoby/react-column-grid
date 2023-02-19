@@ -2,10 +2,12 @@ import { render } from "@testing-library/react";
 import Grid from "../Grid";
 import * as layout from "../Grid.layout";
 import React from "react";
+import * as breakpoints from "../../utils/breakpoints";
 
 describe("<Grid />", () => {
     beforeAll(() => {
         jest.spyOn(layout, "generateSizeClassNames");
+        jest.spyOn(breakpoints, "addMissingSizes");
     });
 
     afterEach(() => {
@@ -54,6 +56,21 @@ describe("<Grid />", () => {
                 offset: { xs: "1", sm: "1", md: "1", lg: "1", xl: "1" },
                 width: { xs: "10", sm: "10", md: "10", lg: "10", xl: "10" },
             });
+        });
+
+        it("should use shorthand syntax for clear", () => {
+            render(
+                <Grid container>
+                    <Grid item clear />
+                </Grid>
+            );
+
+            expect(breakpoints.addMissingSizes).toHaveBeenCalledWith(
+                "clear",
+                true,
+                false,
+                expect.any(Function)
+            );
         });
 
         it("should use supplied class", () => {

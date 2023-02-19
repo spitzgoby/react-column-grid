@@ -150,38 +150,31 @@ simply provide a single numeric value.
 **Type**:
 
 ```Javascript
-PropTypes.shape({
-    xs: PropTypes.bool,
-    sm: PropTypes.bool,
-    md: PropTypes.bool,
-    lg: PropTypes.bool,
-    xl: PropTypes.bool
-})
+PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+        xs: PropTypes.bool,
+        sm: PropTypes.bool,
+        md: PropTypes.bool,
+        lg: PropTypes.bool,
+        xl: PropTypes.bool,
+    })
+])
 ```
 
-**Default**:
-
-```Javascript
-{
-    xs: false,
-    sm: false,
-    md: false,
-    lg: false,
-    xl: false
-}
-```
-
+**Default**: `false`  
 **Description**: Determines whether a given item should take up the remaining space
 of he row that it occupies even if its width and offset would not normally span an
 entire row. If no value is set at a given breakpoint the value from the next
 smallest breakpoint will be used. This value is ignored if the `item` prop is
-`false`.
+`false`. In order to clear the row across all breakpoints simply set the value to
+`true`.
 
 **Usage**:
 
 ```Javascript
-// Creates a grid that has 2 rows on xs and sm screens, but only a single row on md
-// and larger screens.
+// Creates a grid that has 3 rows on xs and sm screens, but only 2 rows on md
+// and larger screens. The final row always clears.
 <Grid container>
     <Grid item
         clear={{ xs: true, md: false }}
@@ -191,6 +184,7 @@ smallest breakpoint will be used. This value is ignored if the `item` prop is
         clear={{ xs: true, md: false }}
         width={{ xs: 6, md: 3 }}
         offset={{ xs: 3 }} />
+    <Grid item clear width={6} offset={3} />
 </Grid>
 ```
 

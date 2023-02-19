@@ -22,15 +22,25 @@ const defaultClear = false;
 const defaultHide = false;
 const defaultOffset = 0;
 const defaultWidth = 12;
-const shortHandProps = ["offset", "width"];
+const booleanShortHandProps = ["clear"];
+const numericShortHandProps = ["offset", "width"];
 
-const useShorthandSyntax = (propName: string, prop: Numeric) =>
-    shortHandProps.includes(propName) && numericIsInteger(prop);
+const useShorthandSyntax = (propName: string, prop: Numeric | boolean): boolean => {
+    let result = false;    
+
+    if (typeof prop === 'boolean') { 
+        result = booleanShortHandProps.includes(propName);
+    } else if (numericShortHandProps.includes(propName)) {
+        result = numericIsInteger(prop);
+    }
+
+    return result;
+}
 
 type Props = {
     children: React.ReactNode,
     className: string,
-    clear: BooleanBreakpointValues,
+    clear: boolean | BooleanBreakpointValues,
     container: boolean,
     gap: Numeric,
     hide: BooleanBreakpointValues,
@@ -179,13 +189,16 @@ const Grid: React.FC<Props> = ({
 
 Grid.propTypes = {
     children: PropTypes.node,
-    clear: PropTypes.shape({
-        xs: PropTypes.bool,
-        sm: PropTypes.bool,
-        md: PropTypes.bool,
-        lg: PropTypes.bool,
-        xl: PropTypes.bool,
-    }),
+    clear: PropTypes.oneOfType([
+        PropTypes.bool, 
+        PropTypes.shape({
+            xs: PropTypes.bool,
+            sm: PropTypes.bool,
+            md: PropTypes.bool,
+            lg: PropTypes.bool,
+            xl: PropTypes.bool,
+        })
+    ]),
     className: PropTypes.string,
     container: PropTypes.bool,
     gap: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
