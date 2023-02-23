@@ -12,7 +12,7 @@ import {
     getGap,
     NumericBreakpointValues
 } from "./Grid.layout";
-import PropTypes from "prop-types";
+import PropTypes, { ReactNodeLike } from "prop-types";
 import React from "react";
 import ThemeContext from "../ThemeContext";
 
@@ -38,15 +38,15 @@ const useShorthandSyntax = (propName: string, prop: Numeric | boolean): boolean 
 }
 
 type Props = {
-    children: React.ReactNode,
-    className: string,
-    clear: boolean | BooleanBreakpointValues,
-    container: boolean,
-    gap: Numeric,
-    hide: BooleanBreakpointValues,
-    item: boolean,
-    offset: NumericBreakpointValues | Numeric,
-    width: NumericBreakpointValues | Numeric,
+    children: ReactNodeLike,
+    className?: string,
+    clear?: boolean | BooleanBreakpointValues,
+    container?: boolean,
+    gap?: Numeric,
+    hide?: BooleanBreakpointValues,
+    item?: boolean,
+    offset?: NumericBreakpointValues | Numeric,
+    width?: NumericBreakpointValues | Numeric,
 }
 
 const Grid: React.FC<Props> = ({
@@ -180,7 +180,7 @@ const Grid: React.FC<Props> = ({
 
     const renderGrid = () => (
         <div className={getClass()} style={getStyle()}>
-            {container ? renderChildren() : children}
+            <>{container ? renderChildren() : children}</>
         </div>
     );
 

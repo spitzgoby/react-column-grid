@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { addMissingSizes } from "../utils/breakpoints";
-import PropTypes from "prop-types";
+import PropTypes, { ReactNodeLike } from "prop-types";
 import React from "react";
 
 import "./Hidden.scss";
@@ -12,13 +12,13 @@ const defaultHide = false;
 const useShorthandSyntax = () => false;
 
 type Props = {
-    children: React.ReactNode,
-    hide: BooleanBreakpointValues,
-    lg: boolean,
-    md: boolean,
-    sm: boolean,
-    xl: boolean,
-    xs: boolean
+    children: ReactNodeLike,
+    hide?: BooleanBreakpointValues,
+    lg?: boolean,
+    md?: boolean,
+    sm?: boolean,
+    xl?: boolean,
+    xs?: boolean
 };
 
 const Hidden: React.FC<Props> = ({ children, hide, xs, sm, md, lg, xl }) => {

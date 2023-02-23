@@ -10,6 +10,7 @@
         "column"
     ],
     "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
     "files": [
         "dist",
         "LICENSE",
@@ -25,8 +26,8 @@
         "prepare": "husky install",
         "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.dev.js",
         "test": "jest --coverage",
-        "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch --coverage",
-        "type": "tsc"
+        "test:watch": "jest --coverage --watch",
+        "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch --coverage"
     },
     "jest": {
         "moduleNameMapper": {
@@ -77,7 +78,6 @@
         "style-loader": "^3.3.1",
         "ts-jest": "^29.0.5",
         "ts-loader": "^9.4.2",
-        "types-webpack-bundler": "^1.0.2",
         "typescript": "^4.9.5",
         "webpack": "^5.61.0",
         "webpack-cli": "^4.9.1",
