@@ -1,4 +1,8 @@
-import { addMissingSizes } from "../breakpoints";
+import {
+    addMissingSizes,
+    DEFAULT_BREAKPOINTS,
+    generateBreakpointDefinitions,
+} from "../breakpoints";
 
 describe("breakpoints", () => {
     describe("when creating missing sizes", () => {
@@ -47,6 +51,63 @@ describe("breakpoints", () => {
                 lg: "value",
                 xl: "value",
             });
+        });
+    });
+
+    describe("when generating breakpoint definitions", () => {
+        it("should generate correct breakpoints for valid screen widths", () => {
+            const mockScreenWidths = [500, 1000, 1500, 2000];
+            const expectedBreakpointDefinitions = [
+                {
+                    size: "xs",
+                    maxWidth: "499px",
+                },
+                {
+                    size: "sm",
+                    maxWidth: "999px",
+                    minWidth: "500px",
+                },
+                {
+                    size: "md",
+                    maxWidth: "1499px",
+                    minWidth: "1000px",
+                },
+                {
+                    size: "lg",
+                    maxWidth: "1999px",
+                    minWidth: "1500px",
+                },
+                {
+                    size: "xl",
+                    minWidth: "2000px",
+                },
+            ];
+
+            expect(generateBreakpointDefinitions(mockScreenWidths)).toEqual(
+                expectedBreakpointDefinitions
+            );
+        });
+
+        it("should provide default breakpoints if not enough width values are provided", () => {
+            const mockScreenWidths = [500, 1000, 1500];
+
+            expect(generateBreakpointDefinitions(mockScreenWidths)).toEqual(
+                DEFAULT_BREAKPOINTS
+            );
+        });
+
+        it("should provide default breakpoints if the widths are not in increasing order", () => {
+            const mockScreenWidths = [2000, 1500, 1000, 500];
+
+            expect(generateBreakpointDefinitions(mockScreenWidths)).toEqual(
+                DEFAULT_BREAKPOINTS
+            );
+        });
+
+        it("should provide default breakpoints if no widths are provided", () => {
+            expect(generateBreakpointDefinitions()).toEqual(
+                DEFAULT_BREAKPOINTS
+            );
         });
     });
 });
