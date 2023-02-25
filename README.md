@@ -1,10 +1,10 @@
 # react-column-grid
 
-A simple, lightweight and terse grid based layout system for React
-applications. It allows you to quickly generate responsive layouts
-for a great looking application on any screen size.
+A simple, lightweight, and terse grid based layout system for React
+applications. It allows you to quickly generate responsive layouts for a great
+looking application at any screen size.
 
-The library relies on the
+The library is built using the
 [CSS Grid Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout)
 system.
 
@@ -59,19 +59,23 @@ yarn start # runs the application
 
 ## Migrating from 1._ to 2._
 
-### Custom Breakpoints
+[Change Log](./CHANGELOG.md)
 
-Version 1 of `React Column Grid` allowed the user to set breakpoints within a
-`<Grid>` component. This capability has been removed due to its reliance on JSS.
+### Custom Breakpoints and Columns
+
+Version 1 of `react-column-grid` allowed the user to set breakpoint widths and
+the number of columns represented by a `<Grid>` component. These capabilities
+have been removed due to their reliance on JSS.
+
 This has 2 major upsides:
 
 1. It is easier to maintain compatibility with future version of `React`
-2. It greatly reduces the size of the `React Column Grid` install.
+2. It greatly reduces the size of the `react-column-grid` install.
 
-If you have code that sets custom breakpoints within a `<Grid>` component it
-will produce a console warning and will ignore those values.
+If you have code that sets custom breakpoints or columns within a `<Grid>`
+component they will not cause any errors but will cease to function.
 
-Keep an eye out for future updates that will revive this capability.
+Keep an eye out for future updates that will revive these capabilities.
 
 ### Gap
 
@@ -79,7 +83,7 @@ The `gap` property is now set on `<Grid>` components using inline styles. This
 means it will be more specific than any class based `gap` values you may want to
 set.
 
---
+---
 
 ## Getting Started
 
@@ -107,8 +111,8 @@ Each `<Grid>` component can be an `item`, a `container`, or both. The root
 layout area. Each `item` component then determines how many columns it will
 span using the `width` prop. By default a row spans 12 columns, so when we
 set the value `width={xs: 12}` we are saying that this copmonent should take
-up a full row on an e**x**tra **s**mall screen. It's important to note that
-an `item` component must be the descendant of a `container`.
+up a full row on an e**x**tra **s**mall screen. An `item` component must be the
+descendant of a `container`.
 
 The value `width={md: 4}`
 instructs the component to take up 4 columns or 1/3 of the total row when the
@@ -117,6 +121,8 @@ screen is medium sized.
 Finally, when the user's screen is large sized there is an offset of 3 columns
 placed before the first item and then each item takes up 1/6 of the total width
 of the container.
+
+---
 
 ## Sizes and Breakpoints
 
@@ -146,6 +152,8 @@ of `md` for both `lg` and `xl` since it is the closest smaller size defined.
 
 See the [<Grid /> documentation](./src/Grid.md) for a complete list of
 props that use breakpoints.
+
+---
 
 ## Width and Offset
 
@@ -189,11 +197,12 @@ sizes you can use the shorthand syntax.
 </Grid>
 ```
 
+---
+
 ## Clear and Hide
 
-The `clear` and `hide` properties are similar to `width` and
-`offset` in the sense that they both use breakpoints, but use
-boolean values instead of numeric ones.
+The `clear` and `hide` properties also use breakpoints, but use boolean values
+instead of numeric ones.
 
 The `clear` prop defines whether a given item should prevent siblings
 from being placed after in on the same row. One use case would be to create
@@ -204,9 +213,9 @@ a grid of `item`s that don't add up to the length of the row.
     <Grid item width={2}>                       (0,0)</Grid>
     <Grid item width={2}>                       (0,1)</Grid>
     <Grid item width={2} clear={{ xs: true }}>  (0,2)</Grid>
-    // since the previous item is cleared, the next item will begin
-    // on a new row even though the total widths of the previous 3
-    // items does not take up the full span of a row
+    {/* since the previous item is cleared, the next item will begin
+        on a new row even though the total widths of the previous 3
+        items does not take up the full span of a row */}
     <Grid item width={2}>                       (1,0)</Grid>
     <Grid item width={2}>                       (1,1)</Grid>
     <Grid item width={2} clear={{ xs: true }}>  (1,2)</Grid>
@@ -230,6 +239,11 @@ should only show up when the user is on a smaller device.
     </Grid>
 </Grid>
 ```
+
+The `clear` property can also be a `boolean` if you want to clear the row at all
+screen sizes.
+
+---
 
 ## `<Hidden />`
 
@@ -256,20 +270,9 @@ screen sizes, this prop only targets the specific screen size passed.
     </Hidden>
 ```
 
+---
+
 ## Grid Customization
-
-The above examples assumed the default 12-column layout system, but
-it possible to use any custom number of columns that you need. The
-`columns` prop can only be assigned to a `container` element and it
-will change the number of columns used to layout `item`s.
-
-```Javascript
-<Grid container columns={6}>
-    <Grid offset={1} width={4}>
-        I am horizontally centered and take up 2/3 of the screen
-    </Grid>
-</Grid>
-```
 
 The `gap` property allows you to assign the space between each column
 (often referred to as the "gutter"). This can be a string defining any
@@ -286,6 +289,35 @@ width or a number in which case the unit will be `em`.
     <Grid item width={6}>There are 30px between me and my sibling</Grid>
 </Grid>
 ```
+
+---
+
+## Server Side Rendering
+
+`react-column-grid` relies on injecting styles into the `document`. If these
+components are being used in an environment with Server Side Rendering (such as
+[NextJS](https://nextjs.org/)) it will prevent the page from loading because the
+`document` is not available. The `<Grid>` and `<Hidden>` components must be
+loaded dynamically. The example below demonstrates how to do this within the
+`NextJS` framework.
+
+```Javascript
+import dynamic from 'next/dynamic';
+
+const Grid = dynamic(() => import('react-column-grid').then((rcg) => rcg.Grid), { ssr: false });
+
+const MyComponent = () => {
+    return (
+        <Grid container>
+            <Grid item offset={{ xs: 0, md: 3 }} width={{ xs: 12, md: 6 }}>
+                I was loaded dynamically after the <code>document</code> was available
+            </Grid>
+        </Grid>
+    )
+};
+```
+
+---
 
 ## Additional Documentation
 
