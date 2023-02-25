@@ -14,9 +14,9 @@ import {
 } from "./Grid.layout";
 import PropTypes, { ReactNodeLike } from "prop-types";
 import React from "react";
-import ThemeContext from "../ThemeContext";
 
 import "./Grid.scss";
+import { DEFAULT_GAP } from "../constants/gap";
 
 const defaultClear = false;
 const defaultHide = false;
@@ -44,6 +44,7 @@ type Props = {
     container?: boolean,
     gap?: Numeric,
     hide?: BooleanBreakpointValues,
+    inheritedGap?: Numeric,
     item?: boolean,
     offset?: NumericBreakpointValues | Numeric,
     width?: NumericBreakpointValues | Numeric,
@@ -53,24 +54,14 @@ const Grid: React.FC<Props> = ({
     children,
     className,
     container,
-    gap: propGap = null,
+    gap: propGap,
     hide = {},
+    inheritedGap,
     item,
     offset = {},
     width = { xs: 12 },
 }) => {
-    // Determine breakpoints and update state
-    // State is used to ensure that the context provider does not trigger
-    // unnecessary renders
-    const { gap } = React.useContext(ThemeContext);
-
-    const shouldUsePropGap = container && propGap;
-    const calculatedGap = shouldUsePropGap ? propGap : gap;
-    const [adjustedGap, setAdjustedGap] = React.useState(calculatedGap);
-
-    if (shouldUsePropGap && adjustedGap !== propGap) {
-        setAdjustedGap(calculatedGap);
-    }
+    const gap = propGap || inheritedGap || DEFAULT_GAP;    
 
     // Fill out incomplete layout props
     const adjustedHide = addMissingSizes(
@@ -100,13 +91,11 @@ const Grid: React.FC<Props> = ({
         width: adjustedWidth,
     });
 
-    const getThemeValues = () => ({ gap: adjustedGap });
-
     const getClass = () =>
         classNames({ "rcg-c": container }, sizeClassNames, className);
 
     const getStyle = () => ({
-        gap: container && adjustedGap && getGap(adjustedGap),
+        gap: container && getGap(gap),
     });
 
     const renderChildren = () => {
@@ -117,53 +106,63 @@ const Grid: React.FC<Props> = ({
 
         return childrenToRender.map((child, index) => {
             let renderedChild = child;
+            let renderedChildProps;
 
-            if (child?.type?.name === Grid.name && child?.props?.item) {
-                const renderedChildOffset = sizes.reduce((acc: NumericBreakpointValues, size) => {
-                    const completedClear = addMissingSizes(
-                        "clear",
-                        child.props.clear,
-                        defaultClear,
-                        useShorthandSyntax
-                    );
-                    const completedHide = addMissingSizes(
-                        "hide",
-                        child.props.hide,
-                        defaultHide,
-                        useShorthandSyntax
-                    );
-                    const completedOffset = addMissingSizes(
-                        "offset",
-                        child.props.offset,
-                        defaultOffset,
-                        useShorthandSyntax
-                    );
-                    const completedWidth = addMissingSizes(
-                        "width",
-                        child.props.width,
-                        defaultWidth,
-                        useShorthandSyntax
-                    );
-                    const { adjustedColumn, adjustedOffset } =
-                        getAdjustedLayoutProps(
-                            size,
-                            completedOffset,
-                            completedWidth,
-                            completedHide,
-                            completedClear,
-                            currentColumns
+            if (child?.type?.name === Grid.name) {
+                if (child?.props?.item) {
+                    const renderedChildOffset = sizes.reduce((acc: NumericBreakpointValues, size) => {
+                        const completedClear = addMissingSizes(
+                            "clear",
+                            child.props.clear,
+                            defaultClear,
+                            useShorthandSyntax
                         );
+                        const completedHide = addMissingSizes(
+                            "hide",
+                            child.props.hide,
+                            defaultHide,
+                            useShorthandSyntax
+                        );
+                        const completedOffset = addMissingSizes(
+                            "offset",
+                            child.props.offset,
+                            defaultOffset,
+                            useShorthandSyntax
+                        );
+                        const completedWidth = addMissingSizes(
+                            "width",
+                            child.props.width,
+                            defaultWidth,
+                            useShorthandSyntax
+                        );
+                        const { adjustedColumn, adjustedOffset } =
+                            getAdjustedLayoutProps(
+                                size,
+                                completedOffset,
+                                completedWidth,
+                                completedHide,
+                                completedClear,
+                                currentColumns
+                            );
 
-                    currentColumns[size] = getValueOfNumeric(adjustedColumn);
-                    acc[size] = getValueOfNumeric(adjustedOffset);
+                        currentColumns[size] = getValueOfNumeric(adjustedColumn);
+                        acc[size] = getValueOfNumeric(adjustedOffset);
 
-                    return acc;
-                }, {});
-                const renderedChildProps = {
-                    ...child.props,
-                    key: index,
-                    offset: renderedChildOffset,
-                };
+                        return acc;
+                    }, {});
+
+                    renderedChildProps = {
+                        ...child.props,
+                        key: index,
+                        offset: renderedChildOffset,
+                    };
+                } else if (child?.props?.container) {
+                    renderedChildProps = {
+                        ...child.props,
+                        key: index,
+                        inheritedGap: gap
+                    };
+                }
 
                 renderedChild = <Grid {...renderedChildProps} />;
             }
@@ -172,19 +171,11 @@ const Grid: React.FC<Props> = ({
         });
     };
 
-    const renderWithThemeProvider = () => (
-        <ThemeContext.Provider value={getThemeValues()}>
-            {renderGrid()}
-        </ThemeContext.Provider>
-    );
-
-    const renderGrid = () => (
+    return (
         <div className={getClass()} style={getStyle()}>
             <>{container ? renderChildren() : children}</>
         </div>
     );
-
-    return shouldUsePropGap ? renderWithThemeProvider() : renderGrid();
 };
 
 Grid.propTypes = {

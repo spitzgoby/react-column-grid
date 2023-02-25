@@ -7,7 +7,6 @@ import {
     numericIsInteger 
 } from "../utils/numeric";
 
-type Gap = string | number | undefined;
 export type NumericBreakpointValues = {
     xs?: Numeric,
     sm?: Numeric,
@@ -24,15 +23,15 @@ export type BooleanBreakpointValues = {
 }
 
 const gapHasNoUnits = (gap: string) => numericIsInteger(gap) || numericIsDecimal(gap);
-export const getGap = (gap: Gap): Gap => {
+export const getGap = (gap: Numeric): string => {
     const gapType = typeof gap;
-    let result: Gap = DEFAULT_GAP;
+    let result: string = DEFAULT_GAP;
 
     if (gapType === 'string') {
         if (gapHasNoUnits(gap as string)) {
             result = gap + 'em';
         } else {
-            result = gap 
+            result = gap as string 
         }
     } else if (gapType === 'number') {
         result = gap + 'em'; 

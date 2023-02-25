@@ -88,6 +88,32 @@ describe("<Grid />", () => {
 
             expect(container.querySelector(".rcg-c")).not.toBeNull();
         });
+
+        it("should use the gap provided", () => {
+            const { container } = render(<Grid container gap={2} />);
+
+            expect(
+                container.querySelector('[style="gap: 2em;"]')
+            ).not.toBeNull();
+        });
+
+        it("should ignore the provided gap when not a container", () => {
+            const { container } = render(<Grid item gap={2} />);
+
+            expect(container.querySelector('[style="gap: 2em;"]')).toBeNull();
+        });
+
+        it("should provide gap to <Grid> descendants", () => {
+            const { container } = render(
+                <Grid container gap={2}>
+                    <Grid container />
+                </Grid>
+            );
+
+            expect(
+                container.querySelectorAll('[style="gap: 2em;"]').length
+            ).toEqual(2);
+        });
     });
 
     describe("when the grid is a container", () => {
@@ -189,22 +215,6 @@ describe("<Grid />", () => {
             );
 
             expect(container).toMatchSnapshot();
-        });
-
-        it("should update gap state if it has changed", () => {
-            const startingGap = 1.5;
-            const changedGap = 2;
-            const { rerender } = render(<Grid container gap={startingGap} />);
-            const setGapSpy = jest.fn();
-            const useStateSpy = jest
-                .spyOn(React, "useState")
-                .mockImplementation(() => [startingGap, setGapSpy]);
-
-            rerender(<Grid container gap={changedGap} />);
-
-            expect(setGapSpy).toHaveBeenCalledWith(changedGap);
-
-            useStateSpy.mockRestore();
         });
     });
 });
