@@ -6,6 +6,7 @@ import {
     numericIsDecimal,
     numericIsInteger 
 } from "../utils/numeric";
+import { DEFAULT_COLUMNS } from "../GridProvider/GridContext";
 
 export type NumericBreakpointValues = {
     xs?: Numeric,
@@ -24,23 +25,21 @@ export type BooleanBreakpointValues = {
 
 const gapHasNoUnits = (gap: string) => numericIsInteger(gap) || numericIsDecimal(gap);
 export const getGap = (gap: Numeric): string => {
-    const gapType = typeof gap;
     let result: string = DEFAULT_GAP;
 
-    if (gapType === 'string') {
-        if (gapHasNoUnits(gap as string)) {
+    if (typeof gap === 'string') {
+        if (gapHasNoUnits(gap)) {
             result = gap + 'em';
         } else {
             result = gap as string 
         }
-    } else if (gapType === 'number') {
+    } else if (typeof gap === 'number') {
         result = gap + 'em'; 
     }     
     
     return result;
 }
 
-const NUM_COLUMNS = 12;
 const areValidColumns = (colWidth: Numeric, colOffset: Numeric): boolean => {
     const width = getValueOfNumeric(colWidth);
     const offset = getValueOfNumeric(colOffset);
@@ -48,7 +47,7 @@ const areValidColumns = (colWidth: Numeric, colOffset: Numeric): boolean => {
     return !isNaN(width) &&
     !isNaN(offset) &&
     width > 0 &&
-    width + offset <= NUM_COLUMNS;
+    width + offset <= DEFAULT_COLUMNS;
 }
 
 export const getAdjustedLayoutProps = (

@@ -1,3 +1,8 @@
+jest.mock("../../utils/manageStyles", () => ({
+    injectCss: jest.fn(),
+    removeCss: jest.fn(),
+}));
+
 import { render } from "@testing-library/react";
 import Grid from "../Grid";
 import * as layout from "../Grid.layout";

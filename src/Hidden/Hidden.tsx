@@ -3,7 +3,6 @@ import { addMissingSizes } from "../utils/breakpoints";
 import PropTypes, { ReactNodeLike } from "prop-types";
 import React from "react";
 
-import "./Hidden.scss";
 import { BooleanBreakpointValues } from "../Grid/Grid.layout";
 
 const defaultHide = false;

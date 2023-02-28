@@ -109,5 +109,13 @@ describe("breakpoints", () => {
                 DEFAULT_BREAKPOINTS
             );
         });
+
+        it("should provide default breakpoints if the wrong number of screen withs are provided", () => {
+            const mockScreenWidths = [500, 1000, 1500];
+
+            expect(generateBreakpointDefinitions(mockScreenWidths)).toEqual(
+                DEFAULT_BREAKPOINTS
+            );
+        });
     });
 });

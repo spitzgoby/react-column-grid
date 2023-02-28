@@ -1,4 +1,3 @@
-import { addMissingSizes, sizes } from "../utils/breakpoints";
 import { 
     getValueOfNumeric, 
     Numeric, 
@@ -13,9 +12,10 @@ import {
     NumericBreakpointValues
 } from "./Grid.layout";
 import PropTypes, { ReactNodeLike } from "prop-types";
-import React from "react";
+import React, { useContext } from "react";
+import { GridProvider, GridContext } from '../GridProvider';
+import { addMissingSizes, sizes } from "../utils/breakpoints";
 
-import "./Grid.scss";
 import { DEFAULT_GAP } from "../constants/gap";
 
 const defaultClear = false;
@@ -62,6 +62,7 @@ const Grid: React.FC<Props> = ({
     width = { xs: 12 },
 }) => {
     const gap = propGap || inheritedGap || DEFAULT_GAP;    
+    const { breakpoints, columns, depth } = useContext(GridContext);
 
     // Fill out incomplete layout props
     const adjustedHide = addMissingSizes(
@@ -82,6 +83,8 @@ const Grid: React.FC<Props> = ({
         defaultWidth,
         useShorthandSyntax
     );
+
+    const shouldRenderWithProvider = () => depth === 0 && container;
 
     // Generate classes based on width, offset and sizes
     const sizeClassNames = generateSizeClassNames({
@@ -156,7 +159,7 @@ const Grid: React.FC<Props> = ({
                         key: index,
                         offset: renderedChildOffset,
                     };
-                } else if (child?.props?.container) {
+                } else {
                     renderedChildProps = {
                         ...child.props,
                         key: index,
@@ -171,10 +174,20 @@ const Grid: React.FC<Props> = ({
         });
     };
 
-    return (
+    const renderWithoutGridProvider = () => (
         <div className={getClass()} style={getStyle()}>
             <>{container ? renderChildren() : children}</>
         </div>
+    );
+
+    const renderWithGridProvider = () => (
+        <GridProvider breakpoints={breakpoints} columns={columns}>
+            {renderWithoutGridProvider()}
+        </GridProvider>
+    )
+
+    return (
+        shouldRenderWithProvider() ? renderWithGridProvider() : renderWithoutGridProvider()
     );
 };
 

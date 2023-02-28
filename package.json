@@ -27,7 +27,7 @@
         "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.dev.js",
         "test": "jest --coverage",
         "test:watch": "jest --coverage --watch",
-        "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch --coverage"
+        "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch --coverage"
     },
     "jest": {
         "moduleNameMapper": {

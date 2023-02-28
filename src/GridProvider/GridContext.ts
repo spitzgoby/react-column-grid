@@ -5,11 +5,14 @@ export const DEFAULT_COLUMNS = 12;
 
 export type GridContextValues = {
     breakpoints: ScreenWidths,
-    columns: number
+    columns: number,
+    depth: number
 };
+
 export const GridContext = createContext<GridContextValues>({
     breakpoints: [600, 900, 1200, 1536],
-    columns: DEFAULT_COLUMNS
+    columns: DEFAULT_COLUMNS,
+    depth: 0
 });
 
 export default GridContext;
