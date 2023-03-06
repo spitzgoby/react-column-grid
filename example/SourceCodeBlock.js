@@ -5,7 +5,7 @@ import ReactSyntaxHighlighter from "react-syntax-highlighter";
 import "./SourceCodeBlock.scss";
 
 export const SourceCodeBlock = ({ sourceCode }) => {
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
 
     const getShowButtonProps = () => ({
         className: "source-code-block--show-button",
@@ -28,14 +28,14 @@ export const SourceCodeBlock = ({ sourceCode }) => {
 
     return (
         <div className="source-code-block">
-            <button {...getShowButtonProps()}>
-                {expanded ? "Hide Source Code" : "Show Source Code"}
-            </button>
             {expanded && (
                 <ReactSyntaxHighlighter {...getSyntaxHighlighterProps()}>
                     {sourceCode}
                 </ReactSyntaxHighlighter>
             )}
+            <button {...getShowButtonProps()}>
+                {expanded ? "Hide Source Code" : "Show Source Code"}
+            </button>
         </div>
     );
 };

@@ -21,6 +21,10 @@ module.exports = merge(commonConfig, {
                 test: /\.png$/i,
                 type: "asset/resource",
             },
+            {
+                test: /\.s[ac]ss$/i,
+                use: ["style-loader", "css-loader", "sass-loader"],
+            },
         ],
     },
     output: {
