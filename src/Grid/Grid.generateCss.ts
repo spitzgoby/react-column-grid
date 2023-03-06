@@ -3,15 +3,24 @@ import { generateScreenQueries } from "../utils/mediaQueries";
 import { 
     generateContainerClassName,
     generateHiddenClassNameForSize, 
-    generateColumnSpanClassNameForSize 
+    generateColumnSpanClassNameForSize, 
+    getGap
 } from "./Grid.layout";
 import { sizes } from "../utils/breakpoints";
+import { Numeric } from "../utils/numeric";
 
-const containerDisplay = 'display: grid;';
-export const generateGridContainerCss = (columns: number, id: string) => {
-    const containerTemplateColumns = `grid-template-columns: repeat(${columns}, 1fr);`;
+const containerDisplay = 'display: grid';
+export const generateGridContainerCss = (columns: number, gap: Numeric, id: string) => {
+    const containerTemplateColumns = `grid-template-columns: repeat(${columns}, 1fr)`;
+    const containerGap = `gap: ${getGap(gap)}`;
 
-    return `.${generateContainerClassName(id)}{${containerDisplay}${containerTemplateColumns}}`;
+    return (
+        `.${generateContainerClassName(id)} {
+            ${containerDisplay};
+            ${containerTemplateColumns};
+            ${containerGap};
+        }`
+    );
 }
 
 export const generateGridBreakpointCss = (breakpoints: BreakpointsDefinition, columns: number, id: string) => {

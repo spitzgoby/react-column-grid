@@ -1,4 +1,4 @@
-import { DEFAULT_GAP } from "../constants/gap";
+import { DEFAULT_GAP } from "../utils/gap";
 import { DEFAULT_COLUMNS } from "../GridProvider/GridContext";
 import { Breakpoint, sizes } from "../utils/breakpoints";
 import { 

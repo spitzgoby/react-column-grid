@@ -6,14 +6,17 @@ import { generateBreakpointDefinitions, ScreenWidths } from "../utils/breakpoint
 import { elementExistsWithId, injectCss, removeCss } from "../utils/manageStyles";
 import { generateHiddenBreakpointCss } from "../Hidden/Hidden.generateCss";
 import { createRandomId } from "../utils/id";
+import { Numeric } from "../utils/numeric";
+import { DEFAULT_GAP } from "../utils/gap";
 
 type Props = {
     breakpoints: ScreenWidths,
     children?: ReactNodeLike,
-    columns: number
+    columns: number,
+    gap: Numeric
 }
 
-const GridProvider = ({ breakpoints, children, columns = DEFAULT_COLUMNS }: Props) => {
+const GridProvider = ({ breakpoints, children, columns = DEFAULT_COLUMNS, gap = DEFAULT_GAP }: Props) => {
     const [id, setId] = useState(createRandomId());
 
     useEffect(() => {
@@ -29,7 +32,7 @@ const GridProvider = ({ breakpoints, children, columns = DEFAULT_COLUMNS }: Prop
     useEffect(() => {
         const breakpointDefinitions = generateBreakpointDefinitions(breakpoints);
         const gridBreakpointCss = generateGridBreakpointCss(breakpointDefinitions, columns, id).join('');
-        const gridContainerCss = generateGridContainerCss(columns, id);
+        const gridContainerCss = generateGridContainerCss(columns, gap, id);
         const hiddenCss = generateHiddenBreakpointCss(breakpointDefinitions, id).join('');
         const css = `${hiddenCss}${gridContainerCss}${gridBreakpointCss}`;
 
@@ -40,7 +43,7 @@ const GridProvider = ({ breakpoints, children, columns = DEFAULT_COLUMNS }: Prop
     }, [breakpoints, columns, id])
 
     return (
-        <GridContext.Provider value={{ breakpoints, columns, id }}>
+        <GridContext.Provider value={{ breakpoints, columns, gap, id }}>
             {children}
         </GridContext.Provider>
     );

@@ -9,7 +9,6 @@ import {
     generateContainerClassName,
     generateSizeClassNames,
     getAdjustedLayoutProps,
-    getGap,
     NumericBreakpointValues
 } from "./Grid.layout";
 import PropTypes, { ReactNodeLike } from "prop-types";
@@ -17,7 +16,7 @@ import React, { useContext } from "react";
 import { GridProvider, GridContext } from '../GridProvider';
 import { addMissingSizes, sizes } from "../utils/breakpoints";
 
-import { DEFAULT_GAP } from "../constants/gap";
+import { DEFAULT_GAP } from "../utils/gap";
 import { INITIAL_ID } from '../GridProvider/GridContext';
 
 const defaultClear = false;
@@ -46,7 +45,6 @@ type Props = {
     container?: boolean,
     gap?: Numeric,
     hide?: BooleanBreakpointValues,
-    inheritedGap?: Numeric,
     item?: boolean,
     offset?: NumericBreakpointValues | Numeric,
     width?: NumericBreakpointValues | Numeric,
@@ -59,13 +57,17 @@ const Grid: React.FC<Props> = (props) => {
         container,
         gap: propGap,
         hide = {},
-        inheritedGap,
         item,
         offset = {},
         width = { xs: 12 },
     } = props;
-    const gap = propGap || inheritedGap || DEFAULT_GAP;    
-    const { breakpoints, columns, id } = useContext(GridContext);
+    const { 
+        breakpoints, 
+        columns, 
+        gap: contextGap,
+        id 
+    } = useContext(GridContext);
+    const gap = propGap || contextGap || DEFAULT_GAP;    
 
     // Fill out incomplete layout props
     const adjustedHide = addMissingSizes(
@@ -87,7 +89,7 @@ const Grid: React.FC<Props> = (props) => {
         useShorthandSyntax
     );
 
-    const shouldRenderWithProvider = () => id === INITIAL_ID && container;
+    const shouldRenderWithProvider = () => container && (id === INITIAL_ID || gap !== contextGap);
 
     // Generate classes based on width, offset and sizes
     const sizeClassNames = generateSizeClassNames({
@@ -99,10 +101,6 @@ const Grid: React.FC<Props> = (props) => {
 
     const getClass = () =>
         classNames({ [generateContainerClassName(id)]: container }, sizeClassNames, className);
-
-    const getStyle = () => ({
-        gap: container && getGap(gap),
-    });
 
     const renderChildren = () => {
         let currentColumns = { xs: 0, sm: 0, md: 0, lg: 0, xl: 0 };
@@ -167,13 +165,6 @@ const Grid: React.FC<Props> = (props) => {
                     };
                 } 
 
-                if (child?.props?.container) {
-                    renderedChildProps = {
-                        ...renderedChildProps,
-                        inheritedGap: gap
-                    };
-                }
-
                 renderedChild = <Grid {...renderedChildProps} />;
             }
 
@@ -182,13 +173,13 @@ const Grid: React.FC<Props> = (props) => {
     };
 
     const renderWithoutGridProvider = () => (
-        <div className={getClass()} style={getStyle()}>
+        <div className={getClass()}>
             <>{container ? renderChildren() : children}</>
         </div>
     );
 
     const renderWithGridProvider = () => (
-        <GridProvider breakpoints={breakpoints} columns={columns}>
+        <GridProvider breakpoints={breakpoints} columns={columns} gap={gap}>
             <Grid {...props} />
         </GridProvider>
     )

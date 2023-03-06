@@ -29,8 +29,12 @@ describe("Generating Grid CSS", () => {
     });
 
     it("should create a root container class definition", () => {
-        expect(generateGridContainerCss(1, "rcg")).toEqual(
-            ".rcg-c{display: grid;grid-template-columns: repeat(1, 1fr);}"
+        expect(generateGridContainerCss(1, "1em", "rcg")).toEqual(
+            `.rcg-c {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1em;
+        }`
         );
     });
 });

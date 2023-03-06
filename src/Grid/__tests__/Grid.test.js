@@ -1,3 +1,4 @@
+// eslint-disable-next-line react/display-name, react/prop-types
 jest.mock("../../utils/manageStyles", () => ({
     elementExistsWithId: jest.fn().mockReturnValue(false),
     injectCss: jest.fn(),
@@ -10,8 +11,9 @@ jest.mock("../../utils/id", () => ({
 import { render } from "@testing-library/react";
 import Grid from "../Grid";
 import * as layout from "../Grid.layout";
-import React from "react";
+import React, { useContext } from "react";
 import * as breakpoints from "../../utils/breakpoints";
+import { GridContext } from "../../GridProvider";
 
 describe("<Grid />", () => {
     beforeAll(() => {
@@ -115,32 +117,6 @@ describe("<Grid />", () => {
 
             expect(container.querySelector(".rcg-c")).not.toBeNull();
         });
-
-        it("should use the gap provided", () => {
-            const { container } = render(<Grid container gap={2} />);
-
-            expect(
-                container.querySelector('[style="gap: 2em;"]')
-            ).not.toBeNull();
-        });
-
-        it("should ignore the provided gap when not a container", () => {
-            const { container } = render(<Grid item gap={2} />);
-
-            expect(container.querySelector('[style="gap: 2em;"]')).toBeNull();
-        });
-
-        it("should provide gap to <Grid> descendants", () => {
-            const { container } = render(
-                <Grid container gap={2}>
-                    <Grid container />
-                </Grid>
-            );
-
-            expect(
-                container.querySelectorAll('[style="gap: 2em;"]').length
-            ).toEqual(2);
-        });
     });
 
     describe("when the grid is a container", () => {
@@ -154,7 +130,7 @@ describe("<Grid />", () => {
             const renderGrid = () => {
                 render(
                     <Grid container item>
-                        <div></div>
+                        <Grid container />
                     </Grid>
                 );
             };
@@ -242,6 +218,48 @@ describe("<Grid />", () => {
             );
 
             expect(container).toMatchSnapshot();
+        });
+
+        it("should use the provide its gap prop to children via the grid context", () => {
+            const gapSpy = jest.fn();
+            const MockGapConsumer = () => {
+                const { gap } = useContext(GridContext);
+
+                gapSpy(gap);
+
+                return null;
+            };
+
+            render(
+                <Grid container gap={2}>
+                    <MockGapConsumer />
+                </Grid>
+            );
+
+            expect(gapSpy).toHaveBeenCalledWith(2);
+        });
+
+        it("should use default gap if none is provided in props or context", () => {
+            const gapSpy = jest.fn();
+            const MockGapConsumer = () => {
+                const { gap } = useContext(GridContext);
+
+                gapSpy(gap);
+
+                return null;
+            };
+
+            render(
+                <GridContext.Provider
+                    value={{ breakpoints: [], gap: undefined }}
+                >
+                    <Grid container>
+                        <MockGapConsumer />
+                    </Grid>
+                </GridContext.Provider>
+            );
+
+            expect(gapSpy).toHaveBeenCalledWith("1em");
         });
     });
 });

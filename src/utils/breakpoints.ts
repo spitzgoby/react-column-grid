@@ -37,6 +37,7 @@ const areValidScreenWidths = (screenWidths: ScreenWidths = []): boolean =>
     screenWidths.length === sizes.length - 1 && 
     screenWidths.reduce((acc, screenWidth, index) => {
         let validScreenWidth = false;
+
         if (acc) {
             if (index === 0) {
                 validScreenWidth = screenWidth > 0; 

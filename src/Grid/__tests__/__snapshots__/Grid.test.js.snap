@@ -4,7 +4,6 @@ exports[`<Grid /> when the grid is a container should clear move an item onto th
 <div>
   <div
     class="rcg-c"
-    style="gap: 1em;"
   >
     <div
       class="rcg-xs-1-1 rcg-sm-1-1 rcg-md-1-1 rcg-lg-1-1 rcg-xl-1-1"
@@ -23,7 +22,6 @@ exports[`<Grid /> when the grid is a container should create a grid container 1`
 <div>
   <div
     class="rcg-c"
-    style="gap: 1em;"
   />
 </div>
 `;
@@ -32,7 +30,6 @@ exports[`<Grid /> when the grid is a container should increase the offset of chi
 <div>
   <div
     class="rcg-c"
-    style="gap: 1em;"
   >
     <div
       class="rcg-xs-1-12 rcg-sm-1-12 rcg-md-4-3 rcg-lg-4-3 rcg-xl-4-3"
@@ -48,7 +45,6 @@ exports[`<Grid /> when the grid is a container should move elements onto the nex
 <div>
   <div
     class="rcg-c"
-    style="gap: 1em;"
   >
     <div
       class="rcg-xs-1-6 rcg-sm-1-6 rcg-md-4-3 rcg-lg-4-3 rcg-xl-4-3"
@@ -67,7 +63,6 @@ exports[`<Grid /> when the grid is a container should not update props of childr
 <div>
   <div
     class="rcg-c"
-    style="gap: 1em;"
   >
     <div
       width="4"
@@ -83,7 +78,6 @@ exports[`<Grid /> when the grid is a container should recalculate rows when an i
 <div>
   <div
     class="rcg-c"
-    style="gap: 1em;"
   >
     <div
       class="rcg-xs-4-6 rcg-sm-4-6 rcg-md-4-6 rcg-lg-4-6 rcg-xl-4-6"

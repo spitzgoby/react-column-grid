@@ -33,6 +33,7 @@ import {
 import React from "react";
 import { DEFAULT_COLUMNS } from "../GridContext";
 import { createRandomId } from "../../utils/id";
+import { DEFAULT_GAP } from "../../utils/gap";
 
 const MOCK_ID = "rcg";
 
@@ -60,15 +61,17 @@ describe("<GridProvider>", () => {
 
         expect(generateGridContainerCss).toHaveBeenCalledWith(
             numColumns,
+            DEFAULT_GAP,
             MOCK_ID
         );
     });
 
-    it("should use default column count if none is provided", () => {
+    it("should use default column count and gap size if none are provided", () => {
         render(<GridProvider breakpoints={[]} />);
 
         expect(generateGridContainerCss).toHaveBeenCalledWith(
             DEFAULT_COLUMNS,
+            DEFAULT_GAP,
             MOCK_ID
         );
     });
