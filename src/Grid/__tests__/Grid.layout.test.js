@@ -1,4 +1,5 @@
 import {
+    generateContainerClassName,
     generateSizeClassNames,
     getAdjustedLayoutProps,
     getGap,
@@ -205,6 +206,10 @@ describe("Grid layout", () => {
     });
 
     describe("when generating class names", () => {
+        it("should generate the correct class name for a container", () => {
+            expect(generateContainerClassName("rcg")).toEqual("rcg-c");
+        });
+
         it("should generate the correct class names for an item", () => {
             const props = {
                 hide: { xs: false, sm: false, md: false, lg: false, xl: false },
@@ -213,7 +218,7 @@ describe("Grid layout", () => {
                 width: { xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
             };
 
-            expect(generateSizeClassNames(props)).toEqual({
+            expect(generateSizeClassNames(props, "rcg")).toEqual({
                 "rcg-xs_h": false,
                 "rcg-sm_h": false,
                 "rcg-md_h": false,
@@ -235,7 +240,7 @@ describe("Grid layout", () => {
                 width: { xs: 12, sm: 12, md: 12, lg: 12, xl: 6 },
             };
 
-            expect(generateSizeClassNames(props)).toEqual({
+            expect(generateSizeClassNames(props, "rcg")).toEqual({
                 "rcg-xs_h": false,
                 "rcg-sm_h": false,
                 "rcg-md_h": false,
@@ -257,7 +262,7 @@ describe("Grid layout", () => {
                 width: { xs: 12, sm: 12, md: 12, lg: 12, xl: 12 },
             };
 
-            expect(generateSizeClassNames(props)).toEqual({
+            expect(generateSizeClassNames(props, "rcg")).toEqual({
                 "rcg-xs_h": true,
                 "rcg-sm_h": false,
                 "rcg-md_h": true,

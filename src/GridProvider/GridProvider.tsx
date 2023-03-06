@@ -1,10 +1,11 @@
-import GridContext, { DEFAULT_COLUMNS } from "./GridContext";
+import GridContext, { DEFAULT_COLUMNS, INITIAL_ID } from "./GridContext";
 import { generateGridContainerCss, generateGridBreakpointCss } from "../Grid/Grid.generateCss";
 import PropTypes, { ReactNodeLike } from "prop-types";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { generateBreakpointDefinitions, ScreenWidths } from "../utils/breakpoints";
-import { injectCss, removeCss } from "../utils/manageStyles";
+import { elementExistsWithId, injectCss, removeCss } from "../utils/manageStyles";
 import { generateHiddenBreakpointCss } from "../Hidden/Hidden.generateCss";
+import { createRandomId } from "../utils/id";
 
 type Props = {
     breakpoints: ScreenWidths,
@@ -13,24 +14,33 @@ type Props = {
 }
 
 const GridProvider = ({ breakpoints, children, columns = DEFAULT_COLUMNS }: Props) => {
-    const { depth: providedDepth } = useContext(GridContext);    
-    const depth = providedDepth + 1;
+    const [id, setId] = useState(createRandomId());
 
     useEffect(() => {
-        const id = `rcg-styles-${depth}`;
+        let uniqueId = id;
+
+        while (elementExistsWithId(uniqueId)) {
+            uniqueId = createRandomId();
+        }
+
+        setId(uniqueId);
+    }, [])    
+
+    useEffect(() => {
         const breakpointDefinitions = generateBreakpointDefinitions(breakpoints);
-        const gridBreakpointCss = generateGridBreakpointCss(breakpointDefinitions, columns).join('');
-        const gridContainerCss = generateGridContainerCss(columns);
-        const hiddenCss = generateHiddenBreakpointCss(breakpointDefinitions).join('');
+        const gridBreakpointCss = generateGridBreakpointCss(breakpointDefinitions, columns, id).join('');
+        const gridContainerCss = generateGridContainerCss(columns, id);
+        const hiddenCss = generateHiddenBreakpointCss(breakpointDefinitions, id).join('');
         const css = `${hiddenCss}${gridContainerCss}${gridBreakpointCss}`;
 
+        removeCss(id);
         injectCss(id, css);
 
         return () => { removeCss(id) };
-    }, [])    
+    }, [breakpoints, columns, id])
 
     return (
-        <GridContext.Provider value={{ breakpoints, columns, depth }}>
+        <GridContext.Provider value={{ breakpoints, columns, id }}>
             {children}
         </GridContext.Provider>
     );

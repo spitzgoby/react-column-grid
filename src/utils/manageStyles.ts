@@ -1,6 +1,7 @@
 import { getDocument } from './browser';
 
-const getStyleElement = (id: string) => getDocument()?.querySelector(`#${id}`);
+const getStyleElement = (id: string) => getDocument()?.getElementById(id);
+export const elementExistsWithId = (id: string) => getStyleElement(id) !== null;
 
 const STYLE_ELEMENT_TAGS = ['LINK', 'STYLE'];
 const findFirstStyleElement = () => {
@@ -37,6 +38,8 @@ export const removeCss = (id: string) => {
     if (doc) {
         let style = getStyleElement(id);
 
-        doc.removeChild(style);
+        if (style) {
+            doc.removeChild(style);
+        }
     }
 };

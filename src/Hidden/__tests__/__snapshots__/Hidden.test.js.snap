@@ -3,7 +3,7 @@
 exports[`<Hidden /> should prioritize hide prop when present 1`] = `
 <div>
   <span
-    class="rcg-h-xs rcg-h-sm"
+    class="_-h-xs _-h-sm"
   />
 </div>
 `;
@@ -19,7 +19,15 @@ exports[`<Hidden /> should render a span component 1`] = `
 exports[`<Hidden /> should use the correct classes based on size rules 1`] = `
 <div>
   <span
-    class="rcg-h-xs rcg-h-sm rcg-h-xl"
+    class="_-h-xs _-h-sm _-h-xl"
+  />
+</div>
+`;
+
+exports[`<Hidden /> should use the id provided in the grid context 1`] = `
+<div>
+  <span
+    class=""
   />
 </div>
 `;

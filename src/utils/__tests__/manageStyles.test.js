@@ -2,7 +2,7 @@ jest.mock("../browser", () => ({
     getDocument: jest.fn(),
 }));
 
-import { injectCss, removeCss } from "../manageStyles";
+import { elementExistsWithId, injectCss, removeCss } from "../manageStyles";
 import { getDocument } from "../browser";
 
 describe("manageStyles", () => {
@@ -19,7 +19,7 @@ describe("manageStyles", () => {
                 children: [],
                 insertBefore: jest.fn(),
             },
-            querySelector: jest.fn().mockReturnValue(mockElement),
+            getElementById: jest.fn().mockReturnValue(mockElement),
             removeChild: jest.fn(),
         };
 
@@ -46,7 +46,7 @@ describe("manageStyles", () => {
                 innerHTML: mockStyle,
             };
 
-            mockDocument.querySelector.mockReturnValue(undefined);
+            mockDocument.getElementById.mockReturnValue(undefined);
 
             injectCss(mockId, mockStyle);
 
@@ -63,7 +63,7 @@ describe("manageStyles", () => {
         });
 
         it("should set the element type correctly", () => {
-            mockDocument.querySelector.mockReturnValue(undefined);
+            mockDocument.getElementById.mockReturnValue(undefined);
 
             injectCss(mockId, mockStyle);
 
@@ -82,9 +82,21 @@ describe("manageStyles", () => {
         });
     });
 
+    describe("when checking for an element's existence", () => {
+        it("should declare when an element already exists with the given id", () => {
+            expect(elementExistsWithId("rcg")).toEqual(true);
+        });
+
+        it("should declare when an element does not exist with the given id", () => {
+            mockDocument.getElementById.mockReturnValueOnce(null);
+
+            expect(elementExistsWithId("rcg")).toEqual(false);
+        });
+    });
+
     describe("when removing css", () => {
         it("should not throw an exception if the document is unavailable", () => {
-            const remove = () => removeCss(mockId, mockStyle);
+            const remove = () => removeCss(mockId);
 
             getDocument.mockReturnValue(undefined);
 
@@ -92,17 +104,23 @@ describe("manageStyles", () => {
         });
 
         it("should grab the element with the given id", () => {
-            removeCss(mockId, mockStyle);
+            removeCss(mockId);
 
-            expect(mockDocument.querySelector).toHaveBeenCalledWith(
-                `#${mockId}`
-            );
+            expect(mockDocument.getElementById).toHaveBeenCalledWith(mockId);
         });
 
         it("should remove the style element with the given id", () => {
-            removeCss(mockId, mockStyle);
+            removeCss(mockId);
 
             expect(mockDocument.removeChild).toHaveBeenCalledWith(mockElement);
+        });
+
+        it("should not attempt to remove an element if it can not be found", () => {
+            mockDocument.getElementById.mockReturnValueOnce(null);
+
+            removeCss(mockId);
+
+            expect(mockDocument.removeChild).not.toHaveBeenCalled();
         });
     });
 });

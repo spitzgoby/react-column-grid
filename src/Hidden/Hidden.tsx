@@ -1,7 +1,9 @@
 import classNames from "classnames";
-import { addMissingSizes } from "../utils/breakpoints";
+import { GridContext } from "../GridProvider";
+import { generateClassNameForSize } from "./Hidden.generateCss";
 import PropTypes, { ReactNodeLike } from "prop-types";
-import React from "react";
+import React, { useContext } from "react";
+import { addMissingSizes, Breakpoint, sizes } from "../utils/breakpoints";
 
 import { BooleanBreakpointValues } from "../Grid/Grid.layout";
 
@@ -27,15 +29,20 @@ const Hidden: React.FC<Props> = ({ children, hide, xs, sm, md, lg, xl }) => {
         hide || !hasShorthandSizes
             ? addMissingSizes("hide", hide, defaultHide, useShorthandSyntax)
             : buildHideUsingShorthandSizes();
+    const { id } = useContext(GridContext);
 
-    const getClass = () =>
-        classNames({
-            "rcg-h-xs": adjustedHide.xs,
-            "rcg-h-sm": adjustedHide.sm,
-            "rcg-h-md": adjustedHide.md,
-            "rcg-h-lg": adjustedHide.lg,
-            "rcg-h-xl": adjustedHide.xl,
-        });
+    const getClass = () => {
+        const classes = sizes.reduce((acc, size: Breakpoint) => {
+            acc = {
+                ...acc,
+                [generateClassNameForSize(size, id)]: adjustedHide[size]
+            }
+
+            return acc;
+        }, {});
+
+        return classNames(classes);
+    }
 
     return <span className={getClass()}>{children}</span>;
 };

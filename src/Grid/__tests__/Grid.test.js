@@ -1,6 +1,10 @@
 jest.mock("../../utils/manageStyles", () => ({
+    elementExistsWithId: jest.fn().mockReturnValue(false),
     injectCss: jest.fn(),
     removeCss: jest.fn(),
+}));
+jest.mock("../../utils/id", () => ({
+    createRandomId: jest.fn().mockReturnValue("rcg"),
 }));
 
 import { render } from "@testing-library/react";
@@ -34,12 +38,21 @@ describe("<Grid />", () => {
                 />
             );
 
-            expect(layout.generateSizeClassNames).toHaveBeenCalledWith({
-                hide: { xs: true, sm: true, md: false, lg: false, xl: false },
-                item: undefined,
-                offset: { xs: "0", sm: "0", md: "2", lg: "3", xl: "3" },
-                width: { xs: "6", sm: "6", md: "4", lg: "3", xl: "3" },
-            });
+            expect(layout.generateSizeClassNames).toHaveBeenCalledWith(
+                {
+                    hide: {
+                        xs: true,
+                        sm: true,
+                        md: false,
+                        lg: false,
+                        xl: false,
+                    },
+                    item: undefined,
+                    offset: { xs: "0", sm: "0", md: "2", lg: "3", xl: "3" },
+                    width: { xs: "6", sm: "6", md: "4", lg: "3", xl: "3" },
+                },
+                "rcg"
+            );
         });
 
         it("should use shorthand syntax for width and offset", () => {
@@ -55,12 +68,21 @@ describe("<Grid />", () => {
                 />
             );
 
-            expect(layout.generateSizeClassNames).toHaveBeenCalledWith({
-                hide: { xs: false, sm: false, md: false, lg: false, xl: false },
-                item: undefined,
-                offset: { xs: "1", sm: "1", md: "1", lg: "1", xl: "1" },
-                width: { xs: "10", sm: "10", md: "10", lg: "10", xl: "10" },
-            });
+            expect(layout.generateSizeClassNames).toHaveBeenCalledWith(
+                {
+                    hide: {
+                        xs: false,
+                        sm: false,
+                        md: false,
+                        lg: false,
+                        xl: false,
+                    },
+                    item: undefined,
+                    offset: { xs: "1", sm: "1", md: "1", lg: "1", xl: "1" },
+                    width: { xs: "10", sm: "10", md: "10", lg: "10", xl: "10" },
+                },
+                "rcg"
+            );
         });
 
         it("should use shorthand syntax for clear", () => {

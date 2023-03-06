@@ -1,12 +1,12 @@
-import { Breakpoint, sizes } from "../utils/breakpoints";
 import { DEFAULT_GAP } from "../constants/gap";
+import { DEFAULT_COLUMNS } from "../GridProvider/GridContext";
+import { Breakpoint, sizes } from "../utils/breakpoints";
 import { 
     getValueOfNumeric, 
     Numeric, 
     numericIsDecimal,
     numericIsInteger 
 } from "../utils/numeric";
-import { DEFAULT_COLUMNS } from "../GridProvider/GridContext";
 
 export type NumericBreakpointValues = {
     xs?: Numeric,
@@ -91,11 +91,21 @@ type SizeClassNamesParams = {
 type SizeClassNames = {
     [key: string]: boolean,
 }
-export const generateSizeClassNames = ({ hide, item, offset, width }: SizeClassNamesParams) => {
+export const generateSizeClassNames = ({ hide, item, offset, width }: SizeClassNamesParams, id: string) => {
     return sizes.reduce((acc: SizeClassNames, size: Breakpoint) => {
-        acc[`rcg-${size}_h`] = hide[size];
-        acc[`rcg-${size}-${getValueOfNumeric(offset[size]) + 1}-${width[size]}`] = item;
+        acc[generateHiddenClassNameForSize(size, id)] = hide[size];
+        acc[generateColumnSpanClassNameForSize(size, offset[size], width[size], id)] = item;
 
         return acc;
     }, {});
 };
+
+export const generateContainerClassName = (id: string) => `${id}-c`;
+export const generateHiddenClassNameForSize = (size: string, id: string) => 
+    `${id}-${size}_h`
+export const generateColumnSpanClassNameForSize = (
+    size: string, 
+    offset: Numeric, 
+    width: Numeric, 
+    id: string
+    ) => `${id}-${size}-${getValueOfNumeric(offset) + 1}-${getValueOfNumeric(width)}`;

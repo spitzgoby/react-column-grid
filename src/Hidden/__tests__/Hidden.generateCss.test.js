@@ -33,7 +33,7 @@ describe("Generating Hidden CSS", () => {
             },
         ];
 
-        generateHiddenBreakpointCss(mockBreakpointDefinitions);
+        generateHiddenBreakpointCss(mockBreakpointDefinitions, "rcg");
 
         expect(generateScreenQueries).toHaveBeenCalledWith(
             mockBreakpointDefinitions,

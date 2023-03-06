@@ -6,6 +6,7 @@ jest.mock("../../Hidden/Hidden.generateCss", () => ({
     generateHiddenBreakpointCss: jest.fn().mockReturnValue([".hiddenCss"]),
 }));
 jest.mock("../../utils/manageStyles", () => ({
+    elementExistsWithId: jest.fn().mockReturnValue(false),
     injectCss: jest.fn(),
     removeCss: jest.fn(),
 }));
@@ -14,9 +15,16 @@ jest.mock("../../utils/breakpoints", () => ({
         .fn()
         .mockReturnValue("breakpointDefinitions"),
 }));
+jest.mock("../../utils/id", () => ({
+    createRandomId: jest.fn().mockReturnValue("rcg"),
+}));
 
 import GridProvider from "../GridProvider";
-import { injectCss, removeCss } from "../../utils/manageStyles";
+import {
+    elementExistsWithId,
+    injectCss,
+    removeCss,
+} from "../../utils/manageStyles";
 import { render } from "@testing-library/react";
 import {
     generateGridBreakpointCss,
@@ -24,6 +32,9 @@ import {
 } from "../../Grid/Grid.generateCss";
 import React from "react";
 import { DEFAULT_COLUMNS } from "../GridContext";
+import { createRandomId } from "../../utils/id";
+
+const MOCK_ID = "rcg";
 
 describe("<GridProvider>", () => {
     beforeEach(() => {
@@ -37,7 +48,8 @@ describe("<GridProvider>", () => {
 
         expect(generateGridBreakpointCss).toHaveBeenCalledWith(
             "breakpointDefinitions",
-            numColumns
+            numColumns,
+            MOCK_ID
         );
     });
 
@@ -46,22 +58,55 @@ describe("<GridProvider>", () => {
 
         render(<GridProvider breakpoints={[]} columns={numColumns} />);
 
-        expect(generateGridContainerCss).toHaveBeenCalledWith(numColumns);
+        expect(generateGridContainerCss).toHaveBeenCalledWith(
+            numColumns,
+            MOCK_ID
+        );
     });
 
     it("should use default column count if none is provided", () => {
         render(<GridProvider breakpoints={[]} />);
 
-        expect(generateGridContainerCss).toHaveBeenCalledWith(DEFAULT_COLUMNS);
+        expect(generateGridContainerCss).toHaveBeenCalledWith(
+            DEFAULT_COLUMNS,
+            MOCK_ID
+        );
     });
 
     it("should attempt to inject css when first mounted", () => {
         render(<GridProvider breakpoints={[]} />);
 
         expect(injectCss).toHaveBeenCalledWith(
-            "rcg-styles-1",
+            "rcg",
             ".hiddenCss.containerCss.breakpointCss"
         );
+    });
+
+    it("should not reuse an existing random id", () => {
+        elementExistsWithId
+            .mockReturnValueOnce(true)
+            .mockReturnValueOnce(false);
+
+        render(<GridProvider />);
+
+        expect(createRandomId.mock.calls.length).toEqual(2);
+    });
+
+    it("should increment style ids when nested at depth greater than 1", () => {
+        createRandomId
+            .mockReturnValueOnce(MOCK_ID)
+            .mockReturnValueOnce(MOCK_ID + "2");
+
+        render(
+            <GridProvider>
+                <GridProvider />
+            </GridProvider>
+        );
+
+        expect(injectCss.mock.calls[0]).toEqual([
+            "rcg2",
+            ".hiddenCss.containerCss.breakpointCss",
+        ]);
     });
 
     it("should remove css when the component unmounts", () => {
@@ -69,6 +114,6 @@ describe("<GridProvider>", () => {
 
         unmount();
 
-        expect(removeCss).toHaveBeenCalledWith("rcg-styles-1");
+        expect(removeCss).toHaveBeenCalledWith("rcg");
     });
 });
