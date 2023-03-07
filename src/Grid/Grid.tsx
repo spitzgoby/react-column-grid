@@ -150,7 +150,8 @@ const Grid: React.FC<Props> = (props) => {
                                 completedWidth,
                                 completedHide,
                                 completedClear,
-                                currentColumns
+                                currentColumns,
+                                columns
                             );
 
                         currentColumns[size] = getValueOfNumeric(adjustedColumn);

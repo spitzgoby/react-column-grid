@@ -33,6 +33,7 @@ export const DEFAULT_BREAKPOINTS: BreakpointsDefinition = [
 ];
 
 export type ScreenWidths = number[];
+export const DEFAULT_SCREEN_WIDTHS = [600, 900, 1200, 1536];
 const areValidScreenWidths = (screenWidths: ScreenWidths = []): boolean => 
     screenWidths.length === sizes.length - 1 && 
     screenWidths.reduce((acc, screenWidth, index) => {

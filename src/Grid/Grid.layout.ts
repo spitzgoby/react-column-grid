@@ -1,5 +1,4 @@
 import { DEFAULT_GAP } from "../utils/gap";
-import { DEFAULT_COLUMNS } from "../GridProvider/GridContext";
 import { Breakpoint, sizes } from "../utils/breakpoints";
 import { 
     getValueOfNumeric, 
@@ -40,14 +39,14 @@ export const getGap = (gap: Numeric): string => {
     return result;
 }
 
-const areValidColumns = (colWidth: Numeric, colOffset: Numeric): boolean => {
+const areValidColumns = (colWidth: Numeric, colOffset: Numeric, numColumns: number): boolean => {
     const width = getValueOfNumeric(colWidth);
     const offset = getValueOfNumeric(colOffset);
 
     return !isNaN(width) &&
     !isNaN(offset) &&
     width > 0 &&
-    width + offset <= DEFAULT_COLUMNS;
+    width + offset <= numColumns;
 }
 
 export const getAdjustedLayoutProps = (
@@ -56,7 +55,8 @@ export const getAdjustedLayoutProps = (
     width: NumericBreakpointValues,
     hide: BooleanBreakpointValues,
     clear: BooleanBreakpointValues,
-    columns: NumericBreakpointValues
+    columns: NumericBreakpointValues,
+    numColumns: number
 ) => {
     const sizeHide = hide?.[size];
     const sizeOffset = getValueOfNumeric(offset?.[size]) || 0;
@@ -65,11 +65,11 @@ export const getAdjustedLayoutProps = (
     let adjustedColumn = columns[size];
     let adjustedOffset = sizeHide ? 0 : sizeOffset;
 
-    if (areValidColumns(sizeWidth, suggestedOffset) && !sizeHide) {
+    if (areValidColumns(sizeWidth, suggestedOffset, numColumns) && !sizeHide) {
         adjustedOffset = suggestedOffset;
         adjustedColumn = !clear[size] ? suggestedOffset + sizeWidth : 0;
     } else if (
-        areValidColumns(sizeWidth, sizeOffset) &&
+        areValidColumns(sizeWidth, sizeOffset, numColumns) &&
         !sizeHide
     ) {
         adjustedOffset = sizeOffset;

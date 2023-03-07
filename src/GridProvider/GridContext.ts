@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { ScreenWidths } from "../utils/breakpoints";
+import { DEFAULT_SCREEN_WIDTHS, ScreenWidths } from "../utils/breakpoints";
 import { DEFAULT_GAP } from "../utils/gap";
 import { Numeric } from "../utils/numeric";
 
@@ -14,7 +14,7 @@ export type GridContextValues = {
 };
 
 export const GridContext = createContext<GridContextValues>({
-    breakpoints: [600, 900, 1200, 1536],
+    breakpoints: DEFAULT_SCREEN_WIDTHS,
     columns: DEFAULT_COLUMNS,
     gap: DEFAULT_GAP,
     id: INITIAL_ID
