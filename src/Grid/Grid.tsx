@@ -14,10 +14,10 @@ import {
 import PropTypes, { ReactNodeLike } from "prop-types";
 import React, { useContext } from "react";
 import { GridProvider, GridContext } from '../GridProvider';
-import { addMissingSizes, sizes } from "../utils/breakpoints";
+import { addMissingSizes, DEFAULT_SCREEN_WIDTHS, ScreenWidths, sizes } from "../utils/breakpoints";
 
 import { DEFAULT_GAP } from "../utils/gap";
-import { INITIAL_ID } from '../GridProvider/GridContext';
+import { DEFAULT_COLUMNS, INITIAL_ID } from '../GridProvider/GridContext';
 
 const defaultClear = false;
 const defaultHide = false;
@@ -39,9 +39,11 @@ const useShorthandSyntax = (propName: string, prop: Numeric | boolean): boolean 
 }
 
 type Props = {
+    breakpoints: ScreenWidths,
     children: ReactNodeLike,
     className?: string,
     clear?: boolean | BooleanBreakpointValues,
+    columns: number,
     container?: boolean,
     gap?: Numeric,
     hide?: BooleanBreakpointValues,
@@ -52,8 +54,10 @@ type Props = {
 
 const Grid: React.FC<Props> = (props) => {
     const {
+        breakpoints: propBreakpoints,
         children,
         className,
+        columns: propColumns,
         container,
         gap: propGap,
         hide = {},
@@ -62,11 +66,13 @@ const Grid: React.FC<Props> = (props) => {
         width = { xs: 12 },
     } = props;
     const { 
-        breakpoints, 
-        columns, 
+        breakpoints: contextBreakpoints, 
+        columns: contextColumns, 
         gap: contextGap,
         id 
     } = useContext(GridContext);
+    const breakpoints = propBreakpoints || contextBreakpoints || DEFAULT_SCREEN_WIDTHS;
+    const columns = propColumns || contextColumns || DEFAULT_COLUMNS;
     const gap = propGap || contextGap || DEFAULT_GAP;    
 
     // Fill out incomplete layout props
@@ -89,7 +95,11 @@ const Grid: React.FC<Props> = (props) => {
         useShorthandSyntax
     );
 
-    const shouldRenderWithProvider = () => container && (id === INITIAL_ID || gap !== contextGap);
+    const hasPropsThatOverrideContext = () => 
+        breakpoints !== contextBreakpoints
+        || columns !== contextColumns
+        || gap !== contextGap;
+    const shouldRenderWithProvider = () => container && (id === INITIAL_ID || hasPropsThatOverrideContext());
 
     // Generate classes based on width, offset and sizes
     const sizeClassNames = generateSizeClassNames({
@@ -191,6 +201,7 @@ const Grid: React.FC<Props> = (props) => {
 };
 
 Grid.propTypes = {
+    breakpoints: PropTypes.arrayOf(PropTypes.number),
     children: PropTypes.node,
     clear: PropTypes.oneOfType([
         PropTypes.bool, 
@@ -203,6 +214,7 @@ Grid.propTypes = {
         })
     ]),
     className: PropTypes.string,
+    columns: PropTypes.number,
     container: PropTypes.bool,
     gap: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     hide: PropTypes.shape({

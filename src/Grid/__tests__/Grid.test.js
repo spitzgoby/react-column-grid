@@ -261,5 +261,51 @@ describe("<Grid />", () => {
 
             expect(gapSpy).toHaveBeenCalledWith("1em");
         });
+
+        it("should pass props breakpoints into the grid context", () => {
+            const breakpointsSpy = jest.fn();
+            const MockGapConsumer = () => {
+                const { breakpoints } = useContext(GridContext);
+
+                breakpointsSpy(breakpoints);
+
+                return null;
+            };
+
+            render(
+                <GridContext.Provider
+                    value={{ breakpoints: [100, 200, 300, 400] }}
+                >
+                    <Grid breakpoints={[0, 1, 2, 3]} container>
+                        <MockGapConsumer />
+                    </Grid>
+                </GridContext.Provider>
+            );
+
+            expect(breakpointsSpy).toHaveBeenCalledWith([0, 1, 2, 3]);
+        });
+
+        it("should use default breakpoints if non are provided in props or context", () => {
+            const breakpointsSpy = jest.fn();
+            const MockGapConsumer = () => {
+                const { breakpoints } = useContext(GridContext);
+
+                breakpointsSpy(breakpoints);
+
+                return null;
+            };
+
+            render(
+                <GridContext.Provider value={{ breakpoints: undefined }}>
+                    <Grid container>
+                        <MockGapConsumer />
+                    </Grid>
+                </GridContext.Provider>
+            );
+
+            expect(breakpointsSpy).toHaveBeenCalledWith(
+                breakpoints.DEFAULT_SCREEN_WIDTHS
+            );
+        });
     });
 });
