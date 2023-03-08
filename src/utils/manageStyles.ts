@@ -39,7 +39,7 @@ export const removeCss = (id: string) => {
         let style = getStyleElement(id);
 
         if (style) {
-            doc.removeChild(style);
+            doc.head.removeChild(style);
         }
     }
 };
