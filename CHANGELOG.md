@@ -1,4 +1,12 @@
-## 2.1.0 (March 7, 2023)
+# 2.1.1 (March 9, 2023)
+
+## Patch
+
+-   Make `breakpoints`, `columns`, and `gap` props optional in `<Grid>` and `<GridProvider>`
+
+---
+
+## 2.1.0 (March 9, 2023)
 
 ### Breaking
 
