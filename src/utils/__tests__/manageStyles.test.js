@@ -18,9 +18,9 @@ describe("manageStyles", () => {
             head: {
                 children: [],
                 insertBefore: jest.fn(),
+                removeChild: jest.fn(),
             },
             getElementById: jest.fn().mockReturnValue(mockElement),
-            removeChild: jest.fn(),
         };
 
         getDocument.mockReturnValue(mockDocument);
@@ -112,7 +112,9 @@ describe("manageStyles", () => {
         it("should remove the style element with the given id", () => {
             removeCss(mockId);
 
-            expect(mockDocument.removeChild).toHaveBeenCalledWith(mockElement);
+            expect(mockDocument.head.removeChild).toHaveBeenCalledWith(
+                mockElement
+            );
         });
 
         it("should not attempt to remove an element if it can not be found", () => {
@@ -120,7 +122,7 @@ describe("manageStyles", () => {
 
             removeCss(mockId);
 
-            expect(mockDocument.removeChild).not.toHaveBeenCalled();
+            expect(mockDocument.head.removeChild).not.toHaveBeenCalled();
         });
     });
 });
