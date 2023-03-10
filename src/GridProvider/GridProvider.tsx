@@ -10,10 +10,10 @@ import { Numeric } from "../utils/numeric";
 import { DEFAULT_GAP } from "../utils/gap";
 
 type Props = {
-    breakpoints: ScreenWidths,
+    breakpoints?: ScreenWidths,
     children?: ReactNodeLike,
-    columns: number,
-    gap: Numeric
+    columns?: number,
+    gap?: Numeric
 }
 
 const GridProvider = ({ 

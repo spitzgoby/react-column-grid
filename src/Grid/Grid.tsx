@@ -39,11 +39,11 @@ const useShorthandSyntax = (propName: string, prop: Numeric | boolean): boolean 
 }
 
 type Props = {
-    breakpoints: ScreenWidths,
+    breakpoints?: ScreenWidths,
     children: ReactNodeLike,
     className?: string,
     clear?: boolean | BooleanBreakpointValues,
-    columns: number,
+    columns?: number,
     container?: boolean,
     gap?: Numeric,
     hide?: BooleanBreakpointValues,
