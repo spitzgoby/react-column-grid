@@ -55,33 +55,8 @@ yarn # installs dependencies
 yarn start # runs the application
 ```
 
----
-
-## Migrating from 1._ to 2._
-
-[Change Log](./CHANGELOG.md)
-
-### Custom Breakpoints and Columns
-
-Version 1 of `react-column-grid` allowed the user to set breakpoint widths and
-the number of columns represented by a `<Grid>` component. These capabilities
-have been removed due to their reliance on JSS.
-
-This has 2 major upsides:
-
-1. It is easier to maintain compatibility with future version of `React`
-2. It greatly reduces the size of the `react-column-grid` install.
-
-If you have code that sets custom breakpoints or columns within a `<Grid>`
-component they will not cause any errors but will cease to function.
-
-Keep an eye out for future updates that will revive these capabilities.
-
-### Gap
-
-The `gap` property is now set on `<Grid>` components using inline styles. This
-means it will be more specific than any class based `gap` values you may want to
-set.
+The example app provides some basic layouts and the source code required to
+produce them.
 
 ---
 
@@ -99,11 +74,17 @@ evenly spaced rows that are centered with several columns of white space on a
 larger screen (e.g. monitor).
 
 ```Javascript
-<Grid container>
-    <Grid item width={{xs: 12, md: 4, lg: 2}} offset={{lg: 3}}><p>Item 1</p></Grid>
-    <Grid item width={{xs: 12, md: 4, lg: 2}}><p>Item 2</p></Grid>
-    <Grid item width={{xs: 12, md: 4, lg: 2}}><p>Item 3</p></Grid>
-</Grid>
+// <Grid /> is the default export
+import Grid from 'react-column-grid';
+// import { Grid } from 'react-column-grid'; <== This also works
+
+export const BasicExample = () => (
+    <Grid container>
+        <Grid item width={{xs: 12, md: 4, lg: 2}} offset={{lg: 3}}><p>Item 1</p></Grid>
+        <Grid item width={{xs: 12, md: 4, lg: 2}}><p>Item 2</p></Grid>
+        <Grid item width={{xs: 12, md: 4, lg: 2}}><p>Item 3</p></Grid>
+    </Grid>
+);
 ```
 
 Each `<Grid>` component can be an `item`, a `container`, or both. The root
@@ -265,14 +246,63 @@ the `hide` prop where the next smallest screen size value is used by larger
 screen sizes, this prop only targets the specific screen size passed.
 
 ```Javascript
+import { Hidden } from 'react-column-grid';
+
+export const HiddenExample = () => (
     <Hidden xs xl>
         <span>Hide me on extra small and extra large screens</span>
     </Hidden>
+);
 ```
 
 ---
 
 ## Grid Customization
+
+The default grid layout can be customized for your particular needs. By default
+it will produce a 12 column grid with breakpoints at 600px, 900px, 1200px, and
+1536px and a `gap` of `1em`. The `<Grid />` component accepts props to customize
+all 3 of these behaviors. The customization is ignored if the `<Grid />` is not
+a container. When customized these properties will be used by all `<Grid />`
+descendants in that container's hierarchy.
+
+### Breakpoints
+
+The `breakpoints` prop will set the pixel widths for each breakpoint. It is an
+array of 4 positive integers in ascending order. This value is only valid when
+paired with the `container` prop.
+
+```Javascript
+// Creates a great with breakpoints at 500px, 800px, 1000px, and 1500px.
+// All descendants of the root container will also use these breakpoints
+<Grid breakpoints={[500, 800, 1000, 1500]} container>
+    <Grid container item width={{ xs: 12, md: 6}}>
+        <Grid item width={6}>I</Grid>
+        <Grid item width={6}>Am</Grid>
+    </Grid>
+    <Grid container item width={{ xs: 12, md: 6 }}>
+        <Grid item width={6}>Iron</Grid>
+        <Grid item width={6}>Man</Grid>
+    </Grid>
+</Grid>
+```
+
+### Columns
+
+The `columns` prop will set the number of columns the `<Grid />` will display.
+If this value is set be sure to constrain the width and offset values so the sum
+is less than or equal to the column count. If the `width + offset` at a given
+breakpoint exceeds the columns then no styles will be applied and the item will
+be placed by the browser using auto layout.
+
+```Javascript
+<Grid columns={6} container>
+    <Grid item width={3}>I take up half the screen</Grid>
+    <Grid item width={3}>I take up half the screen</Grid>
+</Grid>
+```
+
+### Gap
 
 The `gap` property allows you to assign the space between each column
 (often referred to as the "gutter"). This can be a string defining any
@@ -288,6 +318,25 @@ width or a number in which case the unit will be `em`.
     <Grid item width={6}>There are 30px between me and my sibling</Grid>
     <Grid item width={6}>There are 30px between me and my sibling</Grid>
 </Grid>
+```
+
+### <GridProvider />
+
+To customize `<Grid />` behavior across an entire application it is recommended
+to use the `<GridProvider />` in the root of the application. This component
+can be used to set the `breakpoints`, `columns`, and `gap` of all grids within
+its hierarchy. This allows global values to be added without having to set them
+at the root of each route or page in your application.
+
+```Javascript
+import Home from './Home';
+import { GridProvider } from 'react-column-grid';
+
+const App = () => (
+    <GridProvider breakpoints={[550, 900, 1250, 1600]}} columns={3} gap="1rem">
+        <Home />
+    </GridProvider>
+);
 ```
 
 ---
