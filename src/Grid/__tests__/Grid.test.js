@@ -220,6 +220,23 @@ describe("<Grid />", () => {
             expect(container).toMatchSnapshot();
         });
 
+        it("should consider sibling arrays when laying out children", () => {
+            const { container } = render(
+                <Grid container>
+                    {[
+                        <Grid key="1" item width={3} />,
+                        <Grid key="2" item width={3} />,
+                    ]}
+                    {[
+                        <Grid key="3" item width={3} />,
+                        <Grid key="4" item width={3} />,
+                    ]}
+                </Grid>
+            );
+
+            expect(container).toMatchSnapshot();
+        });
+
         it("should use the provide its gap prop to children via the grid context", () => {
             const gapSpy = jest.fn();
             const MockGapConsumer = () => {

@@ -117,70 +117,75 @@ const Grid: React.FC<Props> = (props) => {
         const childrenToRender = Array.isArray(children)
             ? children
             : [children];
+        const renderChild = (child: any, index: number): any => {
+            if (Array.isArray(child)) {
+                return child.map(renderChild)
+            } else {
+                let renderedChild = child;
 
-        return childrenToRender.map((child, index) => {
-            let renderedChild = child;
-
-            if (child?.type?.name === Grid.name) {
-                let renderedChildProps = { 
-                    ...child.props,
-                    key: index
-                };
-
-                if (child?.props?.item) {
-                    const renderedChildOffset = sizes.reduce((acc: NumericBreakpointValues, size) => {
-                        const completedClear = addMissingSizes(
-                            "clear",
-                            child.props.clear,
-                            defaultClear,
-                            useShorthandSyntax
-                        );
-                        const completedHide = addMissingSizes(
-                            "hide",
-                            child.props.hide,
-                            defaultHide,
-                            useShorthandSyntax
-                        );
-                        const completedOffset = addMissingSizes(
-                            "offset",
-                            child.props.offset,
-                            defaultOffset,
-                            useShorthandSyntax
-                        );
-                        const completedWidth = addMissingSizes(
-                            "width",
-                            child.props.width,
-                            defaultWidth,
-                            useShorthandSyntax
-                        );
-                        const { adjustedColumn, adjustedOffset } =
-                            getAdjustedLayoutProps(
-                                size,
-                                completedOffset,
-                                completedWidth,
-                                completedHide,
-                                completedClear,
-                                currentColumns,
-                                columns
-                            );
-
-                        currentColumns[size] = getValueOfNumeric(adjustedColumn);
-                        acc[size] = getValueOfNumeric(adjustedOffset);
-
-                        return acc;
-                    }, {});
-
-                    renderedChildProps = {
-                        ...renderedChildProps,
-                        offset: renderedChildOffset,
+                if (child?.type?.name === Grid.name) {
+                    let renderedChildProps = { 
+                        ...child.props,
+                        key: index
                     };
-                } 
+    
+                    if (child?.props?.item) {
+                        const renderedChildOffset = sizes.reduce((acc: NumericBreakpointValues, size) => {
+                            const completedClear = addMissingSizes(
+                                "clear",
+                                child.props.clear,
+                                defaultClear,
+                                useShorthandSyntax
+                            );
+                            const completedHide = addMissingSizes(
+                                "hide",
+                                child.props.hide,
+                                defaultHide,
+                                useShorthandSyntax
+                            );
+                            const completedOffset = addMissingSizes(
+                                "offset",
+                                child.props.offset,
+                                defaultOffset,
+                                useShorthandSyntax
+                            );
+                            const completedWidth = addMissingSizes(
+                                "width",
+                                child.props.width,
+                                defaultWidth,
+                                useShorthandSyntax
+                            );
+                            const { adjustedColumn, adjustedOffset } =
+                                getAdjustedLayoutProps(
+                                    size,
+                                    completedOffset,
+                                    completedWidth,
+                                    completedHide,
+                                    completedClear,
+                                    currentColumns,
+                                    columns
+                                );
+    
+                            currentColumns[size] = getValueOfNumeric(adjustedColumn);
+                            acc[size] = getValueOfNumeric(adjustedOffset);
+    
+                            return acc;
+                        }, {});
+    
+                        renderedChildProps = {
+                            ...renderedChildProps,
+                            offset: renderedChildOffset,
+                        };
+                    } 
+    
+                    renderedChild = <Grid {...renderedChildProps} />;
+                }
+    
+                return renderedChild;
+            } 
+        }
 
-                renderedChild = <Grid {...renderedChildProps} />;
-            }
-
-            return renderedChild;
-        });
+        return childrenToRender.map(renderChild);
     };
 
     const renderWithoutGridProvider = () => (

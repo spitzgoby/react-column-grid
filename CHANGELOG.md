@@ -1,3 +1,11 @@
+# 2.1.2 (March 12, 2023)
+
+## Patch
+
+-   Fix bug where adjacent arrays of `<Grid>` items were not being laid out correctly within a container.
+
+---
+
 # 2.1.1 (March 9, 2023)
 
 ## Patch
